@@ -1566,6 +1566,22 @@
     .tools-category:nth-child(5) { padding-left: 0; }
   }
 
+  /* ── Toolkit: single column from 768px down ── */
+  @media (max-width: 768px) {
+    .tools-grid {
+      grid-template-columns: 1fr;
+      border-top: none;
+    }
+    .tools-category {
+      border-right: none !important;
+      border-top: 1px solid var(--border);
+      padding: 28px 0 !important;
+    }
+    .tools-category:last-child {
+      grid-column: span 1;
+    }
+  }
+
   @media (max-width: 640px) {
     .container, .nav-inner { padding: 0 24px; }
     .nav-links { display: none; }
@@ -1582,17 +1598,6 @@
     .cs-meta { grid-template-columns: 1fr 1fr; }
     .footer-headline { font-size: 34px; }
     .lock-modal-panel { padding: 40px 28px 36px; }
-    /* Tools: single column on mobile */
-    .tools-grid {
-      grid-template-columns: 1fr;
-      border-top: none;
-    }
-    .tools-category {
-      border-right: none !important;
-      border-top: 1px solid var(--border);
-      padding-left: 0 !important;
-      padding-right: 0 !important;
-    }
     .mobile-overlay { padding: 32px; }
     .mobile-overlay-links a { font-size: 32px; }
     .mobile-overlay-foot { left: 32px; right: 32px; bottom: 32px; }
