@@ -1,0 +1,2914 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Valeria Lamicq — Senior Product Designer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <style>
+
+  /* ══════════════════════════════════
+     RESET & BASE
+  ══════════════════════════════════ */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:         #F9F8F6;
+    --bg-card:    #F0EFEc;
+    --text:       #1A1A1A;
+    --muted:      #737373;
+    --border:     #E3E2DF;
+    --dark:       #111110;
+    --dark-muted: rgba(255,255,255,0.42);
+    --accent:     #4A6FA5;
+    --max-w:      1200px;
+    --font:       'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+    font-size: 17px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  a { color: inherit; text-decoration: none; }
+  img { max-width: 100%; display: block; }
+  button { font-family: var(--font); }
+
+  .container {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 0 48px;
+  }
+
+  /* ══════════════════════════════════
+     PAGES
+  ══════════════════════════════════ */
+  .page { display: none; min-height: 100vh; }
+  .page.active { display: block; }
+
+  /* ══════════════════════════════════
+     NAV — minimal, editorial, confident
+     Default: transparent full-width bar
+     On scroll: becomes a floating frosted
+     glass pill, centered in the nav area
+  ══════════════════════════════════ */
+  #main-nav {
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    /* Fixed height so layout never shifts */
+    height: 68px;
+    display: flex;
+    align-items: center;
+    /* No background on the outer element —
+       the pill inside handles it */
+  }
+
+  .nav-inner {
+    width: 100%;
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 0 48px;
+    height: 68px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* Transitions for smooth pill morph */
+    transition:
+      height       0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+      padding      0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+      background   0.45s ease,
+      border-radius 0.45s ease,
+      box-shadow   0.45s ease;
+  }
+
+  /* Scrolled state: nav-inner becomes a
+     floating frosted pill (52 px tall),
+     visually centred in the 68 px nav row */
+  #main-nav.scrolled .nav-inner {
+    height: 52px;          /* 8 px breathing room top + bottom */
+    padding: 0 28px;
+    background: rgba(249, 248, 246, 0.88);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-radius: 100px;
+    box-shadow:
+      0 2px 20px rgba(0, 0, 0, 0.08),
+      0 0 0 1px rgba(0, 0, 0, 0.05);
+  }
+
+  /* Logo */
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    color: var(--text);
+    cursor: pointer;
+  }
+
+  .nav-avail-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #22C55E;
+    flex-shrink: 0;
+    animation: blink 3s ease-in-out infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.3; }
+  }
+
+  /* Links */
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 36px;
+  }
+
+  .nav-links a {
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--muted);
+    letter-spacing: 0.025em;
+    cursor: pointer;
+    position: relative;
+    transition: color 0.2s;
+  }
+
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--text);
+    transition: width 0.25s ease;
+  }
+
+  .nav-links a:hover,
+  .nav-links a.active { color: var(--text); }
+
+  .nav-links a:hover::after,
+  .nav-links a.active::after { width: 100%; }
+
+  /* Hamburger — shown on mobile */
+  .nav-hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 6px;
+  }
+
+  .nav-hamburger span {
+    display: block;
+    width: 20px;
+    height: 1.5px;
+    background: var(--text);
+    border-radius: 2px;
+    transition: transform 0.3s, opacity 0.3s;
+    transform-origin: center;
+  }
+
+  .nav-hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+  .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+  .nav-hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+  /* ══════════════════════════════════
+     MOBILE FULL-SCREEN OVERLAY
+  ══════════════════════════════════ */
+  .mobile-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 180;
+    background: var(--bg);
+    flex-direction: column;
+    justify-content: center;
+    padding: 48px;
+  }
+
+  .mobile-overlay.open { display: flex; }
+
+  .mobile-overlay-links {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .mobile-overlay-links a {
+    font-size: clamp(36px, 8vw, 52px);
+    font-weight: 400;
+    letter-spacing: -0.035em;
+    color: var(--text);
+    cursor: pointer;
+    display: block;
+    padding: 8px 0;
+    transition: opacity 0.2s;
+  }
+
+  .mobile-overlay-links a:hover { opacity: 0.4; }
+
+  .mobile-overlay-foot {
+    position: absolute;
+    bottom: 48px;
+    left: 48px;
+    right: 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--border);
+    padding-top: 24px;
+  }
+
+  .mobile-overlay-foot a {
+    font-size: 13px;
+    color: var(--muted);
+    letter-spacing: 0.025em;
+    transition: color 0.2s;
+  }
+
+  .mobile-overlay-foot a:hover { color: var(--text); }
+
+  /* ══════════════════════════════════
+     HERO
+  ══════════════════════════════════ */
+  .hero {
+    padding: 110px 0 100px;
+  }
+
+  .hero-eyebrow {
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 32px;
+  }
+
+  .hero h1 {
+    font-size: clamp(44px, 5.5vw, 72px);
+    font-weight: 400;
+    line-height: 1.08;
+    letter-spacing: -0.04em;
+    color: var(--text);
+    margin-bottom: 28px;
+  }
+
+  .hero-sub {
+    font-size: clamp(17px, 2vw, 20px);
+    line-height: 1.65;
+    color: var(--muted);
+    max-width: 540px;
+    margin-bottom: 52px;
+    font-weight: 300;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: var(--text);
+    color: var(--bg);
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.03em;
+    border-radius: 100px;
+    transition: background 0.2s, transform 0.2s;
+    cursor: pointer;
+    border: none;
+  }
+
+  .btn:hover { background: #2a2a2a; transform: translateY(-1px); }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+
+  .btn-ghost:hover { background: var(--bg-card); transform: translateY(-1px); }
+
+  /* ══════════════════════════════════
+     WORK SECTION
+     Editorial grid, no boxes —
+     image-first, minimal info below
+  ══════════════════════════════════ */
+  .work-section {
+    padding: 72px 0 120px;
+  }
+
+  .work-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 56px;
+  }
+
+  .work-header-label {
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .work-header-count {
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+  }
+
+  /* ─── Card grid ─── */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 64px 40px;
+  }
+
+  /* ─── Individual card ─── */
+  .card {
+    cursor: pointer;
+    position: relative;
+  }
+
+  /* Image block */
+  .card-img {
+    width: 100%;
+    aspect-ratio: 3/2;
+    overflow: hidden;
+    position: relative;
+    border-radius: 3px;
+    margin-bottom: 20px;
+  }
+
+  .card-img-fill {
+    width: 100%;
+    height: 100%;
+    transition: transform 0.75s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .card:hover .card-img-fill { transform: scale(1.06); }
+
+  /* Per-project color palettes — soft, editorial */
+  .card-img.adcenter   .card-img-fill { background: #C9D8EC; }
+  .card-img.dnum       .card-img-fill { background: #C4DBC9; }
+  .card-img.ibermutua  .card-img-fill { background: #E0CEC9; }
+  .card-img.avire      .card-img-fill { background: #2C3D4F; }
+
+  /* Project number — top right, subtle */
+  .card-num {
+    position: absolute;
+    top: 14px;
+    right: 18px;
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    color: rgba(26,26,26,0.35);
+    z-index: 2;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Info block — below image */
+  .card-info {
+    padding: 0;
+  }
+
+  .card-title-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 7px;
+  }
+
+  .card-title-row h3 {
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.35;
+    color: var(--text);
+  }
+
+  .card-arrow {
+    font-size: 16px;
+    color: var(--text);
+    opacity: 0;
+    transform: translate(-5px, 5px);
+    transition: opacity 0.22s ease, transform 0.22s ease;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .card:hover .card-arrow {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+
+  .card-tags {
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.01em;
+    margin-bottom: 6px;
+  }
+
+  .card-tags span + span::before { content: ' · '; }
+
+  .card-excerpt {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  /* ─── Lock overlay on protected cards ─── */
+  .card-lock-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    background: rgba(8, 8, 8, 0.68);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: background 0.3s;
+    border-radius: 3px;
+  }
+
+  .card-locked:hover .card-lock-overlay {
+    background: rgba(8, 8, 8, 0.78);
+  }
+
+  .lock-icon-sm {
+    width: 28px;
+    height: 28px;
+    stroke: rgba(255,255,255,0.75);
+    fill: none;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .lock-card-label {
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+  }
+
+  /* Hint text on hover */
+  .lock-hover-hint {
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    color: rgba(255,255,255,0.45);
+    opacity: 0;
+    transition: opacity 0.2s;
+    margin-top: 2px;
+  }
+
+  .card-locked:hover .lock-hover-hint { opacity: 1; }
+
+  .lock-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    color: var(--muted);
+    cursor: default;
+  }
+
+  .lock-badge svg {
+    width: 11px;
+    height: 11px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* ══════════════════════════════════
+     PASSWORD MODAL
+  ══════════════════════════════════ */
+  .lock-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 500;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .lock-modal.open { display: flex; }
+
+  .lock-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .lock-modal-panel {
+    position: relative;
+    z-index: 1;
+    background: var(--bg);
+    width: 100%;
+    max-width: 420px;
+    margin: 24px;
+    padding: 56px 48px 48px;
+    border-radius: 6px;
+    text-align: center;
+    animation: panel-rise 0.32s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  }
+
+  @keyframes panel-rise {
+    from { opacity: 0; transform: translateY(20px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0)    scale(1);    }
+  }
+
+  .lock-modal-close {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    width: 30px;
+    height: 30px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: var(--muted);
+    font-size: 18px;
+    transition: background 0.2s, color 0.2s;
+    line-height: 1;
+  }
+
+  .lock-modal-close:hover { background: var(--bg-card); color: var(--text); }
+
+  .lock-modal-icon {
+    width: 44px;
+    height: 44px;
+    stroke: var(--text);
+    fill: none;
+    stroke-width: 1.25;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    margin: 0 auto 28px;
+    display: block;
+  }
+
+  .lock-modal-panel h3 {
+    font-size: 19px;
+    font-weight: 500;
+    letter-spacing: -0.025em;
+    margin-bottom: 10px;
+  }
+
+  .lock-modal-panel .lock-modal-sub {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.65;
+    margin-bottom: 32px;
+    font-weight: 300;
+  }
+
+  .lock-input-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .lock-input {
+    flex: 1;
+    height: 44px;
+    padding: 0 18px;
+    font-family: var(--font);
+    font-size: 14px;
+    background: var(--bg-card);
+    border: 1.5px solid var(--border);
+    border-radius: 100px;
+    outline: none;
+    color: var(--text);
+    letter-spacing: 0.04em;
+    transition: border-color 0.2s;
+  }
+
+  .lock-input:focus { border-color: var(--text); }
+
+  .lock-input.shake {
+    border-color: #D04545;
+    animation: shake 0.32s ease;
+  }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25%       { transform: translateX(-7px); }
+    75%       { transform: translateX(7px); }
+  }
+
+  .lock-submit {
+    height: 44px;
+    padding: 0 20px;
+    background: var(--text);
+    color: var(--bg);
+    border: none;
+    border-radius: 100px;
+    font-family: var(--font);
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.03em;
+    cursor: pointer;
+    transition: background 0.2s;
+    white-space: nowrap;
+  }
+
+  .lock-submit:hover { background: #333; }
+
+  .lock-error {
+    font-size: 12px;
+    color: #D04545;
+    min-height: 18px;
+    transition: opacity 0.2s;
+    opacity: 0;
+    margin-bottom: 0;
+  }
+
+  .lock-error.visible { opacity: 1; }
+
+  /* Separator + contact note below password form */
+  .lock-modal-sep {
+    width: 100%;
+    height: 1px;
+    background: var(--border);
+    margin: 22px 0 18px;
+  }
+
+  .lock-modal-contact {
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+
+  .lock-modal-contact a {
+    color: var(--text);
+    text-decoration: underline;
+    text-decoration-color: var(--border);
+    text-underline-offset: 3px;
+    transition: text-decoration-color 0.2s;
+    font-weight: 400;
+  }
+
+  .lock-modal-contact a:hover {
+    text-decoration-color: var(--text);
+  }
+
+  /* ══════════════════════════════════
+     FOOTER — Dark editorial, cohesive
+     Same typographic system as the rest
+     of the site: same weights, same sizes,
+     same letter-spacing, same rhythm.
+  ══════════════════════════════════ */
+  .site-footer {
+    background: var(--dark);
+    color: #fff;
+    padding: 80px 0 40px;   /* tighter, matches section rhythm */
+  }
+
+  .footer-body {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 80px;
+    align-items: end;
+    padding-bottom: 56px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.09); /* echoes site border style */
+    margin-bottom: 0;
+  }
+
+  /* Eyebrow — identical treatment to
+     .work-header-label and .hero-eyebrow */
+  .footer-left-col span.f-eyebrow {
+    display: block;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--dark-muted);
+    margin-bottom: 24px;   /* matches hero-eyebrow margin rhythm */
+  }
+
+  /* Headline — same weight and letter-spacing
+     as .hero h1, proportionally scaled */
+  .footer-headline {
+    font-size: clamp(34px, 4.5vw, 58px);
+    font-weight: 400;
+    letter-spacing: -0.04em;  /* matches hero: -0.04em */
+    line-height: 1.08;         /* matches hero: 1.08 */
+    color: #fff;
+    margin-bottom: 36px;
+  }
+
+  /* CTA button — same pill geometry as .btn,
+     inverted for dark background */
+  .footer-cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;        /* exactly matches .btn */
+    background: rgba(255, 255, 255, 0.10);
+    color: #fff;
+    font-family: var(--font);
+    font-size: 13px;            /* matches .btn */
+    font-weight: 400;
+    letter-spacing: 0.03em;    /* matches .btn */
+    border-radius: 100px;       /* matches .btn */
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s, transform 0.2s;
+  }
+
+  .footer-cta-btn:hover {
+    background: rgba(255, 255, 255, 0.16);
+    border-color: rgba(255, 255, 255, 0.28);
+    transform: translateY(-1px);
+  }
+
+  .footer-right-col {
+    display: flex;
+    gap: 56px;
+    align-items: flex-start;
+    padding-bottom: 4px;
+  }
+
+  /* Nav links — 13 px, matching the top navbar */
+  .footer-nav-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .footer-nav-list li a {
+    font-size: 13px;           /* matches .nav-links a */
+    font-weight: 400;
+    color: var(--dark-muted);
+    cursor: pointer;
+    transition: color 0.2s;
+    letter-spacing: 0.025em;  /* matches .nav-links a */
+  }
+
+  .footer-nav-list li a:hover { color: #fff; }
+
+  /* External links — same size + spacing */
+  .footer-ext-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .footer-ext-list li a {
+    font-size: 13px;           /* matches nav links */
+    font-weight: 400;
+    color: var(--dark-muted);
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: color 0.2s;
+    letter-spacing: 0.025em;
+  }
+
+  .footer-ext-list li a .f-arrow {
+    font-size: 11px;
+    transition: transform 0.2s;
+    display: inline-block;
+  }
+
+  .footer-ext-list li a:hover { color: #fff; }
+  .footer-ext-list li a:hover .f-arrow { transform: translate(2px, -2px); }
+
+  /* Bottom bar — same 11-12 px muted style
+     used throughout the site */
+  .footer-bottom {
+    padding-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-bottom span,
+  .footer-bottom a {
+    font-size: 12px;
+    color: rgba(255,255,255,0.28);
+    letter-spacing: 0.02em;
+    transition: color 0.2s;
+  }
+
+  .footer-bottom a:hover { color: rgba(255,255,255,0.55); }
+
+  /* ══════════════════════════════════
+     ABOUT PAGE
+  ══════════════════════════════════ */
+  /* ── About intro split ── */
+  .about-intro {
+    padding: 100px 0 80px;
+  }
+
+  .about-intro-grid {
+    display: grid;
+    grid-template-columns: 68fr 32fr;   /* text left, photo right — photo intentionally restrained */
+    gap: 64px;
+    align-items: end;                   /* text hugs the bottom of the photo */
+  }
+
+  .about-photo-col {
+    /* photo anchors the left; its bottom edge aligns with the text baseline */
+  }
+
+  .about-photo-wrap {
+    width: 100%;
+    aspect-ratio: 3/4;
+    border-radius: 3px;
+    overflow: hidden;
+    background: #E8E4DC;
+    position: relative;
+  }
+
+  .about-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+  }
+
+  .about-photo-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(145deg, #EAE6DE 0%, #D4CEBF 100%);
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* Headline — dominant editorial anchor, bottom-aligned with the photo */
+  .about-name {
+    font-size: clamp(28px, 3.4vw, 46px);
+    font-weight: 400;
+    letter-spacing: -0.04em;
+    line-height: 1.05;
+    margin-bottom: 14px;
+  }
+
+  /* Tagline — one quiet line beneath the name; no bottom margin (it IS the bottom) */
+  .about-tagline {
+    font-size: clamp(15px, 1.5vw, 18px);
+    font-weight: 300;
+    letter-spacing: -0.01em;
+    line-height: 1.45;
+    color: var(--muted);
+    margin-bottom: 0;
+  }
+
+  /* ── About bio section ── */
+  .about-bio {
+    padding: 20px 0 80px;
+    /* no border — spacing alone creates the separation */
+  }
+
+  .about-bio-body {
+    max-width: 660px;
+  }
+
+  .about-bio-body p {
+    font-size: 17px;
+    line-height: 1.82;
+    color: var(--text);
+    margin-bottom: 28px;
+    font-weight: 300;
+  }
+
+  .about-bio-body p:last-child { margin-bottom: 0; }
+
+  /* ── Tools / Toolkit section ── */
+  .tools-section {
+    padding: 72px 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .tools-section-header {
+    padding-bottom: 20px;
+  }
+
+  .tools-section-label {
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* Short intro paragraph before the grid */
+  .tools-intro {
+    max-width: 580px;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--muted);
+    margin-bottom: 44px;
+  }
+
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .tools-category {
+    padding: 32px 32px 32px 0;
+    border-right: 1px solid var(--border);
+  }
+
+  .tools-category:not(:first-child) {
+    padding-left: 32px;
+  }
+
+  /* Remove right border from every 4th item (last in row 1) */
+  .tools-category:nth-child(4n) {
+    border-right: none;
+    padding-right: 0;
+  }
+
+  /* Last item always loses its right border, spans remaining columns */
+  .tools-category:last-child {
+    border-right: none;
+    padding-right: 0;
+    grid-column: span 2;
+  }
+
+  /* Row 2 items (5th onward) get a top border */
+  .tools-category:nth-child(n+5) {
+    border-top: 1px solid var(--border);
+  }
+
+  /* 5th item starts row 2 — reset left padding */
+  .tools-category:nth-child(5) {
+    padding-left: 0;
+  }
+
+  .tools-category-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+
+  .tools-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+  }
+
+  .tools-list li {
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--text);
+    line-height: 1.4;
+    letter-spacing: 0.01em;
+  }
+
+  /* ══════════════════════════════════
+     CONTACT PAGE
+  ══════════════════════════════════ */
+  .contact-page {
+    min-height: calc(100vh - 68px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 120px 0 100px;
+  }
+
+  .contact-eyebrow {
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 28px;
+  }
+
+  .contact-headline {
+    font-size: clamp(36px, 5.5vw, 76px);
+    font-weight: 400;
+    letter-spacing: -0.04em;
+    line-height: 1.04;
+    color: var(--text);
+    margin-bottom: 28px;
+    max-width: 720px;
+  }
+
+  .contact-sub {
+    font-size: 17px;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--muted);
+    max-width: 480px;
+    margin-bottom: 56px;
+  }
+
+  .contact-email-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: clamp(18px, 2.2vw, 26px);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    border-bottom: 1px solid var(--text);
+    padding-bottom: 4px;
+    transition: opacity 0.2s, border-color 0.2s;
+    margin-bottom: 48px;
+  }
+
+  .contact-email-link:hover {
+    opacity: 0.55;
+    border-color: transparent;
+  }
+
+  .contact-secondary {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+  }
+
+  .contact-secondary a {
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--muted);
+    letter-spacing: 0.025em;
+    transition: color 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .contact-secondary a:hover { color: var(--text); }
+
+  .contact-divider {
+    width: 100%;
+    height: 1px;
+    background: var(--border);
+    margin: 64px 0;
+  }
+
+  .contact-availability {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--muted);
+  }
+
+  .contact-avail-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #22C55E;
+    flex-shrink: 0;
+    animation: blink 3s ease-in-out infinite;
+  }
+
+  /* ══════════════════════════════════
+     CASE STUDY PAGES
+  ══════════════════════════════════ */
+  .cs-header {
+    padding: 72px 0 60px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .cs-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.03em;
+    color: var(--muted);
+    margin-bottom: 48px;
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+
+  .cs-back:hover { color: var(--text); }
+
+  .cs-header h1 {
+    font-size: clamp(28px, 4vw, 46px);
+    font-weight: 400;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    margin-bottom: 18px;
+    max-width: 780px;
+  }
+
+  .cs-header .one-liner {
+    font-size: clamp(16px, 1.8vw, 18px);
+    color: var(--muted);
+    max-width: 620px;
+    line-height: 1.65;
+    margin-bottom: 48px;
+    font-weight: 300;
+  }
+
+  .cs-meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 28px;
+    max-width: 780px;
+  }
+
+  .cs-meta-item label {
+    display: block;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 5px;
+  }
+
+  .cs-meta-item span {
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.5;
+  }
+
+  /* ── Card real image (overlays the color fill) ── */
+  .card-cover-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+    transition: transform 0.75s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .card:hover .card-cover-img { transform: scale(1.06); }
+
+  /* DNUM + Ibermutua cards: subtle blur to hint at confidential content */
+  .card-img.dnum .card-cover-img,
+  .card-img.ibermutua .card-cover-img {
+    filter: blur(3px);
+    transform: scale(1.08); /* scale up to keep blurred edges hidden */
+  }
+
+  .card-locked:hover .card-img.dnum .card-cover-img,
+  .card-locked:hover .card-img.ibermutua .card-cover-img {
+    transform: scale(1.14); /* zoom still feels alive on hover */
+  }
+
+  /* ── Case study hero image ── */
+  .cs-hero-img {
+    width: 100%;
+    aspect-ratio: 2/1;
+    background: var(--bg-card);
+    border-radius: 14px;
+    margin: 48px 0 80px;
+    overflow: hidden;
+    position: relative;
+    /* placeholder state: centered label */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+  }
+
+  /* Real image sits on top of color background; hides label when loaded */
+  .cs-hero-img > img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  .cs-hero-img > span {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    font-weight: 400;
+    position: relative;   /* stays above the absolute img */
+    z-index: 1;
+  }
+
+  /* ── Inline case study image blocks ── */
+  .cs-img-block {
+    /* Break out of the 700px text column */
+    width: calc(100% + 160px);
+    margin-left: -80px;
+    margin-right: -80px;
+    margin-top: 48px;
+    margin-bottom: 48px;
+    border-radius: 14px;
+    overflow: hidden;
+  }
+
+  .cs-img-block img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .cs-img-block figcaption {
+    display: none;
+    padding: 10px 0 0;
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  .cs-body {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 0 0 100px;
+  }
+
+  .cs-section { margin-bottom: 68px; }
+
+  .cs-section h2 {
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    margin-bottom: 22px;
+    color: var(--text);
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .cs-section h3 {
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    margin-top: 32px;
+    margin-bottom: 12px;
+    color: var(--text);
+  }
+
+  .cs-section p {
+    font-size: 17px;
+    line-height: 1.82;
+    color: var(--text);
+    margin-bottom: 20px;
+  }
+
+  .cs-section p:last-child { margin-bottom: 0; }
+
+  .cs-section ul { list-style: none; padding: 0; margin-bottom: 20px; }
+
+  .cs-section ul li {
+    font-size: 17px;
+    line-height: 1.8;
+    padding-left: 20px;
+    position: relative;
+    margin-bottom: 10px;
+    color: var(--text);
+  }
+
+  .cs-section ul li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--muted);
+    font-weight: 300;
+  }
+
+  .cs-section ol { padding-left: 24px; margin-bottom: 20px; }
+
+  .cs-section ol li {
+    font-size: 17px;
+    line-height: 1.8;
+    color: var(--text);
+    margin-bottom: 10px;
+  }
+
+  .callout {
+    background: var(--bg-card);
+    border-left: 2px solid var(--text);
+    border-radius: 0 3px 3px 0;
+    padding: 22px 26px;
+    margin: 28px 0;
+  }
+
+  .callout p {
+    font-size: 17px;
+    font-style: italic;
+    font-weight: 300;
+    color: var(--text);
+    line-height: 1.72;
+    margin: 0;
+  }
+
+  .impact-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 18px 0 30px;
+    font-size: 14px;
+  }
+
+  .impact-table th {
+    text-align: left;
+    padding: 9px 14px;
+    background: var(--bg-card);
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .impact-table td {
+    padding: 11px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    color: var(--text);
+    line-height: 1.5;
+  }
+
+  .impact-table tr:last-child td { border-bottom: none; }
+  .impact-table td:first-child { font-weight: 500; }
+  .metric-highlight { font-weight: 500; }
+
+  .visual-placeholder {
+    width: 100%;
+    aspect-ratio: 4/3;
+    background: var(--bg-card);
+    border-radius: 3px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1.5px dashed var(--border);
+    margin: 26px 0;
+    gap: 6px;
+  }
+
+  .visual-placeholder-label {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--muted);
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+  }
+
+  .visual-placeholder-sub { font-size: 11px; color: #bbb; }
+
+  .obj-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 18px 0 30px;
+    font-size: 14px;
+  }
+
+  .obj-table th {
+    text-align: left;
+    padding: 9px 14px;
+    background: var(--bg-card);
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .obj-table td {
+    padding: 13px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  .obj-table tr:last-child td { border-bottom: none; }
+
+  .next-cs {
+    border-top: 1px solid var(--border);
+    padding: 56px 0;
+  }
+
+  .next-cs-label {
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 18px;
+  }
+
+  .next-cs-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 28px 32px;
+    background: var(--bg-card);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+    gap: 24px;
+  }
+
+  .next-cs-card:hover { background: #E9E8E5; transform: translateY(-2px); }
+
+  .next-cs-title {
+    font-size: 17px;
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    margin-bottom: 5px;
+  }
+
+  .next-cs-desc { font-size: 13px; color: var(--muted); font-weight: 300; }
+
+  /* Locked state for next-cs card */
+  .next-cs-card--locked {
+    border: 1px dashed var(--border);
+    background: transparent;
+  }
+
+  .next-cs-card--locked:hover {
+    background: var(--bg-card);
+    transform: translateY(-2px);
+  }
+
+  .next-cs-lock-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  .next-cs-lock-badge svg {
+    width: 10px;
+    height: 10px;
+    stroke: var(--muted);
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    flex-shrink: 0;
+  }
+
+  .next-arrow { font-size: 18px; color: var(--text); flex-shrink: 0; }
+
+  .reflections-list { display: flex; flex-direction: column; }
+
+  .reflection-item {
+    padding: 22px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .reflection-item:first-child { border-top: none; }
+
+  .reflection-item p { margin: 0; font-size: 16px; line-height: 1.78; }
+
+  .reflection-item p strong {
+    display: block;
+    font-weight: 500;
+    font-size: 15px;
+    margin-bottom: 5px;
+    letter-spacing: -0.01em;
+  }
+
+  /* ══════════════════════════════════
+     RESPONSIVE
+  ══════════════════════════════════ */
+  @media (max-width: 960px) {
+    .container, .nav-inner { padding: 0 32px; }
+    .cards-grid { grid-template-columns: 1fr; gap: 48px; }
+    .footer-body { grid-template-columns: 1fr; gap: 56px; }
+    .footer-right-col { flex-direction: column; gap: 40px; }
+    .cs-meta { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+    .next-cs-card { flex-direction: column; align-items: flex-start; }
+    /* About intro: stack on tablet — photo above, text below */
+    .about-intro-grid { grid-template-columns: 1fr; gap: 32px; align-items: start; }
+    .about-photo-col { max-width: 100%; order: -1; }
+    /* Let the image determine its own height — no forced aspect ratio on mobile */
+    .about-photo-wrap { aspect-ratio: unset; height: auto; }
+    .about-photo { height: auto; }
+    .about-text-col { order: 1; }
+    /* Tools: 2 columns on tablet — reset desktop overrides, re-apply 2-col rules */
+    .tools-grid { grid-template-columns: repeat(2, 1fr); }
+    .tools-category {
+      border-right: 1px solid var(--border);
+      padding: 28px 32px 28px 0;
+      border-top: none;
+    }
+    .tools-category:not(:first-child) { padding-left: 32px; }
+    /* Odd items start each row — no left padding */
+    .tools-category:nth-child(odd) { padding-left: 0; }
+    /* Even items (right column) — no right border */
+    .tools-category:nth-child(even),
+    .tools-category:last-child { border-right: none; padding-right: 0; }
+    /* Last item spans both columns so the row divider runs full width */
+    .tools-category:last-child { grid-column: span 2; padding-left: 0; }
+    /* All items from row 2 onward get a top border */
+    .tools-category:nth-child(n+3) { border-top: 1px solid var(--border); }
+    /* Reset desktop nth-child overrides */
+    .tools-category:nth-child(4n) { border-right: 1px solid var(--border); padding-right: 32px; }
+    .tools-category:nth-child(4n):nth-child(even),
+    .tools-category:nth-child(4):last-child { border-right: none; padding-right: 0; }
+    .tools-category:nth-child(5) { padding-left: 0; }
+  }
+
+  @media (max-width: 640px) {
+    .container, .nav-inner { padding: 0 24px; }
+    .nav-links { display: none; }
+    .nav-hamburger { display: flex; }
+    .hero { padding: 80px 0 72px; }
+    .about-intro { padding: 64px 0 48px; }
+    .about-bio { padding: 16px 0 40px; }
+    /* Keep aspect-ratio unset — natural image dimensions take over */
+    .about-photo-wrap { aspect-ratio: unset; }
+    .cs-header { padding: 48px 0 40px; }
+    .cs-body { padding-bottom: 64px; }
+    .cs-img-block { width: 100%; margin-left: 0; margin-right: 0; border-radius: 8px; }
+    .cs-hero-img { border-radius: 8px; aspect-ratio: 16/9; }
+    .cs-meta { grid-template-columns: 1fr 1fr; }
+    .footer-headline { font-size: 34px; }
+    .lock-modal-panel { padding: 40px 28px 36px; }
+    /* Tools: single column on mobile */
+    .tools-grid {
+      grid-template-columns: 1fr;
+      border-top: none;
+    }
+    .tools-category {
+      border-right: none !important;
+      border-top: 1px solid var(--border);
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+    }
+    .mobile-overlay { padding: 32px; }
+    .mobile-overlay-links a { font-size: 32px; }
+    .mobile-overlay-foot { left: 32px; right: 32px; bottom: 32px; }
+  }
+
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════
+     NAV
+════════════════════════════════════════════════════ -->
+<nav id="main-nav">
+  <div class="nav-inner">
+    <span class="nav-logo" onclick="navigate('home')">
+      <span class="nav-avail-dot" title="Available for new projects"></span>
+      Valeria Lamicq
+    </span>
+    <div class="nav-links">
+      <a onclick="navigate('home')" id="nav-work">Work</a>
+      <a onclick="navigate('about')" id="nav-about">About</a>
+      <a onclick="navigate('contact')" id="nav-contact">Contact</a>
+    </div>
+    <button class="nav-hamburger" id="nav-hamburger" onclick="toggleMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ════════════════════════════════════════════════════
+     MOBILE OVERLAY
+════════════════════════════════════════════════════ -->
+<div class="mobile-overlay" id="mobile-overlay">
+  <div class="mobile-overlay-links">
+    <a onclick="navigate('home'); closeMobileMenu()">Work</a>
+    <a onclick="navigate('about'); closeMobileMenu()">About</a>
+    <a onclick="navigate('contact'); closeMobileMenu()">Contact</a>
+  </div>
+  <div class="mobile-overlay-foot">
+    <a href="https://linkedin.com/in/valeria-lamicq" target="_blank">LinkedIn ↗</a>
+    <a href="mailto:valelamicq@gmail.com">valelamicq@gmail.com</a>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════
+     PASSWORD MODAL (Ibermutua)
+════════════════════════════════════════════════════ -->
+<div class="lock-modal" id="lock-modal" role="dialog" aria-modal="true" aria-labelledby="lock-title">
+  <div class="lock-modal-backdrop" onclick="closeLockModal()"></div>
+  <div class="lock-modal-panel">
+    <button class="lock-modal-close" onclick="closeLockModal()" aria-label="Close">✕</button>
+
+    <!-- Lock icon -->
+    <svg class="lock-modal-icon" viewBox="0 0 24 24">
+      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+      <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+    </svg>
+
+    <h3 id="lock-title">This case study is protected</h3>
+    <p class="lock-modal-sub">This project contains confidential client information. Enter the password to access it.</p>
+
+    <div class="lock-input-row">
+      <input
+        class="lock-input"
+        id="lock-pw-input"
+        type="password"
+        placeholder="Enter password"
+        autocomplete="off"
+        onkeydown="if(event.key==='Enter') checkPassword()"
+      />
+      <button class="lock-submit" onclick="checkPassword()">Unlock →</button>
+    </div>
+    <p class="lock-error" id="lock-error-msg">Incorrect password. Please try again.</p>
+
+    <div class="lock-modal-sep"></div>
+    <p class="lock-modal-contact">If you want to know more about this project, please <a href="mailto:valelamicq@gmail.com">contact me</a>, and I'll answer you as soon as possible.</p>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════
+     HOME PAGE
+════════════════════════════════════════════════════ -->
+<div class="page active" id="page-home">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <p class="hero-eyebrow">Senior Product Designer — Based in Spain</p>
+      <h1>Valeria Lamicq</h1>
+      <p class="hero-sub">Designing clarity into the products that need it most — enterprise tools, public services, and platforms built for scale. I thrive where things are complex.</p>
+      <button class="btn" onclick="document.getElementById('work').scrollIntoView({behavior:'smooth'})">
+        View work
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- Work -->
+  <section class="work-section" id="work">
+    <div class="container">
+      <div class="work-header">
+        <span class="work-header-label">Selected Work</span>
+        <span class="work-header-count">4 projects</span>
+      </div>
+
+      <div class="cards-grid">
+
+        <!-- 01 — ADCenter -->
+        <div class="card" onclick="navigate('adcenter')">
+          <div class="card-img adcenter">
+            <div class="card-img-fill"></div>
+            <img src="images/ADCenter-1.png" alt="ADCenter Design System" class="card-cover-img" onerror="this.style.display='none'">
+            <span class="card-num">01</span>
+          </div>
+          <div class="card-info">
+            <div class="card-title-row">
+              <h3>ADCenter Design System</h3>
+              <span class="card-arrow">↗</span>
+            </div>
+            <div class="card-tags">
+              <span>Design Systems</span><span>Accessibility</span><span>Enterprise</span>
+            </div>
+            <p class="card-excerpt">Building a shared language between design and development — from fragmented UI to a unified system adopted across 5 products.</p>
+          </div>
+        </div>
+
+        <!-- 02 — DNUM (LOCKED) -->
+        <div class="card card-locked" onclick="openLockModal('dnum')">
+          <div class="card-img dnum">
+            <div class="card-img-fill"></div>
+            <img src="images/DNUM-1.png" alt="DNUM Accessibility Audit" class="card-cover-img" onerror="this.style.display='none'">
+            <span class="card-num">02</span>
+            <div class="card-lock-overlay">
+              <svg class="lock-icon-sm" viewBox="0 0 24 24">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+              <span class="lock-card-label">Confidential</span>
+              <span class="lock-hover-hint">Enter password to access</span>
+            </div>
+          </div>
+          <div class="card-info">
+            <div class="card-title-row">
+              <h3 style="color:var(--muted)">DNUM – Cod'IT Accessibility Audit</h3>
+              <span class="lock-badge">
+                <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                Protected
+              </span>
+            </div>
+            <div class="card-tags">
+              <span>Accessibility</span><span>Government</span><span>WCAG / RGAA</span>
+            </div>
+            <p class="card-excerpt">Leading an accessibility audit and redesign strategy for the French Ministry of Labor — in one month, solo.</p>
+          </div>
+        </div>
+
+        <!-- 03 — Ibermutua (LOCKED) -->
+        <div class="card card-locked" onclick="openLockModal()">
+          <div class="card-img ibermutua">
+            <div class="card-img-fill"></div>
+            <img src="images/Ibermutua-1.png" alt="Ibermutua Digital Empresas" class="card-cover-img">
+            <span class="card-num">03</span>
+            <div class="card-lock-overlay">
+              <svg class="lock-icon-sm" viewBox="0 0 24 24">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+              <span class="lock-card-label">Confidential</span>
+              <span class="lock-hover-hint">Enter password to access</span>
+            </div>
+          </div>
+          <div class="card-info">
+            <div class="card-title-row">
+              <h3 style="color:var(--muted)">Ibermutua Digital Empresas</h3>
+              <span class="lock-badge">
+                <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                Protected
+              </span>
+            </div>
+            <div class="card-tags">
+              <span>Enterprise SaaS</span><span>Data</span><span>UX Strategy</span>
+            </div>
+            <p class="card-excerpt">Redesigning an enterprise data platform so HR professionals could stop fighting the interface and start making decisions.</p>
+          </div>
+        </div>
+
+        <!-- 04 — Avire -->
+        <div class="card" onclick="navigate('avire')">
+          <div class="card-img avire">
+            <div class="card-img-fill"></div>
+            <img src="images/Avire-1.png" alt="Avire Global Digital Presence" class="card-cover-img">
+            <span class="card-num">04</span>
+          </div>
+          <div class="card-info">
+            <div class="card-title-row">
+              <h3>Avire – Global Digital Presence</h3>
+              <span class="card-arrow">↗</span>
+            </div>
+            <div class="card-tags">
+              <span>Global</span><span>B2B</span><span>Mobile-First</span>
+            </div>
+            <p class="card-excerpt">Unifying a fragmented global website into one scalable platform that serves engineers, consultants, and building managers across markets.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-body">
+        <div class="footer-left-col">
+          <span class="f-eyebrow">Get in touch</span>
+          <h2 class="footer-headline">Let's start<br>creating together</h2>
+          <a href="javascript:void(0)" onclick="navigate('contact')" class="footer-cta-btn">
+            Let's talk
+            <span style="font-size:14px">↗</span>
+          </a>
+        </div>
+        <div class="footer-right-col">
+          <ul class="footer-nav-list">
+            <li><a onclick="navigate('home')">Home</a></li>
+            <li><a onclick="navigate('home'); setTimeout(()=>{document.getElementById('work').scrollIntoView({behavior:'smooth'})},80)">Work</a></li>
+            <li><a onclick="navigate('about')">About</a></li>
+            <li><a onclick="navigate('contact')">Contact</a></li>
+          </ul>
+          <ul class="footer-ext-list">
+            <li><a href="https://linkedin.com/in/valeria-lamicq" target="_blank">LinkedIn <span class="f-arrow">↗</span></a></li>
+            <li><a href="CV Valeria Lamicq.pdf" download="CV Valeria Lamicq.pdf" target="_blank" rel="noopener noreferrer">Download CV <span class="f-arrow">↗</span></a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Valeria Lamicq</span>
+        <span>Senior Product Designer</span>
+      </div>
+    </div>
+  </footer>
+
+</div><!-- /page-home -->
+
+
+<!-- ════════════════════════════════════════════════════
+     ABOUT PAGE
+════════════════════════════════════════════════════ -->
+<div class="page" id="page-about">
+
+  <!-- About intro: photo left, name + tagline bottom-aligned on the right -->
+  <section class="about-intro">
+    <div class="container">
+      <div class="about-intro-grid">
+
+        <!-- Text column (left) — bottom-aligned with photo via align-items: end -->
+        <div class="about-text-col">
+          <h1 class="about-name">Bringing clarity to<br>complex systems.</h1>
+          <p class="about-tagline">I'm a Product Designer based in Spain with a background spanning product design, design systems, accessibility, and more than a decade of visual and brand design.</p>
+        </div>
+
+        <!-- Photo column (right) -->
+        <div class="about-photo-col">
+          <div class="about-photo-wrap">
+            <img src="images/Valeria Lamicq copy.jpg" alt="Valeria Lamicq" class="about-photo">
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- About bio: opening sentence + full story as one continuous block -->
+  <section class="about-bio">
+    <div class="container">
+      <div class="about-bio-body">
+        <p>Throughout my career, I've been drawn to products that operate in complex environments — enterprise platforms, public services, and highly-regulated industries where users need clarity, confidence, and trust to get things done. I enjoy turning that complexity into experiences that feel intuitive, scalable, and genuinely useful.</p>
+        <p>Over the years, I've led end-to-end product initiatives, influenced product strategy, and driven design system adoption across multidisciplinary teams. Most recently at Capgemini, I led the creation and standardisation of the design system that established a shared design language across teams, while also contributing to product decisions and promoting DesignOps practices that strengthened collaboration between design, product, and engineering stakeholders.</p>
+        <p>I work best at the intersection of product thinking, systems thinking, and execution. Whether defining product direction, improving an existing experience, or building the foundations that allow teams to scale, I focus on creating alignment — between business goals, user needs, and technical realities.</p>
+        <p>Before moving into product design, I spent over a decade working in graphic and brand design in both Mexico and Spain. That experience continues to shape my work today, giving me a strong appreciation for communication, visual hierarchy, and the role design plays in building trust.</p>
+        <p>Accessibility is a natural part of my process rather than an afterthought. I've worked extensively with WCAG standards, and I believe the best solutions are often the ones that work well for the broadest range of people.</p>
+        <p>Having worked on projects in Mexico, Spain, France, and The Netherlands, my experience collaborating with international teams, navigating different organisational cultures, and designing for diverse audiences is an asset. My drive is solving meaningful problems, helping teams work better together, and creating products that make complexity feel simple.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Toolkit -->
+  <section class="tools-section">
+    <div class="container">
+      <div class="tools-section-header">
+        <span class="tools-section-label">Toolkit</span>
+      </div>
+      <p class="tools-intro">From research to components, accessibility to analytics — the tools below reflect how I work: methodically, at scale, and with a bias toward things that last.</p>
+      <div class="tools-grid">
+
+        <div class="tools-category">
+          <p class="tools-category-label">Design & Prototyping</p>
+          <ul class="tools-list">
+            <li>Figma</li>
+            <li>Framer</li>
+            <li>ProtoPie</li>
+            <li>Adobe Photoshop</li>
+            <li>Adobe Illustrator</li>
+            <li>After Effects</li>
+          </ul>
+        </div>
+
+        <div class="tools-category">
+          <p class="tools-category-label">Research & Testing</p>
+          <ul class="tools-list">
+            <li>Maze</li>
+            <li>FigJam</li>
+            <li>Miro</li>
+            <li>User interviews</li>
+            <li>Heuristic review</li>
+          </ul>
+        </div>
+
+        <div class="tools-category">
+          <p class="tools-category-label">Accessibility</p>
+          <ul class="tools-list">
+            <li>Stark</li>
+            <li>AXE</li>
+            <li>WAVE</li>
+            <li>IBM Accessibility Checker</li>
+            <li>NVDA / VoiceOver</li>
+          </ul>
+        </div>
+
+        <div class="tools-category">
+          <p class="tools-category-label">Analytics</p>
+          <ul class="tools-list">
+            <li>Google Analytics</li>
+            <li>Hotjar</li>
+          </ul>
+        </div>
+
+        <div class="tools-category">
+          <p class="tools-category-label">Design Systems & Collaboration</p>
+          <ul class="tools-list">
+            <li>Figma Variables & Tokens</li>
+            <li>Notion</li>
+            <li>Jira</li>
+            <li>GitHub</li>
+          </ul>
+        </div>
+
+        <div class="tools-category">
+          <p class="tools-category-label">AI & Productivity</p>
+          <ul class="tools-list">
+            <li>Claude</li>
+            <li>ChatGPT</li>
+            <li>GitHub Copilot</li>
+          </ul>
+        </div>
+
+        <div class="tools-category">
+          <p class="tools-category-label">Standards & Frameworks</p>
+          <ul class="tools-list">
+            <li>WCAG 2.1 AA</li>
+            <li>RGAA v4.1</li>
+            <li>Atomic Design</li>
+            <li>Design Ops</li>
+            <li>Agile / Scrum</li>
+            <li>Human Interface Guidelines</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-body">
+        <div class="footer-left-col">
+          <span class="f-eyebrow">Get in touch</span>
+          <h2 class="footer-headline">Let's start<br>creating together</h2>
+          <a href="javascript:void(0)" onclick="navigate('contact')" class="footer-cta-btn">Let's talk <span style="font-size:14px">↗</span></a>
+        </div>
+        <div class="footer-right-col">
+          <ul class="footer-nav-list">
+            <li><a onclick="navigate('home')">Home</a></li>
+            <li><a onclick="navigate('home'); setTimeout(()=>{document.getElementById('work').scrollIntoView({behavior:'smooth'})},80)">Work</a></li>
+            <li><a onclick="navigate('about')">About</a></li>
+            <li><a onclick="navigate('contact')">Contact</a></li>
+          </ul>
+          <ul class="footer-ext-list">
+            <li><a href="https://linkedin.com/in/valeria-lamicq" target="_blank">LinkedIn <span class="f-arrow">↗</span></a></li>
+            <li><a href="CV Valeria Lamicq.pdf" download="CV Valeria Lamicq.pdf" target="_blank" rel="noopener noreferrer">Download CV <span class="f-arrow">↗</span></a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Valeria Lamicq</span>
+        <span>Senior Product Designer</span>
+      </div>
+    </div>
+  </footer>
+
+</div><!-- /page-about -->
+
+
+<!-- ════════════════════════════════════════════════════
+     CONTACT PAGE
+════════════════════════════════════════════════════ -->
+<div class="page" id="page-contact">
+
+  <section class="contact-page">
+    <div class="container">
+
+      <p class="contact-eyebrow">Get in touch</p>
+
+      <h1 class="contact-headline">Good work starts<br>with a conversation.</h1>
+
+      <p class="contact-sub">Whether you have a brief, a problem you're trying to untangle, or just want to see if we're a good fit — my inbox is a good place to start.</p>
+
+      <a href="mailto:valelamicq@gmail.com" class="contact-email-link">
+        valelamicq@gmail.com
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+
+      <div class="contact-secondary">
+        <a href="https://linkedin.com/in/valeria-lamicq" target="_blank" rel="noopener">
+          LinkedIn
+          <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M7 7h10v10"/></svg>
+        </a>
+        <a href="CV Valeria Lamicq.pdf" download="CV Valeria Lamicq.pdf" target="_blank" rel="noopener noreferrer">
+          Download CV
+          <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M7 7h10v10"/></svg>
+        </a>
+      </div>
+
+      <div class="contact-divider"></div>
+
+      <div class="contact-availability">
+        <span class="contact-avail-dot"></span>
+        Currently open to senior product design opportunities
+      </div>
+
+    </div>
+  </section>
+
+</div><!-- /page-contact -->
+
+
+<!-- ════════════════════════════════════════════════════
+     CASE STUDY — ADCENTER
+════════════════════════════════════════════════════ -->
+<div class="page" id="page-adcenter">
+
+  <section class="cs-header">
+    <div class="container">
+      <span class="cs-back" onclick="navigate('home')">← Back to work</span>
+      <h1>ADCenter Design System: Building a Shared Language Between Design and Development</h1>
+      <p class="one-liner">Transforming a fragmented UI landscape into a unified design system — reducing design time by 50%, achieving 89% AA accessibility compliance, and driving adoption across every internal product.</p>
+      <div class="cs-meta">
+        <div class="cs-meta-item"><label>Role</label><span>Lead Product Designer</span></div>
+        <div class="cs-meta-item"><label>Team</label><span>UX/UI Designers, Development Team</span></div>
+        <div class="cs-meta-item"><label>Tools</label><span>Figma, Notion</span></div>
+        <div class="cs-meta-item"><label>Timeline</label><span>Ongoing (launched late 2023)</span></div>
+        <div class="cs-meta-item"><label>Scope</label><span>3–5 internal products</span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="cs-hero-img" style="background:#0A2A6E;">
+      <img src="images/ADCenter-2.png" alt="ADCenter Design System — button component documentation">
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="cs-body">
+
+      <div class="cs-section">
+        <h2>The Challenge</h2>
+        <p>When I joined ADCenter Spain, there was no design system. There was a style guide — outdated, ungoverned, and largely ignored. Each product had its own visual language: buttons varied in shape and behavior, navigation patterns conflicted across tools, and accessibility was inconsistent. Designers worked from instinct, developers rebuilt components from scratch for every project, and the disconnect was visible to users.</p>
+        <p>This wasn't just a visual consistency problem — it was a scalability bottleneck. Every new product meant reinventing the UI from zero. Every update meant touching multiple codebases manually. And the lack of shared standards meant quality depended entirely on whoever happened to be building that particular feature.</p>
+        <p>I recognized the opportunity early and made the case for building a design system. The goal wasn't just a component library — it was to create a shared language between design and development that would reduce waste, improve quality, and let teams move faster with confidence.</p>
+      </div>
+
+      <div class="cs-section">
+        <h2>Understanding the Problem</h2>
+        <p>Before building anything, I ran workshops and interviews across design, development, and product teams to understand why fragmentation had taken root in the first place.</p>
+        <p>The old style guide had no governance — no one owned it, no one updated it, and no one enforced it. Designers and developers worked in silos, frequently duplicating effort without realizing it. The development teams used different frameworks (Angular and React), which meant even when a component was built well in one codebase, it had to be rebuilt differently in the other. And there were no accessibility standards — compliance was accidental at best.</p>
+        <div class="callout">
+          <p>The core insight was that the problem wasn't missing components — it was missing alignment. People, process, and tools were all disconnected. A component library alone wouldn't fix that; it needed structure, documentation, and governance to sustain itself.</p>
+        </div>
+      </div>
+
+      <div class="cs-section">
+        <h2>Scoping V1: What to Build First</h2>
+        <p>This is where a design system initiative can easily go wrong — trying to build everything at once. I deliberately scoped V1 as an MVP focused on the components used most frequently across our internal tools.</p>
+
+        <h3>What V1 included</h3>
+        <ul>
+          <li><strong>Foundations</strong> — Color tokens, typography scale, spacing system, grid, and interaction states. Built as design tokens so they could sync with both Angular and React codebases.</li>
+          <li><strong>Core components</strong> — Buttons, inputs, modals, alerts, navigation elements — the building blocks that appeared in every product. Each one documented with usage guidelines and do's and don'ts.</li>
+          <li><strong>Documentation</strong> — Every element included rationale, not just specs. The goal was that any team member — designer, developer, or PM — could understand not just how to use a component, but why it was designed that way.</li>
+        </ul>
+
+        <h3>What I deliberately left out of V1</h3>
+        <ul>
+          <li><strong>Complex UI patterns</strong> (data tables, dashboards, charts) — these would come later once the foundation was stable and adopted.</li>
+          <li><strong>Full developer tooling</strong> — V1 focused on design-side adoption first. Storybook integration and web component development were planned as next phases.</li>
+          <li><strong>100% accessibility compliance</strong> — we targeted AA for core components (achieved 89%) with a roadmap to reach full compliance over time.</li>
+        </ul>
+
+        <p>The reasoning was simple: ship a focused, well-documented foundation that teams could start using immediately, then iterate based on real adoption feedback. A design system is a living product — trying to launch it "complete" would have meant launching it never.</p>
+
+        <figure class="cs-img-block">
+          <img src="images/ADCenter-3.png" alt="ADCenter Design System — typography scale and color token table">
+        </figure>
+      </div>
+
+      <div class="cs-section">
+        <h2>Building Adoption</h2>
+        <p>A design system only works if people actually use it. I treated adoption as a product problem, not a mandate.</p>
+
+        <h3>The developer resistance story</h3>
+        <p>Initially, the development team was skeptical. They'd seen style guides before — documents that created overhead without reducing their workload. Their concern was understandable: they feared the DS would add complexity to their process, not simplify it.</p>
+        <p>Rather than pushing adoption top-down, I focused on documentation quality. I made sure every component was documented simply and efficiently — not design theory, but practical implementation guidance that helped developers do their jobs faster. The turning point came when developers saw that well-documented, reusable components actually eliminated the rebuild cycle they'd been stuck in. Once they experienced the time savings firsthand, resistance disappeared.</p>
+
+        <h3>Rituals that sustained momentum</h3>
+        <ul>
+          <li><strong>Weekly cross-functional syncs</strong> — short sessions to surface blockers, review new components, and align on priorities. These became the heartbeat of the DS.</li>
+          <li><strong>Open backlog in Notion</strong> — full transparency on what was being built, what was next, and why. Anyone could propose additions or flag issues.</li>
+          <li><strong>Design team reviews</strong> — weekly calls to address DS questions, check for adoption blockers, and ensure alignment across designers.</li>
+        </ul>
+      </div>
+
+      <div class="cs-section">
+        <h2>Governance: Making It Last</h2>
+        <p>A design system without governance becomes another abandoned style guide. I established a contribution and evolution model from the start.</p>
+        <p><strong>Contribution flow:</strong> Anyone could propose a new component or modification. Proposals went through a review process — is it needed across multiple products? Does it meet accessibility standards? Is it documented? — before being merged into the system.</p>
+        <p><strong>Iteration cadence:</strong> The DS evolved through continuous feedback loops, not big-bang releases. Weekly syncs surfaced what was working and what wasn't, and the Notion backlog kept priorities visible and transparent.</p>
+        <p><strong>Ownership model:</strong> While I led the initiative, the goal was shared ownership. Designers contributed patterns they'd validated in their products, developers flagged implementation gaps, and the DS reflected the collective needs of the teams using it.</p>
+      </div>
+
+      <div class="cs-section">
+        <h2>Impact</h2>
+        <p>Within the first three months:</p>
+        <table class="impact-table">
+          <thead>
+            <tr>
+              <th>Metric</th><th>Before</th><th>After</th><th>Impact</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Design time for new products</td><td>Baseline</td><td class="metric-highlight">50% reduction</td><td>Designers started from components, not blank canvases</td></tr>
+            <tr><td>Component reuse (design team)</td><td>Inconsistent</td><td class="metric-highlight">100% adoption</td><td>Every internal product uses the DS</td></tr>
+            <tr><td>Developer integration time</td><td>~6 hrs per component</td><td class="metric-highlight">~3 hrs</td><td>50% faster implementation</td></tr>
+            <tr><td>Accessibility compliance</td><td>No standard</td><td class="metric-highlight">89% AA</td><td>Inclusive by default, with a roadmap to 100%</td></tr>
+            <tr><td>DS-related support questions</td><td>Frequent</td><td class="metric-highlight">Significantly reduced</td><td>Documentation answered most questions before they were asked</td></tr>
+          </tbody>
+        </table>
+        <p>The DS is currently adopted across 3–5 internal products and continues to evolve. The web component library is under development to enable full cross-framework compatibility between Angular and React.</p>
+
+        <figure class="cs-img-block">
+          <img src="images/ADCenter-4.png" alt="ADCenter Design System — products built with the system">
+        </figure>
+      </div>
+
+      <div class="cs-section">
+        <h2>Reflections</h2>
+        <div class="reflections-list">
+          <div class="reflection-item"><p><strong>Start with what teams use most, not what looks impressive.</strong> The temptation with a design system is to build the flashiest components first. The reality is that getting buttons, inputs, and spacing right — and documenting them well — has more impact on daily workflow than any complex pattern.</p></div>
+          <div class="reflection-item"><p><strong>Documentation is the product.</strong> The components themselves are important, but what made adoption stick was the documentation. When a developer can find the answer without asking someone, you've reduced friction at scale.</p></div>
+          <div class="reflection-item"><p><strong>Resistance is feedback, not opposition.</strong> The initial developer skepticism wasn't a problem to overcome — it was a signal about what they needed. They didn't want more design rules; they wanted tools that made their work easier. Listening to that shaped how I built and documented everything.</p></div>
+          <div class="reflection-item"><p><strong>Governance defines whether a DS lives or dies.</strong> Building components is the visible work. Establishing how they evolve, who contributes, and how decisions get made is the work that determines whether the system is still relevant in a year.</p></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <section class="next-cs">
+    <div class="container">
+      <p class="next-cs-label">Next case study</p>
+      <div class="next-cs-card next-cs-card--locked" onclick="safeNavigate('dnum')">
+        <div>
+          <p class="next-cs-lock-badge">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            Password protected
+          </p>
+          <p class="next-cs-title">DNUM – Cod'IT Accessibility Audit</p>
+          <p class="next-cs-desc">Leading an accessibility audit and redesign strategy for the French Ministry of Labor — in one month, solo.</p>
+        </div>
+        <span class="next-arrow">→</span>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-body">
+        <div class="footer-left-col">
+          <span class="f-eyebrow">Get in touch</span>
+          <h2 class="footer-headline">Let's start<br>creating together</h2>
+          <a href="javascript:void(0)" onclick="navigate('contact')" class="footer-cta-btn">Let's talk <span style="font-size:14px">↗</span></a>
+        </div>
+        <div class="footer-right-col">
+          <ul class="footer-nav-list">
+            <li><a onclick="navigate('home')">Home</a></li>
+            <li><a onclick="navigate('home'); setTimeout(()=>{document.getElementById('work').scrollIntoView({behavior:'smooth'})},80)">Work</a></li>
+            <li><a onclick="navigate('about')">About</a></li>
+            <li><a onclick="navigate('contact')">Contact</a></li>
+          </ul>
+          <ul class="footer-ext-list">
+            <li><a href="https://linkedin.com/in/valeria-lamicq" target="_blank">LinkedIn <span class="f-arrow">↗</span></a></li>
+            <li><a href="CV Valeria Lamicq.pdf" download="CV Valeria Lamicq.pdf" target="_blank" rel="noopener noreferrer">Download CV <span class="f-arrow">↗</span></a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Valeria Lamicq</span>
+        <span>Senior Product Designer</span>
+      </div>
+    </div>
+  </footer>
+
+</div><!-- /page-adcenter -->
+
+
+<!-- ════════════════════════════════════════════════════
+     CASE STUDY — DNUM
+════════════════════════════════════════════════════ -->
+<div class="page" id="page-dnum">
+
+  <section class="cs-header">
+    <div class="container">
+      <span class="cs-back" onclick="navigate('home')">← Back to work</span>
+      <h1>DNUM – Cod'IT: Accessibility Audit for the French Ministry of Labor</h1>
+      <p class="one-liner">A comprehensive accessibility audit and redesign strategy for a government labor law platform — delivering RGAA-compliant proposals that the Ministry adopted as the blueprint for remediation, in one month, solo.</p>
+      <div class="cs-meta">
+        <div class="cs-meta-item"><label>Role</label><span>Product Designer & Accessibility Specialist</span></div>
+        <div class="cs-meta-item"><label>Team</label><span>Solo (stakeholder collaboration)</span></div>
+        <div class="cs-meta-item"><label>Tools</label><span>Figma, AXE, WAVE, IBM Checker, Silktide, NVDA, VoiceOver</span></div>
+        <div class="cs-meta-item"><label>Timeline</label><span>1 month</span></div>
+        <div class="cs-meta-item"><label>Client</label><span>French Ministry of Labor — DNUM</span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="cs-hero-img" style="background:#F5F5F2;">
+      <img src="images/DNUM-3.png" alt="DNUM Accessibility Audit — multi-screen overview">
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="cs-body">
+
+      <div class="cs-section">
+        <h2>The Challenge</h2>
+        <p>Cod'IT is the French government's digital platform for codified labor law — used by government inspectors and citizens to access legal provisions that govern workplace regulations across France. It's an essential public service tool.</p>
+        <p>The problem: the platform was failing the people it was meant to serve. Navigation was deeply nested (7+ levels), search results were unstructured and often irrelevant, contrast was insufficient, and assistive technology support was broken. For users relying on screen readers, the platform was effectively inaccessible.</p>
+        <p>This wasn't just a usability issue — it was a compliance risk. The French government's RGAA accessibility framework (aligned with WCAG 2.1 AA) requires public-sector digital services to meet specific inclusion standards. Cod'IT fell significantly short.</p>
+        <p>I was brought in to lead the accessibility audit and deliver a redesign strategy that would bring the platform into compliance while fundamentally improving the experience for all users — not just those with disabilities.</p>
+        <div class="callout">
+          <p>The constraint that shaped the work: I had one month. Every decision about scope, prioritization, and depth had to be deliberate. There was no room for broad exploration — I needed to identify the highest-impact issues, propose actionable solutions, and deliver a complete audit report and design proposals the Ministry could implement immediately.</p>
+        </div>
+      </div>
+
+      <div class="cs-section">
+        <h2>Audit Approach</h2>
+        <p>I designed a four-layer audit methodology to ensure comprehensive coverage within the compressed timeline:</p>
+
+        <h3>1. Automated testing</h3>
+        <p>Used AXE, WAVE, IBM Accessibility Checker, and Silktide to surface color contrast failures, missing alt text, and ARIA role violations across the platform. This established a quantitative baseline quickly.</p>
+
+        <h3>2. Manual screen reader testing</h3>
+        <p>Navigated the full platform using NVDA and VoiceOver to evaluate real-world assistive technology compatibility. Automated tools catch structural issues; manual testing reveals how the experience actually feels for someone using a screen reader.</p>
+
+        <h3>3. Heuristic review</h3>
+        <p>Evaluated the platform's information architecture, visual hierarchy, and interaction patterns against WCAG 2.1 AA criteria and RGAA v4.1 standards.</p>
+
+        <h3>4. Stakeholder interviews</h3>
+        <p>Spoke with government inspectors and digital policy managers to understand which tasks were most critical and where friction was highest. This ensured the audit prioritized issues by real-world impact, not just technical severity.</p>
+
+        <figure class="cs-img-block">
+          <img src="images/DNUM-4.png" alt="DNUM Audit — tools used: code inspector, WAVE, and Excel tracking sheet">
+        </figure>
+      </div>
+
+      <div class="cs-section">
+        <h2>Key Findings</h2>
+        <p>The audit revealed issues across five areas, listed in priority order — based on how many users were affected and how severely each issue blocked critical tasks:</p>
+
+        <h3>1. Information architecture (highest priority)</h3>
+        <p>Content was buried under 7+ levels of nested navigation with no breadcrumbs or orientation cues. This affected every user on every visit. Even experienced inspectors struggled to locate the legal provisions they needed. Fixing this had the broadest impact.</p>
+
+        <h3>2. Search experience</h3>
+        <p>Results were unfiltered and poorly structured. Users searching for specific legal articles had to scan through irrelevant content, leading to high frustration and low completion rates. Since search was the primary way inspectors accessed legal provisions, this was second priority.</p>
+
+        <h3>3. Accessibility violations</h3>
+        <p>Missing form labels, insufficient contrast ratios, and absent focus indicators meant screen readers couldn't interpret core content. Users relying on keyboard navigation had no visible indication of where they were on the page.</p>
+
+        <h3>4. Assistive technology gaps</h3>
+        <p>Missing ARIA roles, unlabeled inputs, and absent semantic HTML made screen reader navigation effectively impossible for critical workflows.</p>
+
+        <h3>5. Design inconsistency</h3>
+        <p>Typography, spacing, and UI elements varied across pages, increasing cognitive load and undermining trust. While less urgent than the structural issues, this contributed to the overall experience of confusion and unreliability.</p>
+      </div>
+
+      <div class="cs-section">
+        <h2>Design Strategy & Proposals</h2>
+        <p>I prioritized fixes using a severity-times-impact framework: issues that affected the most users and blocked the most critical tasks were addressed first. Navigation and search improvements took priority over visual polish.</p>
+
+        <h3>Information architecture overhaul</h3>
+        <p>The 7-layer navigation was restructured to 3 levels, organized around critical tasks rather than internal content taxonomy. I added breadcrumbs and clear section labels so users always knew where they were and how to get back.</p>
+
+        <figure class="cs-img-block">
+          <img src="images/DNUM-5.png" alt="DNUM — before and after navigation redesign comparison">
+        </figure>
+
+        <h3>Homepage redesign</h3>
+        <p>I redesigned the homepage around three primary user tasks: search, access documentation, and view recent updates. Applied AA-level contrast throughout and reduced scrolling depth significantly by eliminating redundant content blocks and tightening the visual hierarchy.</p>
+
+        <figure class="cs-img-block">
+          <img src="images/DNUM-2.png" alt="DNUM — redesigned search results and discrimination page">
+        </figure>
+
+        <h3>Search redesign</h3>
+        <p>Restructured search results with a clear hierarchy: title, excerpt, metadata. Added filtering capabilities and implemented ARIA live regions so screen reader users would receive real-time feedback as results updated.</p>
+
+        <h3>Accessible component specifications</h3>
+        <p>Built a set of accessible component specs in Figma — buttons, forms, typographic styles — all designed to RGAA standards with proper focus states, semantic HTML annotations, and accessible color tokens. These served as a reference for the development team's implementation.</p>
+      </div>
+
+      <div class="cs-section">
+        <h2>Outcome</h2>
+        <p>The Ministry adopted my recommendations as the blueprint for Cod'IT's accessibility remediation. The audit report and design proposals I delivered shaped the direction of the platform's redesign. While I wasn't involved in the implementation phase, the deliverables were designed to be actionable — every recommendation included priority level, expected impact, and specific design specs the development team could build from.</p>
+
+        <h3>What changed</h3>
+        <ul>
+          <li><strong>Navigation efficiency</strong> — Reducing the navigation depth from 7 levels to 3 meant inspectors could reach legal provisions roughly 30% faster based on task-based testing during the audit.</li>
+          <li><strong>RGAA compliance</strong> — The audit identified the specific violations preventing compliance, and the redesign proposals were designed to bring the platform to near-AA level.</li>
+          <li><strong>Search relevance</strong> — The restructured results and filtering capabilities directly addressed the primary frustration users reported in interviews.</li>
+          <li><strong>Scrolling depth</strong> — Reduced by an estimated 40% on key pages, making content more immediately accessible on all screen sizes.</li>
+        </ul>
+
+        <h3>Beyond the platform</h3>
+        <p>Alongside the audit report, I delivered the four-layer methodology itself as a documented, replicable framework — not just the findings, but the process for producing them. This gave the Ministry a tool they could apply to future accessibility audits across other government digital services, rather than depending on external specialists for every evaluation.</p>
+      </div>
+
+      <div class="cs-section">
+        <h2>Reflections</h2>
+        <div class="reflections-list">
+          <div class="reflection-item"><p><strong>One month forced clarity.</strong> The compressed timeline was actually a design advantage — it eliminated the temptation to audit everything and forced me to prioritize ruthlessly by impact. Every hour spent had to justify itself against the question: "Will this recommendation make the biggest difference for the most users?"</p></div>
+          <div class="reflection-item"><p><strong>Accessibility improves usability for everyone.</strong> Every accessibility improvement — clearer hierarchy, better contrast, simpler navigation — also made the platform faster and easier for sighted, able-bodied users. The business case for accessibility was proven through the work itself.</p></div>
+          <div class="reflection-item"><p><strong>Working across languages builds a specific kind of adaptability.</strong> Conducting the audit and writing the deliverables in French sharpened my communication — when you can't rely on your native language, you learn to be more precise and deliberate in how you present findings and recommendations.</p></div>
+          <div class="reflection-item"><p><strong>Solo ownership at this scope requires discipline.</strong> Without a team to distribute tasks, I had to be both strategist and executor — defining the methodology, running the audit, synthesizing findings, designing solutions, and presenting to stakeholders. The experience reinforced that senior-level autonomy isn't about working alone; it's about knowing how to structure your own work so that every piece connects to the larger goal.</p></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <section class="next-cs">
+    <div class="container">
+      <p class="next-cs-label">Next case study</p>
+      <div class="next-cs-card" onclick="navigate('avire')">
+        <div>
+          <p class="next-cs-title">Avire – Global Digital Presence</p>
+          <p class="next-cs-desc">Unifying a fragmented global website into one scalable platform that serves engineers, consultants, and building managers across markets.</p>
+        </div>
+        <span class="next-arrow">→</span>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-body">
+        <div class="footer-left-col">
+          <span class="f-eyebrow">Get in touch</span>
+          <h2 class="footer-headline">Let's start<br>creating together</h2>
+          <a href="javascript:void(0)" onclick="navigate('contact')" class="footer-cta-btn">Let's talk <span style="font-size:14px">↗</span></a>
+        </div>
+        <div class="footer-right-col">
+          <ul class="footer-nav-list">
+            <li><a onclick="navigate('home')">Home</a></li>
+            <li><a onclick="navigate('home'); setTimeout(()=>{document.getElementById('work').scrollIntoView({behavior:'smooth'})},80)">Work</a></li>
+            <li><a onclick="navigate('about')">About</a></li>
+            <li><a onclick="navigate('contact')">Contact</a></li>
+          </ul>
+          <ul class="footer-ext-list">
+            <li><a href="https://linkedin.com/in/valeria-lamicq" target="_blank">LinkedIn <span class="f-arrow">↗</span></a></li>
+            <li><a href="CV Valeria Lamicq.pdf" download="CV Valeria Lamicq.pdf" target="_blank" rel="noopener noreferrer">Download CV <span class="f-arrow">↗</span></a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Valeria Lamicq</span>
+        <span>Senior Product Designer</span>
+      </div>
+    </div>
+  </footer>
+
+</div><!-- /page-dnum -->
+
+
+<!-- ════════════════════════════════════════════════════
+     CASE STUDY — IBERMUTUA
+════════════════════════════════════════════════════ -->
+<div class="page" id="page-ibermutua">
+
+  <section class="cs-header">
+    <div class="container">
+      <span class="cs-back" onclick="navigate('home')">← Back to work</span>
+      <h1>Ibermutua Digital Empresas: Redesigning Data into Decisions</h1>
+      <p class="one-liner">Redesigning a dense enterprise data platform so HR professionals and business administrators could retrieve insights and make decisions with confidence — not fight the interface to get there.</p>
+      <div class="cs-meta">
+        <div class="cs-meta-item"><label>Role</label><span>Product Designer (UX/UI)</span></div>
+        <div class="cs-meta-item"><label>Team</label><span>Product Manager, Development Team</span></div>
+        <div class="cs-meta-item"><label>Tools</label><span>Figma</span></div>
+        <div class="cs-meta-item"><label>Timeline</label><span>6 months</span></div>
+        <div class="cs-meta-item"><label>Sector</label><span>Workplace Health & Safety / Enterprise SaaS</span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="cs-hero-img" style="background:#1A3A6B;">
+      <img src="images/Ibermutua-3.png" alt="Ibermutua Digital Empresas — overview of redesigned screens">
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="cs-body">
+
+      <div class="cs-section">
+        <h2>The Challenge</h2>
+        <p>Ibermutua is a leading Workplace Health and Safety organization in Spain, operating in collaboration with the national Social Security system. Their platform <strong>Digital Empresas</strong> served thousands of HR professionals, business administrators, and third-party advisors — all tracking workplace incidents, absenteeism, and risk prevention data daily.</p>
+        <p>Despite being critical to daily operations, the platform was failing its users. Cluttered filters buried under flat menus, no way to save frequent searches, constant disorientation when switching between company datasets, and information presented without hierarchy. Users had all the data they needed — they just couldn't get to it efficiently.</p>
+        <p>The business goal was clear: transform a rigid, data-heavy portal into a tool that let professionals retrieve insights and make decisions with confidence — while aligning the experience with Ibermutua's evolving design system.</p>
+      </div>
+
+      <div class="cs-section">
+        <h2>Research & Discovery</h2>
+        <p>The discovery phase involved interviews with the platform's three core user groups:</p>
+
+        <h3>HR Departments</h3>
+        <p>Tracked absenteeism, workplace incidents, and compliance data daily. They needed speed and repeatability — the same searches, run the same way, every week.</p>
+
+        <h3>Business Administrators</h3>
+        <p>Focused on financial impact and reporting. They needed clear data hierarchy and the ability to drill into specifics without losing context.</p>
+
+        <h3>Third-Party Advisors</h3>
+        <p>Consulting firms managing multiple client companies simultaneously. They were the most disoriented users — constantly switching datasets and losing track of which company's data they were viewing.</p>
+
+        <h3>What the research revealed</h3>
+        <p>Five patterns emerged consistently:</p>
+        <ol>
+          <li><strong>Repetitive workflows:</strong> Users rebuilt the same searches from scratch daily. There was no way to save or reuse filter configurations.</li>
+          <li><strong>Filter overload:</strong> All filters were presented with equal weight — no distinction between commonly used fields and advanced options.</li>
+          <li><strong>Context loss:</strong> When managing multiple companies, users frequently lost track of whose data they were analyzing.</li>
+          <li><strong>Information density without hierarchy:</strong> Tables displayed everything at once with no visual prioritization.</li>
+          <li><strong>No alert capability:</strong> Users wanted to be notified when specific conditions were met, but the system offered no notification features.</li>
+        </ol>
+      </div>
+
+      <div class="cs-section">
+        <h2>Defining the Problem</h2>
+        <div class="callout">
+          <p>How might we simplify data retrieval and maintain user orientation so businesses can act on their data faster and with more confidence?</p>
+        </div>
+
+        <p>I translated research findings into four strategic design objectives:</p>
+
+        <table class="obj-table">
+          <thead>
+            <tr><th>Objective</th><th>Design Approach</th><th>Expected Outcome</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Reduce search friction</td><td>Separate common vs. advanced filters using progressive disclosure</td><td>Faster, less overwhelming search experience</td></tr>
+            <tr><td>Enable workflow reusability</td><td>Introduce saved and favorite searches</td><td>Eliminate daily repetition</td></tr>
+            <tr><td>Maintain user orientation</td><td>Persistent company identifier in header + breadcrumbs</td><td>Prevent context loss across views</td></tr>
+            <tr><td>Support varied expertise levels</td><td>Collapsible panels + compact/detailed view toggle</td><td>Reduce cognitive load without sacrificing depth</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="cs-section">
+        <h2>Design Process</h2>
+
+        <h3>Navigating 16 iterations</h3>
+        <p>This wasn't a linear path from wireframe to final design. We explored 16 distinct iterations of the filtering and data retrieval system, each tested and refined based on usability feedback and stakeholder input.</p>
+        <p>A key challenge throughout was managing scope. Stakeholders frequently introduced new requirements mid-process, and some team members joined late without full context, which created misalignment. To address this, I established a structured argumentation framework for design decisions — every proposed change had to be tied to a specific research insight or usability finding. This gave the team a shared reference point and helped me push back constructively when new requests risked undermining the core UX strategy.</p>
+
+        <h3>1. Hierarchical filter system</h3>
+        <p>The original interface presented all filters equally. I restructured them into two tiers: common filters (used in 80%+ of sessions) visible by default, and advanced filters accessible through a clearly labeled expandable section. Active filters remained visible as tags, so users always knew what was applied.</p>
+
+        <figure class="cs-img-block">
+          <img src="images/Ibermutua-4.png" alt="Before and after: the redesigned process query and filter interface">
+        </figure>
+
+        <h3>2. Saved searches</h3>
+        <p>This was the most requested feature across all user groups. I designed a dedicated saved searches panel with the ability to name, favorite, and quickly reapply filter configurations. The design had to balance visibility (users needed to find their saves quickly) with screen real estate (the panel couldn't compete with the data table for space).</p>
+
+        <h3>3. Persistent company context</h3>
+        <p>For third-party advisors managing multiple clients, losing track of the active company was a constant frustration. I anchored the company name in a persistent header element with subtle color-coding, so the active dataset was always visible regardless of where the user navigated.</p>
+
+        <h3>4. Flexible information density</h3>
+        <p>Different users needed different levels of detail. Rather than designing one layout that compromised for everyone, I introduced a collapsible side panel and a compact/detailed view toggle — letting users control their own workspace density based on their workflow needs.</p>
+
+        <figure class="cs-img-block">
+          <img src="images/Ibermutua-2.png" alt="The redesigned Ibermutua Digital Empresas — Process Query interface">
+        </figure>
+      </div>
+
+      <div class="cs-section">
+        <h2>Outcome & Current Status</h2>
+        <p>At the time I transitioned off the project, the design strategy and core UX patterns were established — including the filtering system, saved searches, persistent context, and flexible layout. The project continues in development, building on the design foundation I created.</p>
+
+        <h3>What the work achieved</h3>
+        <p>Stakeholder reception was strongly positive. The structured approach to design decisions — always grounding proposals in research findings — built trust with both the Product Manager and business stakeholders. Stakeholders who were also early adopters of the platform noted that the redesigned filtering experience changed how they interacted with the tool — tasks that previously required multiple attempts and manual workarounds became straightforward.</p>
+        <p>The UI patterns and components created for Empresas were designed to be reusable, contributing to consistency across Ibermutua's broader platform ecosystem. The argumentation framework I introduced for design decisions became the team's standard approach for evaluating UX proposals — a practice that continued after my involvement ended.</p>
+        <p>If I were to continue this project, the immediate next steps would be post-launch analytics to quantitatively validate the usability improvements, and extending the notification features that users consistently requested during research.</p>
+      </div>
+
+      <div class="cs-section">
+        <h2>Reflections</h2>
+        <div class="reflections-list">
+          <div class="reflection-item"><p><strong>Building on another team's research is its own skill.</strong> I inherited discovery work from another designer and had to translate their findings into actionable design strategy. Rather than re-running the research, I focused on synthesis and prioritization — identifying which insights had the highest design leverage.</p></div>
+          <div class="reflection-item"><p><strong>Scope management is a design responsibility.</strong> When stakeholders introduced new requirements mid-process, the instinct was to accommodate everything. I learned that part of the designer's job is protecting the user experience from well-intentioned scope expansion — and that doing this constructively, with evidence, earns more trust than simply saying "no."</p></div>
+          <div class="reflection-item"><p><strong>Designing for complexity doesn't mean showing complexity.</strong> The platform's data was inherently dense. The redesign wasn't about removing information — it was about giving users control over when and how that information appeared.</p></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <section class="next-cs">
+    <div class="container">
+      <p class="next-cs-label">Back to the beginning</p>
+      <div class="next-cs-card" onclick="navigate('adcenter')">
+        <div>
+          <p class="next-cs-title">ADCenter Design System</p>
+          <p class="next-cs-desc">Building a shared language between design and development — from fragmented UI to a unified system adopted across 5 products.</p>
+        </div>
+        <span class="next-arrow">→</span>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-body">
+        <div class="footer-left-col">
+          <span class="f-eyebrow">Get in touch</span>
+          <h2 class="footer-headline">Let's start<br>creating together</h2>
+          <a href="javascript:void(0)" onclick="navigate('contact')" class="footer-cta-btn">Let's talk <span style="font-size:14px">↗</span></a>
+        </div>
+        <div class="footer-right-col">
+          <ul class="footer-nav-list">
+            <li><a onclick="navigate('home')">Home</a></li>
+            <li><a onclick="navigate('home'); setTimeout(()=>{document.getElementById('work').scrollIntoView({behavior:'smooth'})},80)">Work</a></li>
+            <li><a onclick="navigate('about')">About</a></li>
+            <li><a onclick="navigate('contact')">Contact</a></li>
+          </ul>
+          <ul class="footer-ext-list">
+            <li><a href="https://linkedin.com/in/valeria-lamicq" target="_blank">LinkedIn <span class="f-arrow">↗</span></a></li>
+            <li><a href="CV Valeria Lamicq.pdf" download="CV Valeria Lamicq.pdf" target="_blank" rel="noopener noreferrer">Download CV <span class="f-arrow">↗</span></a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Valeria Lamicq</span>
+        <span>Senior Product Designer</span>
+      </div>
+    </div>
+  </footer>
+
+</div><!-- /page-ibermutua -->
+
+
+<!-- ════════════════════════════════════════════════════
+     CASE STUDY — AVIRE
+════════════════════════════════════════════════════ -->
+<div class="page" id="page-avire">
+
+  <section class="cs-header">
+    <div class="container">
+      <span class="cs-back" onclick="navigate('home')">← Back to work</span>
+      <h1>Avire: Redefining a Global Digital Presence</h1>
+      <p class="one-liner">Unifying a fragmented global website into one scalable platform — built to serve engineers on job sites, consultants navigating compliance, and building managers across multiple markets simultaneously.</p>
+      <div class="cs-meta">
+        <div class="cs-meta-item"><label>Role</label><span>Product Designer — led UI design and implementation strategy</span></div>
+        <div class="cs-meta-item"><label>Team</label><span>Lead Designer, PMs, Dev Team, Global Marketing</span></div>
+        <div class="cs-meta-item"><label>Tools</label><span>Figma, Notion</span></div>
+        <div class="cs-meta-item"><label>Timeline</label><span>6 months</span></div>
+        <div class="cs-meta-item"><label>Scope</label><span>Global website redesign across multiple markets</span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="cs-hero-img" style="background:#F0EDE8;">
+      <img src="images/Avire-4.png" alt="Avire — redesigned mobile experience across screens">
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="cs-body">
+
+      <div class="cs-section">
+        <h2>The Challenge</h2>
+        <p>Avire is a global elevator product supplier that had recently consolidated multiple sub-brands under one identity. The business had unified — but the website hadn't. What users experienced was a fragmented digital presence: regional inconsistencies, buried information, slow performance, and no mobile optimization.</p>
+        <p>The impact was tangible. Engineers and installers — Avire's most technical users — preferred calling support rather than navigating the website to find what they needed. The marketing team couldn't update content without developer involvement, creating bottlenecks that slowed every campaign. And with future acquisitions likely, the platform needed to scale in ways the current architecture couldn't support.</p>
+        <p>This wasn't a cosmetic redesign. Avire's website functioned as a compliance guide, an educational hub, and a sales tool simultaneously. The challenge was to build one platform that served all of these purposes, felt relevant across global markets, and could be managed independently by non-technical teams.</p>
+      </div>
+
+      <div class="cs-section">
+        <h2>Understanding the Users</h2>
+        <p>We conducted stakeholder interviews and competitor analysis across key markets to understand who the platform needed to serve and where the current experience was failing them.</p>
+
+        <h3>Lift Consultants</h3>
+        <p>Guided architects and property owners through compliance decisions. They needed fast access to up-to-date standards and spec sheets — and the current site buried this information under layers of navigation.</p>
+
+        <h3>Facility Managers and Building Owners</h3>
+        <p>Responsible for maintaining lifts but often with limited technical knowledge. They needed plain-language explanations, not engineering documentation.</p>
+
+        <h3>Engineers and Installers</h3>
+        <p>The heaviest users — and the most frustrated. Time-pressed and often on-site, they needed quick, mobile-friendly access to installation guides, troubleshooting resources, and video tutorials. Instead, they called support.</p>
+
+        <div class="callout">
+          <p>The research surfaced a critical tension: the site had to function as both a brand hub (for consultants and decision-makers) and a technical tool (for engineers and installers). These audiences had fundamentally different needs — polish and credibility vs. speed and clarity. Any solution had to serve both without compromising either. This tension between global coherence and local relevance became the defining design challenge of the project.</p>
+        </div>
+
+        <figure class="cs-img-block">
+          <img src="images/Avire-3.png" alt="Avire product catalog and MEMCO compliance section">
+        </figure>
+      </div>
+
+      <div class="cs-section">
+        <h2>Design Strategy</h2>
+        <p>Working closely with the Lead Designer, I shaped the design direction around three principles:</p>
+
+        <ul>
+          <li><strong>Clarity for users</strong> — Simplify the information architecture so users could find what they needed with fewer clicks. We restructured navigation around user intent ("Install," "Maintain," "Comply") rather than Avire's internal product taxonomy.</li>
+          <li><strong>Efficiency for teams</strong> — Give the marketing team CMS autonomy so they could update content across regions without developer dependencies.</li>
+          <li><strong>Scalability for the business</strong> — Build a modular component system with localized templates and regional content flexibility, so new markets or sub-brands could be added without redesigning the platform.</li>
+        </ul>
+
+        <h3>Region-specific customization</h3>
+        <p>Rather than building separate sites per market, I designed a single platform with dynamic regional content. Users see information relevant to their location, while the underlying structure and design language remain consistent globally.</p>
+
+        <h3>Task-based navigation</h3>
+        <p>The old site organized content by product category. I restructured it around what users actually came to do — install, maintain, comply, purchase. This reduced navigation depth and aligned the IA with user mental models.</p>
+
+        <h3>Self-service resource hub</h3>
+        <p>Engineers were calling support because finding resources on the site was harder than picking up the phone. I designed a centralized resource library with clear categorization — installation guides, compliance documents, and video tutorials — all searchable and filterable.</p>
+
+        <figure class="cs-img-block">
+          <img src="images/Avire-5.png" alt="Avire EU Standards — Lift Light Curtains compliance page">
+        </figure>
+
+        <h3>Mobile-first approach</h3>
+        <p>Engineers and installers access the site from job sites, not desks. Every layout decision prioritized mobile usability — fast loading, thumb-friendly navigation, and content hierarchy optimized for small screens.</p>
+
+        <h3>CMS-friendly component system</h3>
+        <p>I designed modular, flexible sections that marketing could update independently without touching the underlying code. This wasn't just a design decision — it was an operational one that removed the marketing-to-dev bottleneck entirely.</p>
+
+        <figure class="cs-img-block">
+          <img src="images/Avire-2.png" alt="Avire platform — full scope of screens across homepage, products, compliance, resources, and contact">
+        </figure>
+      </div>
+
+      <div class="cs-section">
+        <h2>Testing and Iteration</h2>
+        <p>After development, we ran usability tests across regions to validate the design against real user behavior.</p>
+
+        <h3>What testing revealed</h3>
+        <ul>
+          <li>Navigation taxonomy needed further simplification — we refined it by approximately 35%, removing redundant categories and consolidating related content.</li>
+          <li>Non-technical users (facility managers) struggled with terminology we hadn't questioned. Labels and descriptions that felt clear to engineers read as jargon to building owners — we revised copy across key sections to use plain language.</li>
+          <li>Resource categorization needed clearer labels — engineers expected to filter by task type, not document format.</li>
+          <li>Regional content filters needed more prominent placement for users managing compliance across multiple markets.</li>
+        </ul>
+      </div>
+
+      <div class="cs-section">
+        <h2>Impact</h2>
+        <table class="impact-table">
+          <thead>
+            <tr><th>Metric</th><th>Result</th><th>Context</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Content update speed</td><td class="metric-highlight">70% faster</td><td>Marketing team can now publish without dev cycles</td></tr>
+            <tr><td>Time-to-content</td><td class="metric-highlight">~40% faster</td><td>Users find information with fewer clicks and less scrolling</td></tr>
+            <tr><td>Resource engagement</td><td class="metric-highlight">Video views doubled</td><td>Resource hub centralized content that was previously scattered</td></tr>
+            <tr><td>Support call volume</td><td class="metric-highlight">Decreased</td><td>Engineers found troubleshooting guides more easily on-site</td></tr>
+            <tr><td>Mobile retention</td><td class="metric-highlight">Improved significantly</td><td>Mobile-first design kept on-site users engaged</td></tr>
+            <tr><td>User satisfaction</td><td class="metric-highlight">Positive feedback</td><td>Streamlined interface addressed core frustrations</td></tr>
+          </tbody>
+        </table>
+        <p style="font-size:13px; color:var(--muted); font-style:italic;">Some metrics are based on post-launch analytics; others are approximate based on stakeholder feedback and observation.</p>
+      </div>
+
+      <div class="cs-section">
+        <h2>Reflections</h2>
+        <div class="reflections-list">
+          <div class="reflection-item"><p><strong>Designing for two audiences at once requires clear principles, not compromise.</strong> The brand hub vs. technical tool tension could have led to a design that did neither well. Task-based navigation was the key insight — it let both audiences find their own path without the platform trying to be two different things.</p></div>
+          <div class="reflection-item"><p><strong>Regional content flexibility is a design problem, not just a CMS problem.</strong> The challenge wasn't just "can marketing swap out content per region" — it was designing layouts and components that remained coherent whether they contained UK compliance standards or Asian market product specs. Global consistency with local relevance had to be designed into the system, not bolted on.</p></div>
+          <div class="reflection-item"><p><strong>Scalability means designing for the company's future, not just its present.</strong> Knowing that acquisitions were likely, every structural decision had to pass the test: "Will this still work when Avire adds another sub-brand?" That constraint pushed us toward modularity at every level.</p></div>
+          <div class="reflection-item"><p><strong>Bringing UI depth to a strategic project multiplies impact.</strong> My strongest contribution was translating strategic direction into concrete, production-ready design decisions — the component system, the responsive layouts, the regional content architecture. Strategy without execution stays abstract; this project reinforced that the ability to move fluently between both is what makes collaborative design work.</p></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <section class="next-cs">
+    <div class="container">
+      <p class="next-cs-label">One more project</p>
+      <div class="next-cs-card next-cs-card--locked" onclick="safeNavigate('ibermutua')">
+        <div>
+          <p class="next-cs-lock-badge">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            Password protected
+          </p>
+          <p class="next-cs-title">Ibermutua Digital Empresas</p>
+          <p class="next-cs-desc">Redesigning an enterprise data platform so HR professionals could stop fighting the interface and start making decisions.</p>
+        </div>
+        <span class="next-arrow">→</span>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-body">
+        <div class="footer-left-col">
+          <span class="f-eyebrow">Get in touch</span>
+          <h2 class="footer-headline">Let's start<br>creating together</h2>
+          <a href="javascript:void(0)" onclick="navigate('contact')" class="footer-cta-btn">Let's talk <span style="font-size:14px">↗</span></a>
+        </div>
+        <div class="footer-right-col">
+          <ul class="footer-nav-list">
+            <li><a onclick="navigate('home')">Home</a></li>
+            <li><a onclick="navigate('home'); setTimeout(()=>{document.getElementById('work').scrollIntoView({behavior:'smooth'})},80)">Work</a></li>
+            <li><a onclick="navigate('about')">About</a></li>
+            <li><a onclick="navigate('contact')">Contact</a></li>
+          </ul>
+          <ul class="footer-ext-list">
+            <li><a href="https://linkedin.com/in/valeria-lamicq" target="_blank">LinkedIn <span class="f-arrow">↗</span></a></li>
+            <li><a href="CV Valeria Lamicq.pdf" download="CV Valeria Lamicq.pdf" target="_blank" rel="noopener noreferrer">Download CV <span class="f-arrow">↗</span></a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Valeria Lamicq</span>
+        <span>Senior Product Designer</span>
+      </div>
+    </div>
+  </footer>
+
+</div><!-- /page-avire -->
+
+
+<!-- ════════════════════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════════════════ -->
+<script>
+  /* ─── Page router ─── */
+  const routes = {
+    home:       'page-home',
+    about:      'page-about',
+    contact:    'page-contact',
+    adcenter:   'page-adcenter',
+    dnum:       'page-dnum',
+    ibermutua:  'page-ibermutua',
+    avire:      'page-avire'
+  };
+
+  // Routes that require password authentication
+  const LOCKED_ROUTES = new Set(['dnum', 'ibermutua']);
+  // Tracks which locked routes have been unlocked in this session
+  const unlockedRoutes = new Set();
+  // Holds the intended destination when the lock modal is triggered mid-navigation
+  let pendingLockedRoute = null;
+
+  // Bare navigate — always goes to the page. Only call this after auth is confirmed.
+  function navigate(route) {
+    Object.values(routes).forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.classList.remove('active');
+    });
+    const target = routes[route] || routes.home;
+    const page = document.getElementById(target);
+    if (page) page.classList.add('active');
+    window.location.hash = route === 'home' ? '' : route;
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    updateNavState(route);
+    // Reset nav scroll state on navigation
+    document.getElementById('main-nav').classList.remove('scrolled');
+  }
+
+  // Safe navigate — intercepts locked routes and shows the password gate.
+  function safeNavigate(route) {
+    if (LOCKED_ROUTES.has(route) && !unlockedRoutes.has(route)) {
+      openLockModal(route);
+      return;
+    }
+    navigate(route);
+  }
+
+  function updateNavState(route) {
+    document.getElementById('nav-work').classList.toggle('active', route === 'home');
+    document.getElementById('nav-about').classList.toggle('active', route === 'about');
+    document.getElementById('nav-contact').classList.toggle('active', route === 'contact');
+  }
+
+  function handleHash() {
+    const hash = window.location.hash.replace('#', '').trim();
+    const route = hash && routes[hash] ? hash : 'home';
+    // Block direct hash access to locked routes
+    if (LOCKED_ROUTES.has(route) && !unlockedRoutes.has(route)) {
+      navigate('home');
+      openLockModal(route);
+      return;
+    }
+    navigate(route);
+  }
+
+  window.addEventListener('hashchange', handleHash);
+  window.addEventListener('load', handleHash);
+
+  /* ─── Sticky nav: add class on scroll ─── */
+  window.addEventListener('scroll', () => {
+    const nav = document.getElementById('main-nav');
+    if (window.scrollY > 24) {
+      nav.classList.add('scrolled');
+    } else {
+      nav.classList.remove('scrolled');
+    }
+  }, { passive: true });
+
+  /* ─── Mobile menu ─── */
+  function toggleMenu() {
+    const overlay = document.getElementById('mobile-overlay');
+    const burger  = document.getElementById('nav-hamburger');
+    const isOpen  = overlay.classList.contains('open');
+    overlay.classList.toggle('open', !isOpen);
+    burger.classList.toggle('open', !isOpen);
+    document.body.style.overflow = isOpen ? '' : 'hidden';
+  }
+
+  function closeMobileMenu() {
+    document.getElementById('mobile-overlay').classList.remove('open');
+    document.getElementById('nav-hamburger').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // Close mobile menu on Escape
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      closeMobileMenu();
+      closeLockModal();
+    }
+  });
+
+  /* ─── Lock modal ─── */
+  // Per-route passwords — change these to whatever you prefer
+  const LOCK_PASSWORDS = { dnum: 'dnum', ibermutua: 'ibermutua' };
+
+  // Opens the lock modal and remembers which route to navigate to on success.
+  function openLockModal(targetRoute) {
+    pendingLockedRoute = targetRoute || 'ibermutua';
+    const modal = document.getElementById('lock-modal');
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    // Focus input after animation
+    setTimeout(() => {
+      const input = document.getElementById('lock-pw-input');
+      if (input) input.focus();
+    }, 350);
+  }
+
+  function closeLockModal() {
+    const modal = document.getElementById('lock-modal');
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+    // Reset state
+    const input = document.getElementById('lock-pw-input');
+    const err   = document.getElementById('lock-error-msg');
+    if (input) { input.value = ''; input.classList.remove('shake'); }
+    if (err)   err.classList.remove('visible');
+    pendingLockedRoute = null;
+  }
+
+  function checkPassword() {
+    const input = document.getElementById('lock-pw-input');
+    const err   = document.getElementById('lock-error-msg');
+    const val   = input.value.trim().toLowerCase();
+
+    const dest = pendingLockedRoute || 'ibermutua';
+    if (val === (LOCK_PASSWORDS[dest] || 'ibermutua')) {
+      // Success — mark route as unlocked for this session, then navigate
+      unlockedRoutes.add(dest);
+      closeLockModal();
+      navigate(dest);
+    } else {
+      // Error — shake + show message
+      input.classList.remove('shake');
+      void input.offsetWidth; // reflow to restart animation
+      input.classList.add('shake');
+      err.classList.add('visible');
+      input.value = '';
+      input.focus();
+    }
+  }
+
+</script>
+</body>
+</html>

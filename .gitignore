@@ -1,0 +1,10 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Working notes & drafts (not part of the deployed site)
+*.md
+carpeta sin título/
+portfolio-eval-review-iteration-1.html
+use-case-guru.skill
