@@ -1091,30 +1091,6 @@
 
   .contact-secondary a:hover { color: var(--text); }
 
-  .contact-divider {
-    width: 100%;
-    height: 1px;
-    background: var(--border);
-    margin: 64px 0;
-  }
-
-  .contact-availability {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 13px;
-    font-weight: 300;
-    color: var(--muted);
-  }
-
-  .contact-avail-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: #22C55E;
-    flex-shrink: 0;
-    animation: blink 3s ease-in-out infinite;
-  }
 
   /* ══════════════════════════════════
      CASE STUDY PAGES
@@ -1612,14 +1588,14 @@
 ════════════════════════════════════════════════════ -->
 <nav id="main-nav">
   <div class="nav-inner">
-    <span class="nav-logo" onclick="navigate('home')">
+    <a href="/" class="nav-logo" onclick="navigate('home'); return false;">
       <span class="nav-avail-dot" title="Available for new projects"></span>
       Valeria Lamicq
-    </span>
+    </a>
     <div class="nav-links">
-      <a onclick="navigate('home')" id="nav-work">Work</a>
-      <a onclick="navigate('about')" id="nav-about">About</a>
-      <a onclick="navigate('contact')" id="nav-contact">Contact</a>
+      <a href="/" onclick="navigate('home'); return false;" id="nav-work">Work</a>
+      <a href="/about" onclick="navigate('about'); return false;" id="nav-about">About</a>
+      <a href="/contact" onclick="navigate('contact'); return false;" id="nav-contact">Contact</a>
     </div>
     <button class="nav-hamburger" id="nav-hamburger" onclick="toggleMenu()" aria-label="Menu">
       <span></span><span></span><span></span>
@@ -1632,9 +1608,9 @@
 ════════════════════════════════════════════════════ -->
 <div class="mobile-overlay" id="mobile-overlay">
   <div class="mobile-overlay-links">
-    <a onclick="navigate('home'); closeMobileMenu()">Work</a>
-    <a onclick="navigate('about'); closeMobileMenu()">About</a>
-    <a onclick="navigate('contact'); closeMobileMenu()">Contact</a>
+    <a href="/" onclick="navigate('home'); closeMobileMenu(); return false;">Work</a>
+    <a href="/about" onclick="navigate('about'); closeMobileMenu(); return false;">About</a>
+    <a href="/contact" onclick="navigate('contact'); closeMobileMenu(); return false;">Contact</a>
   </div>
   <div class="mobile-overlay-foot">
     <a href="https://linkedin.com/in/valeria-lamicq" target="_blank">LinkedIn ↗</a>
@@ -1815,17 +1791,17 @@
         <div class="footer-left-col">
           <span class="f-eyebrow">Get in touch</span>
           <h2 class="footer-headline">Let's start<br>creating together</h2>
-          <a href="javascript:void(0)" onclick="navigate('contact')" class="footer-cta-btn">
+          <a href="/contact" onclick="navigate('contact'); return false;" class="footer-cta-btn">
             Let's talk
             <span style="font-size:14px">↗</span>
           </a>
         </div>
         <div class="footer-right-col">
           <ul class="footer-nav-list">
-            <li><a onclick="navigate('home')">Home</a></li>
-            <li><a onclick="navigate('home'); setTimeout(()=>{document.getElementById('work').scrollIntoView({behavior:'smooth'})},80)">Work</a></li>
-            <li><a onclick="navigate('about')">About</a></li>
-            <li><a onclick="navigate('contact')">Contact</a></li>
+            <li><a href="/" onclick="navigate('home'); return false;">Home</a></li>
+            <li><a href="/" onclick="navigate('home'); setTimeout(()=>{document.getElementById('work').scrollIntoView({behavior:'smooth'})},80); return false;">Work</a></li>
+            <li><a href="/about" onclick="navigate('about'); return false;">About</a></li>
+            <li><a href="/contact" onclick="navigate('contact'); return false;">Contact</a></li>
           </ul>
           <ul class="footer-ext-list">
             <li><a href="https://linkedin.com/in/valeria-lamicq" target="_blank">LinkedIn <span class="f-arrow">↗</span></a></li>
@@ -1976,14 +1952,14 @@
         <div class="footer-left-col">
           <span class="f-eyebrow">Get in touch</span>
           <h2 class="footer-headline">Let's start<br>creating together</h2>
-          <a href="javascript:void(0)" onclick="navigate('contact')" class="footer-cta-btn">Let's talk <span style="font-size:14px">↗</span></a>
+          <a href="/contact" onclick="navigate('contact'); return false;" class="footer-cta-btn">Let's talk <span style="font-size:14px">↗</span></a>
         </div>
         <div class="footer-right-col">
           <ul class="footer-nav-list">
-            <li><a onclick="navigate('home')">Home</a></li>
-            <li><a onclick="navigate('home'); setTimeout(()=>{document.getElementById('work').scrollIntoView({behavior:'smooth'})},80)">Work</a></li>
-            <li><a onclick="navigate('about')">About</a></li>
-            <li><a onclick="navigate('contact')">Contact</a></li>
+            <li><a href="/" onclick="navigate('home'); return false;">Home</a></li>
+            <li><a href="/" onclick="navigate('home'); setTimeout(()=>{document.getElementById('work').scrollIntoView({behavior:'smooth'})},80); return false;">Work</a></li>
+            <li><a href="/about" onclick="navigate('about'); return false;">About</a></li>
+            <li><a href="/contact" onclick="navigate('contact'); return false;">Contact</a></li>
           </ul>
           <ul class="footer-ext-list">
             <li><a href="https://linkedin.com/in/valeria-lamicq" target="_blank">LinkedIn <span class="f-arrow">↗</span></a></li>
@@ -2029,13 +2005,6 @@
           Download CV
           <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M7 7h10v10"/></svg>
         </a>
-      </div>
-
-      <div class="contact-divider"></div>
-
-      <div class="contact-availability">
-        <span class="contact-avail-dot"></span>
-        Currently open to senior product design opportunities
       </div>
 
     </div>
@@ -2198,14 +2167,14 @@
         <div class="footer-left-col">
           <span class="f-eyebrow">Get in touch</span>
           <h2 class="footer-headline">Let's start<br>creating together</h2>
-          <a href="javascript:void(0)" onclick="navigate('contact')" class="footer-cta-btn">Let's talk <span style="font-size:14px">↗</span></a>
+          <a href="/contact" onclick="navigate('contact'); return false;" class="footer-cta-btn">Let's talk <span style="font-size:14px">↗</span></a>
         </div>
         <div class="footer-right-col">
           <ul class="footer-nav-list">
-            <li><a onclick="navigate('home')">Home</a></li>
-            <li><a onclick="navigate('home'); setTimeout(()=>{document.getElementById('work').scrollIntoView({behavior:'smooth'})},80)">Work</a></li>
-            <li><a onclick="navigate('about')">About</a></li>
-            <li><a onclick="navigate('contact')">Contact</a></li>
+            <li><a href="/" onclick="navigate('home'); return false;">Home</a></li>
+            <li><a href="/" onclick="navigate('home'); setTimeout(()=>{document.getElementById('work').scrollIntoView({behavior:'smooth'})},80); return false;">Work</a></li>
+            <li><a href="/about" onclick="navigate('about'); return false;">About</a></li>
+            <li><a href="/contact" onclick="navigate('contact'); return false;">Contact</a></li>
           </ul>
           <ul class="footer-ext-list">
             <li><a href="https://linkedin.com/in/valeria-lamicq" target="_blank">LinkedIn <span class="f-arrow">↗</span></a></li>
@@ -2377,14 +2346,14 @@
         <div class="footer-left-col">
           <span class="f-eyebrow">Get in touch</span>
           <h2 class="footer-headline">Let's start<br>creating together</h2>
-          <a href="javascript:void(0)" onclick="navigate('contact')" class="footer-cta-btn">Let's talk <span style="font-size:14px">↗</span></a>
+          <a href="/contact" onclick="navigate('contact'); return false;" class="footer-cta-btn">Let's talk <span style="font-size:14px">↗</span></a>
         </div>
         <div class="footer-right-col">
           <ul class="footer-nav-list">
-            <li><a onclick="navigate('home')">Home</a></li>
-            <li><a onclick="navigate('home'); setTimeout(()=>{document.getElementById('work').scrollIntoView({behavior:'smooth'})},80)">Work</a></li>
-            <li><a onclick="navigate('about')">About</a></li>
-            <li><a onclick="navigate('contact')">Contact</a></li>
+            <li><a href="/" onclick="navigate('home'); return false;">Home</a></li>
+            <li><a href="/" onclick="navigate('home'); setTimeout(()=>{document.getElementById('work').scrollIntoView({behavior:'smooth'})},80); return false;">Work</a></li>
+            <li><a href="/about" onclick="navigate('about'); return false;">About</a></li>
+            <li><a href="/contact" onclick="navigate('contact'); return false;">Contact</a></li>
           </ul>
           <ul class="footer-ext-list">
             <li><a href="https://linkedin.com/in/valeria-lamicq" target="_blank">LinkedIn <span class="f-arrow">↗</span></a></li>
@@ -2552,14 +2521,14 @@
         <div class="footer-left-col">
           <span class="f-eyebrow">Get in touch</span>
           <h2 class="footer-headline">Let's start<br>creating together</h2>
-          <a href="javascript:void(0)" onclick="navigate('contact')" class="footer-cta-btn">Let's talk <span style="font-size:14px">↗</span></a>
+          <a href="/contact" onclick="navigate('contact'); return false;" class="footer-cta-btn">Let's talk <span style="font-size:14px">↗</span></a>
         </div>
         <div class="footer-right-col">
           <ul class="footer-nav-list">
-            <li><a onclick="navigate('home')">Home</a></li>
-            <li><a onclick="navigate('home'); setTimeout(()=>{document.getElementById('work').scrollIntoView({behavior:'smooth'})},80)">Work</a></li>
-            <li><a onclick="navigate('about')">About</a></li>
-            <li><a onclick="navigate('contact')">Contact</a></li>
+            <li><a href="/" onclick="navigate('home'); return false;">Home</a></li>
+            <li><a href="/" onclick="navigate('home'); setTimeout(()=>{document.getElementById('work').scrollIntoView({behavior:'smooth'})},80); return false;">Work</a></li>
+            <li><a href="/about" onclick="navigate('about'); return false;">About</a></li>
+            <li><a href="/contact" onclick="navigate('contact'); return false;">Contact</a></li>
           </ul>
           <ul class="footer-ext-list">
             <li><a href="https://linkedin.com/in/valeria-lamicq" target="_blank">LinkedIn <span class="f-arrow">↗</span></a></li>
@@ -2736,14 +2705,14 @@
         <div class="footer-left-col">
           <span class="f-eyebrow">Get in touch</span>
           <h2 class="footer-headline">Let's start<br>creating together</h2>
-          <a href="javascript:void(0)" onclick="navigate('contact')" class="footer-cta-btn">Let's talk <span style="font-size:14px">↗</span></a>
+          <a href="/contact" onclick="navigate('contact'); return false;" class="footer-cta-btn">Let's talk <span style="font-size:14px">↗</span></a>
         </div>
         <div class="footer-right-col">
           <ul class="footer-nav-list">
-            <li><a onclick="navigate('home')">Home</a></li>
-            <li><a onclick="navigate('home'); setTimeout(()=>{document.getElementById('work').scrollIntoView({behavior:'smooth'})},80)">Work</a></li>
-            <li><a onclick="navigate('about')">About</a></li>
-            <li><a onclick="navigate('contact')">Contact</a></li>
+            <li><a href="/" onclick="navigate('home'); return false;">Home</a></li>
+            <li><a href="/" onclick="navigate('home'); setTimeout(()=>{document.getElementById('work').scrollIntoView({behavior:'smooth'})},80); return false;">Work</a></li>
+            <li><a href="/about" onclick="navigate('about'); return false;">About</a></li>
+            <li><a href="/contact" onclick="navigate('contact'); return false;">Contact</a></li>
           </ul>
           <ul class="footer-ext-list">
             <li><a href="https://linkedin.com/in/valeria-lamicq" target="_blank">LinkedIn <span class="f-arrow">↗</span></a></li>
@@ -2783,8 +2752,8 @@
   // Holds the intended destination when the lock modal is triggered mid-navigation
   let pendingLockedRoute = null;
 
-  // Bare navigate — always goes to the page. Only call this after auth is confirmed.
-  function navigate(route) {
+  // Renders a route's page without touching browser history (used by navigate + popstate + initial load).
+  function renderRoute(route) {
     Object.values(routes).forEach(id => {
       const el = document.getElementById(id);
       if (el) el.classList.remove('active');
@@ -2792,11 +2761,20 @@
     const target = routes[route] || routes.home;
     const page = document.getElementById(target);
     if (page) page.classList.add('active');
-    window.location.hash = route === 'home' ? '' : route;
     window.scrollTo({ top: 0, behavior: 'instant' });
     updateNavState(route);
     // Reset nav scroll state on navigation
     document.getElementById('main-nav').classList.remove('scrolled');
+  }
+
+  // Bare navigate — always goes to the page. Only call this after auth is confirmed.
+  // Updates the URL to a clean path (no hash) via the History API.
+  function navigate(route) {
+    const path = route === 'home' ? '/' : '/' + route;
+    if (window.location.pathname !== path) {
+      history.pushState({ route }, '', path);
+    }
+    renderRoute(route);
   }
 
   // Safe navigate — intercepts locked routes and shows the password gate.
@@ -2814,20 +2792,48 @@
     document.getElementById('nav-contact').classList.toggle('active', route === 'contact');
   }
 
-  function handleHash() {
-    const hash = window.location.hash.replace('#', '').trim();
-    const route = hash && routes[hash] ? hash : 'home';
-    // Block direct hash access to locked routes
+  // Reads the current route from the URL path (e.g. "/about" -> "about").
+  function getRouteFromPath() {
+    const path = window.location.pathname.replace(/^\/+|\/+$/g, '').trim();
+    return path && routes[path] ? path : 'home';
+  }
+
+  // Browser Back/Forward — the URL has already changed, so just re-render.
+  function handlePopState() {
+    const route = getRouteFromPath();
     if (LOCKED_ROUTES.has(route) && !unlockedRoutes.has(route)) {
-      navigate('home');
+      history.replaceState({ route: 'home' }, '', '/');
+      renderRoute('home');
       openLockModal(route);
       return;
     }
-    navigate(route);
+    renderRoute(route);
   }
 
-  window.addEventListener('hashchange', handleHash);
-  window.addEventListener('load', handleHash);
+  // Initial load — supports deep links and refreshes on clean paths like /about.
+  function initRoute() {
+    let route = getRouteFromPath();
+    // Backward compatibility: redirect old hash-style links (e.g. /#about) to the clean path.
+    if (route === 'home' && window.location.hash) {
+      const legacyHash = window.location.hash.replace('#', '').trim();
+      if (legacyHash && routes[legacyHash]) route = legacyHash;
+    }
+    if (LOCKED_ROUTES.has(route) && !unlockedRoutes.has(route)) {
+      history.replaceState({ route: 'home' }, '', '/');
+      renderRoute('home');
+      openLockModal(route);
+      return;
+    }
+    // Normalize the URL (trailing slash, unknown path, legacy hash) to the canonical clean path.
+    const canonical = route === 'home' ? '/' : '/' + route;
+    if (window.location.pathname !== canonical || window.location.hash) {
+      history.replaceState({ route }, '', canonical);
+    }
+    renderRoute(route);
+  }
+
+  window.addEventListener('popstate', handlePopState);
+  window.addEventListener('load', initRoute);
 
   /* ─── Sticky nav: add class on scroll ─── */
   window.addEventListener('scroll', () => {
