@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Avire — Global Digital Presence — V2 Draft</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #F9F8F6; --bg-card: #F0EFEC; --bg-dark: #1E1E1C;
+      --text: #1A1A1A; --muted: #737373; --border: #E3E2DF;
+      --green: #22C55E; --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    body { font-family: var(--font); background: var(--bg); color: var(--text); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; }
+
+    /* NAV */
+    .cs2-nav { position: sticky; top: 0; z-index: 100; background: rgba(249,248,246,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 40px; height: 56px; display: flex; align-items: center; justify-content: space-between; }
+    .cs2-nav-back { font-size: 13px; color: var(--muted); cursor: pointer; display: flex; align-items: center; gap: 6px; transition: color 0.2s; }
+    .cs2-nav-back:hover { color: var(--text); }
+    .cs2-nav-title { font-size: 13px; color: var(--muted); }
+
+    /* HERO */
+    .cs2-hero { padding: 72px 40px 56px; max-width: 1140px; margin: 0 auto; }
+    .cs2-eyebrow { font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; }
+    .cs2-hero h1 { font-size: clamp(26px, 3.2vw, 44px); font-weight: 400; line-height: 1.15; letter-spacing: -0.02em; max-width: 700px; margin-bottom: 22px; }
+    .cs2-hero-sub { font-size: 17px; font-weight: 300; color: var(--muted); max-width: 580px; line-height: 1.65; margin-bottom: 40px; }
+    .cs2-meta-row { display: flex; flex-wrap: wrap; gap: 32px; padding: 28px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .cs2-meta-item label { display: block; font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+    .cs2-meta-item span { font-size: 14px; font-weight: 400; }
+
+    /* HERO IMAGE */
+    .cs2-hero-img-wrap { max-width: 1140px; margin: 0 auto; padding: 0 40px; }
+    .cs2-hero-img { width: 100%; border-radius: 12px; overflow: hidden; cursor: zoom-in; }
+    .cs2-hero-img img { width: 100%; transition: opacity 0.2s; }
+    .cs2-hero-img:hover img { opacity: 0.9; }
+
+    /* LAYOUT */
+    .cs2-layout { max-width: 1140px; margin: 0 auto; padding: 72px 40px 0; display: grid; grid-template-columns: 200px 1fr; gap: 0 72px; align-items: start; }
+
+    /* TOC */
+    .cs2-toc { position: sticky; top: 72px; }
+    .cs2-toc-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 16px; padding-left: 16px; }
+    .cs2-toc ul { list-style: none; display: flex; flex-direction: column; position: relative; }
+    .cs2-toc ul::before { content: ''; position: absolute; left: 0; top: 4px; bottom: 4px; width: 1px; background: var(--border); }
+    .cs2-toc a { display: block; font-size: 12px; color: var(--muted); padding: 7px 0 7px 16px; transition: color 0.2s; line-height: 1.4; cursor: pointer; position: relative; }
+    .cs2-toc a::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 0; background: var(--green); border-radius: 0 1px 1px 0; transition: width 0.18s ease; z-index: 1; }
+    .cs2-toc a:hover { color: var(--text); }
+    .cs2-toc a.active { color: var(--text); font-weight: 500; }
+    .cs2-toc a.active::before { width: 2px; }
+
+    /* CONTENT */
+    .cs2-content { min-width: 0; }
+    .cs2-section { padding: 72px 0; border-top: 1px solid var(--border); }
+    .cs2-section:first-child { border-top: none; padding-top: 0; }
+    .cs2-section-label { display: none; }
+    .cs2-section h2 { font-size: 24px; font-weight: 400; letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 24px; }
+    .cs2-section h3 { font-size: 14px; font-weight: 500; margin-bottom: 14px; margin-top: 36px; }
+    .cs2-section p { font-size: 15px; font-weight: 300; line-height: 1.75; color: var(--text); margin-bottom: 18px; font-family: var(--font); }
+    .cs2-section p:last-child { margin-bottom: 0; }
+
+    /* PERSONA CARDS */
+    .persona-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 24px 0; }
+    .persona-card { border: 1px solid var(--border); border-radius: 10px; padding: 20px 22px; }
+    .persona-role { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+    .persona-card h4 { font-size: 13px; font-weight: 500; margin-bottom: 8px; line-height: 1.3; }
+    .persona-card p { font-size: 13px; color: var(--muted); line-height: 1.5; margin: 0; }
+
+    /* INSIGHT BLOCK */
+    .cs2-insight { background: var(--bg-dark); color: white; border-radius: 12px; padding: 36px; margin: 32px 0; }
+    .cs2-insight-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.65); margin-bottom: 14px; }
+    .cs2-insight p { font-size: 15px; font-weight: 300; line-height: 1.75; color: white; margin: 0; font-family: var(--font); }
+    .cs2-insight strong { font-weight: 500; color: white; }
+
+    /* PRINCIPLE CARDS */
+    .principle-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 28px 0; }
+    .principle-card { background: var(--bg-card); border-radius: 10px; padding: 22px; }
+    .principle-num { font-size: 28px; font-weight: 300; color: var(--muted); opacity: 0.35; line-height: 1; margin-bottom: 14px; letter-spacing: -0.03em; font-family: var(--font); }
+    .principle-card h4 { font-size: 13px; font-weight: 500; margin-bottom: 8px; line-height: 1.3; }
+    .principle-card p { font-size: 13px; color: var(--muted); line-height: 1.5; margin: 0; }
+
+    /* FINDING CARDS */
+    .finding-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 28px 0; }
+    .finding-card { border: 1px solid var(--border); border-radius: 10px; padding: 20px 22px; }
+    .finding-num { font-size: 11px; font-weight: 500; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 8px; text-transform: uppercase; }
+    .finding-card h4 { font-size: 13px; font-weight: 500; margin-bottom: 6px; }
+    .finding-card p { font-size: 13px; color: var(--muted); line-height: 1.5; margin: 0; }
+
+    /* METRICS */
+    .metrics-block { background: var(--bg-dark); border-radius: 14px; padding: 36px; margin: 32px 0; }
+    .metrics-block .metrics-block-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: white; margin-bottom: 24px; }
+    .metric-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: rgba(255,255,255,0.08); border-radius: 8px; overflow: hidden; }
+    .metric-card { background: var(--bg-dark); padding: 22px; }
+    .metric-val { font-size: 34px; font-weight: 400; color: white; letter-spacing: -0.03em; line-height: 1; margin-bottom: 6px; font-family: var(--font); }
+    .metric-lbl { font-size: 12px; color: rgba(255,255,255,0.75); margin-bottom: 8px; }
+    .metric-desc { font-size: 12px; color: rgba(255,255,255,0.65); line-height: 1.5; }
+    .metric-disclaimer { font-size: 12px; color: var(--muted); margin-top: 12px; line-height: 1.5; }
+
+    /* REFLECTIONS */
+    .cs2-reflection { margin-top: 32px; }
+    .cs2-reflection-item { padding: 28px 0; border-top: 1px solid var(--border); }
+    .cs2-reflection-item:last-child { border-bottom: 1px solid var(--border); }
+    .cs2-ref-num { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+    .cs2-reflection-item h3 { font-size: 15px; font-weight: 500; line-height: 1.4; margin-bottom: 12px; margin-top: 0; }
+    .cs2-reflection-item p { font-size: 15px; font-weight: 300; line-height: 1.75; color: var(--text); margin: 0; }
+
+    /* IMAGES */
+    .cs2-img { margin: 36px 0; }
+    .cs2-img-wrap { border-radius: 10px; overflow: hidden; cursor: zoom-in; }
+    .cs2-img-wrap img { width: 100%; display: block; transition: opacity 0.2s; }
+    .cs2-img-wrap:hover img { opacity: 0.92; }
+    .cs2-img-meta { margin-top: 10px; }
+    .cs2-img-cap { font-size: 13px; color: var(--muted); line-height: 1.5; font-weight: 300; }
+
+    /* LIGHTBOX */
+    .lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.88); z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px; opacity: 0; pointer-events: none; transition: opacity 0.25s; gap: 16px; }
+    .lightbox.open { opacity: 1; pointer-events: all; }
+    .lightbox img { max-width: 100%; max-height: 80vh; border-radius: 8px; object-fit: contain; }
+    .lightbox-close { position: absolute; top: 20px; right: 24px; background: none; border: none; color: rgba(255,255,255,0.5); font-size: 32px; cursor: pointer; line-height: 1; transition: color 0.2s; }
+    .lightbox-close:hover { color: white; }
+    .lb-caption { font-size: 13px; color: rgba(255,255,255,0.75); text-align: center; max-width: 640px; line-height: 1.5; font-family: var(--font); font-weight: 300; min-height: 1em; }
+
+    /* FOOTER SPACER */
+    .cs2-end { height: 120px; }
+
+    /* MOBILE */
+    @media (max-width: 900px) {
+      .cs2-layout { grid-template-columns: 1fr; padding: 40px 24px 0; }
+      .cs2-toc { display: none; }
+      .cs2-hero { padding: 48px 24px 40px; }
+      .cs2-hero-img-wrap { padding: 0 24px; }
+      .cs2-nav { padding: 0 24px; }
+      .persona-cards, .finding-cards { grid-template-columns: 1fr; }
+      .principle-cards { grid-template-columns: 1fr; }
+      .metric-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="cs2-nav">
+  <span class="cs2-nav-back" onclick="history.back()">← Back to work</span>
+  <span class="cs2-nav-title">Avire — Global Digital Presence</span>
+</nav>
+
+<!-- HERO -->
+<header class="cs2-hero">
+  <p class="cs2-eyebrow">Case Study · Global Web Design</p>
+  <h1>Avire: Redefining a Global Digital Presence</h1>
+  <p class="cs2-hero-sub">Unifying a fragmented global website into one scalable platform — built to serve engineers on job sites, consultants navigating compliance, and building managers across multiple markets simultaneously.</p>
+  <div class="cs2-meta-row">
+    <div class="cs2-meta-item"><label>Role</label><span>Product Designer — led UI design and implementation strategy</span></div>
+    <div class="cs2-meta-item"><label>Team</label><span>Lead Designer, PMs, Dev Team, Global Marketing</span></div>
+    <div class="cs2-meta-item"><label>Tools</label><span>Figma, Notion</span></div>
+    <div class="cs2-meta-item"><label>Timeline</label><span>6 months</span></div>
+    <div class="cs2-meta-item"><label>Scope</label><span>Global website redesign across multiple markets</span></div>
+  </div>
+</header>
+
+<!-- HERO IMAGE -->
+<figure class="cs2-hero-img-wrap">
+  <div class="cs2-hero-img" style="background:#F0EDE8;" onclick="openLB(this.querySelector('img').src)">
+    <img src="images/Avire-4.png" alt="Avire — redesigned mobile experience across screens">
+  </div>
+</figure>
+
+<!-- MAIN LAYOUT -->
+<div class="cs2-layout">
+
+  <!-- TOC -->
+  <aside class="cs2-toc">
+    <p class="cs2-toc-label">Contents</p>
+    <ul>
+      <li><a href="#challenge">Challenge</a></li>
+      <li><a href="#users">Users</a></li>
+      <li><a href="#strategy">Strategy</a></li>
+      <li><a href="#testing">Testing</a></li>
+      <li><a href="#impact">Impact</a></li>
+      <li><a href="#reflections">Reflections</a></li>
+    </ul>
+  </aside>
+
+  <!-- CONTENT -->
+  <main class="cs2-content">
+
+    <!-- 01 CHALLENGE -->
+    <section class="cs2-section" id="challenge">
+      <p class="cs2-section-label">01 · Challenge</p>
+      <h2>The Challenge</h2>
+      <p>Avire is a global elevator product supplier that had recently consolidated multiple sub-brands under one identity. The business had unified — but the website hadn't. What users experienced was a fragmented digital presence: regional inconsistencies, buried information, slow performance, and no mobile optimization.</p>
+      <p>The impact was tangible. Engineers and installers — Avire's most technical users — preferred calling support rather than navigating the website to find what they needed. The marketing team couldn't update content without developer involvement, creating bottlenecks that slowed every campaign. And with future acquisitions likely, the platform needed to scale in ways the current architecture couldn't support.</p>
+      <p>This wasn't a cosmetic redesign. Avire's website functioned as a compliance guide, an educational hub, and a sales tool simultaneously. The challenge was to build one platform that served all of these purposes, felt relevant across global markets, and could be managed independently by non-technical teams.</p>
+    </section>
+
+    <!-- 02 USERS -->
+    <section class="cs2-section" id="users">
+      <p class="cs2-section-label">02 · Users</p>
+      <h2>Understanding the Users</h2>
+      <p>We conducted stakeholder interviews and competitor analysis across key markets to understand who the platform needed to serve and where the current experience was failing them.</p>
+
+      <div class="persona-cards">
+        <div class="persona-card">
+          <p class="persona-role">User Group 01</p>
+          <h4>Lift Consultants</h4>
+          <p>Guided architects and property owners through compliance decisions. They needed fast access to up-to-date standards and spec sheets — and the current site buried this information under layers of navigation.</p>
+        </div>
+        <div class="persona-card">
+          <p class="persona-role">User Group 02</p>
+          <h4>Facility Managers and Building Owners</h4>
+          <p>Responsible for maintaining lifts but often with limited technical knowledge. They needed plain-language explanations, not engineering documentation.</p>
+        </div>
+        <div class="persona-card">
+          <p class="persona-role">User Group 03</p>
+          <h4>Engineers and Installers</h4>
+          <p>The heaviest users — and the most frustrated. Time-pressed and often on-site, they needed quick, mobile-friendly access to installation guides, troubleshooting resources, and video tutorials. Instead, they called support.</p>
+        </div>
+      </div>
+
+      <div class="cs2-insight">
+        <p class="cs2-insight-label">Core Tension</p>
+        <p>The research surfaced a critical tension: the site had to function as both a brand hub (for consultants and decision-makers) and a technical tool (for engineers and installers). These audiences had fundamentally different needs — polish and credibility vs. speed and clarity. Any solution had to serve both without compromising either. This tension between global coherence and local relevance became the defining design challenge of the project.</p>
+      </div>
+
+      <div class="cs2-img">
+        <div class="cs2-img-wrap" onclick="openLB(this.querySelector('img').src, this.closest('.cs2-img').querySelector('.cs2-img-cap').textContent)">
+          <img src="images/Avire-3.png" alt="Avire product catalog and MEMCO compliance section">
+        </div>
+        <div class="cs2-img-meta">
+          <span class="cs2-img-cap">Avire product catalog and MEMCO compliance section — illustrating the dual audience challenge of serving both technical depth and accessibility.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 STRATEGY -->
+    <section class="cs2-section" id="strategy">
+      <p class="cs2-section-label">03 · Strategy</p>
+      <h2>Design Strategy</h2>
+      <p>Working closely with the Lead Designer, I shaped the design direction around three principles:</p>
+
+      <div class="principle-cards">
+        <div class="principle-card">
+          <div class="principle-num">01</div>
+          <h4>Clarity for users</h4>
+          <p>Simplify the information architecture so users could find what they needed with fewer clicks. We restructured navigation around user intent ("Install," "Maintain," "Comply") rather than Avire's internal product taxonomy.</p>
+        </div>
+        <div class="principle-card">
+          <div class="principle-num">02</div>
+          <h4>Efficiency for teams</h4>
+          <p>Give the marketing team CMS autonomy so they could update content across regions without developer dependencies.</p>
+        </div>
+        <div class="principle-card">
+          <div class="principle-num">03</div>
+          <h4>Scalability for the business</h4>
+          <p>Build a modular component system with localized templates and regional content flexibility, so new markets or sub-brands could be added without redesigning the platform.</p>
+        </div>
+      </div>
+
+      <h3>Region-specific customization</h3>
+      <p>Rather than building separate sites per market, I designed a single platform with dynamic regional content. Users see information relevant to their location, while the underlying structure and design language remain consistent globally.</p>
+
+      <h3>Task-based navigation</h3>
+      <p>The old site organized content by product category. I restructured it around what users actually came to do — install, maintain, comply, purchase. This reduced navigation depth and aligned the IA with user mental models.</p>
+
+      <h3>Self-service resource hub</h3>
+      <p>Engineers were calling support because finding resources on the site was harder than picking up the phone. I designed a centralized resource library with clear categorization — installation guides, compliance documents, and video tutorials — all searchable and filterable.</p>
+
+      <div class="cs2-img">
+        <div class="cs2-img-wrap" onclick="openLB(this.querySelector('img').src, this.closest('.cs2-img').querySelector('.cs2-img-cap').textContent)">
+          <img src="images/Avire-5.png" alt="Avire EU Standards — Lift Light Curtains compliance page">
+        </div>
+        <div class="cs2-img-meta">
+          <span class="cs2-img-cap">EU Standards compliance page — structured to help consultants and engineers find regional regulatory information without navigating through unrelated product content.</span>
+        </div>
+      </div>
+
+      <h3>Mobile-first approach</h3>
+      <p>Engineers and installers access the site from job sites, not desks. Every layout decision prioritized mobile usability — fast loading, thumb-friendly navigation, and content hierarchy optimized for small screens.</p>
+
+      <h3>CMS-friendly component system</h3>
+      <p>I designed modular, flexible sections that marketing could update independently without touching the underlying code. This wasn't just a design decision — it was an operational one that removed the marketing-to-dev bottleneck entirely.</p>
+      <p>The CMS-first constraint shaped most of the component decisions in ways that weren't obvious from the brief. Every layout section, every content block, every regional variation had to be something a marketing team member could update independently — which meant the design couldn't rely on developer flexibility as a fallback. That changed how I approached modularity: instead of designing ideal layouts and figuring out CMS fit afterward, I worked backwards from what the system could realistically support. Some directions didn't survive that constraint. The trade-off was worth it — a slightly less bespoke interface that the team could actually maintain was more valuable than a polished one that would need developer help to update.</p>
+
+      <div class="cs2-img">
+        <div class="cs2-img-wrap" onclick="openLB(this.querySelector('img').src, this.closest('.cs2-img').querySelector('.cs2-img-cap').textContent)">
+          <img src="images/Avire-2.png" alt="Avire platform — full scope of screens across homepage, products, compliance, resources, and contact">
+        </div>
+        <div class="cs2-img-meta">
+          <span class="cs2-img-cap">Full scope of the redesigned platform — homepage, product pages, compliance resources, and contact — showing the modular system across different content types.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 TESTING -->
+    <section class="cs2-section" id="testing">
+      <p class="cs2-section-label">04 · Testing</p>
+      <h2>Testing and Iteration</h2>
+      <p>After development, we ran usability tests across regions to validate the design against real user behavior.</p>
+
+      <h3>What testing revealed</h3>
+
+      <div class="finding-cards">
+        <div class="finding-card">
+          <p class="finding-num">Finding 01</p>
+          <h4>Navigation taxonomy</h4>
+          <p>Needed further simplification — we refined it by approximately 35%, removing redundant categories and consolidating related content into cleaner groupings.</p>
+        </div>
+        <div class="finding-card">
+          <p class="finding-num">Finding 02</p>
+          <h4>Terminology clarity</h4>
+          <p>Non-technical users (facility managers) struggled with labels that felt clear to engineers but read as jargon to building owners. We revised copy across key sections to use plain language.</p>
+        </div>
+        <div class="finding-card">
+          <p class="finding-num">Finding 03</p>
+          <h4>Resource categorization</h4>
+          <p>Engineers expected to filter resources by task type, not document format. We recategorized the resource library to match how users searched for content, not how we organized it internally.</p>
+        </div>
+        <div class="finding-card">
+          <p class="finding-num">Finding 04</p>
+          <h4>Regional content filters</h4>
+          <p>Users managing compliance across multiple markets needed regional content filters placed more prominently — they were being overlooked in their existing position.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 05 IMPACT -->
+    <section class="cs2-section" id="impact">
+      <p class="cs2-section-label">05 · Impact</p>
+      <h2>Impact</h2>
+
+      <div class="metrics-block">
+        <p class="metrics-block-label">Measured outcomes · Post-launch</p>
+        <div class="metric-grid">
+          <div class="metric-card">
+            <div class="metric-val">70%</div>
+            <div class="metric-lbl">Faster content updates</div>
+            <div class="metric-desc">Marketing team can now publish without developer cycles</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-val">~40%</div>
+            <div class="metric-lbl">Faster time-to-content</div>
+            <div class="metric-desc">Users reach information with fewer clicks and less scrolling</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-val">2×</div>
+            <div class="metric-lbl">Resource engagement</div>
+            <div class="metric-desc">Video views doubled after the resource hub centralized scattered content</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-val">↓</div>
+            <div class="metric-lbl">Support call volume</div>
+            <div class="metric-desc">Engineers found troubleshooting guides without calling support</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-val">↑</div>
+            <div class="metric-lbl">Mobile retention</div>
+            <div class="metric-desc">Mobile-first design kept on-site users engaged and exploring</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-val">✓</div>
+            <div class="metric-lbl">User satisfaction</div>
+            <div class="metric-desc">Streamlined interface directly addressed the frustrations surfaced in research</div>
+          </div>
+        </div>
+      </div>
+      <p class="metric-disclaimer">Some metrics are based on post-launch analytics; others are approximate, based on stakeholder feedback and observation during the project.</p>
+    </section>
+
+    <!-- 06 REFLECTIONS -->
+    <section class="cs2-section" id="reflections">
+      <p class="cs2-section-label">06 · Reflections</p>
+      <h2>Reflections</h2>
+
+      <div class="cs2-reflection">
+        <div class="cs2-reflection-item">
+          <p class="cs2-ref-num">01</p>
+          <h3>Designing for two audiences at once requires clear principles, not compromise</h3>
+          <p>The brand hub vs. technical tool tension could have led to a design that did neither well. Task-based navigation was the key insight — it let both audiences find their own path without the platform trying to be two different things.</p>
+        </div>
+        <div class="cs2-reflection-item">
+          <p class="cs2-ref-num">02</p>
+          <h3>Regional content flexibility is a design problem, not just a CMS problem</h3>
+          <p>The challenge wasn't just "can marketing swap out content per region" — it was designing layouts and components that remained coherent whether they contained UK compliance standards or Asian market product specs. Global consistency with local relevance had to be designed into the system, not bolted on.</p>
+        </div>
+        <div class="cs2-reflection-item">
+          <p class="cs2-ref-num">03</p>
+          <h3>Scalability means designing for the company's future, not just its present</h3>
+          <p>Knowing that acquisitions were likely, every structural decision had to pass the test: "Will this still work when Avire adds another sub-brand?" That constraint pushed us toward modularity at every level.</p>
+        </div>
+        <div class="cs2-reflection-item">
+          <p class="cs2-ref-num">04</p>
+          <h3>Bringing UI depth to a strategic project multiplies impact</h3>
+          <p>My strongest contribution was translating strategic direction into concrete, production-ready design decisions — the component system, the responsive layouts, the regional content architecture. Strategy without execution stays abstract; this project reinforced that the ability to move fluently between both is what makes collaborative design work.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<div class="cs2-end"></div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLB()">
+  <img id="lb-img" src="" alt="">
+  <p class="lb-caption" id="lb-cap"></p>
+  <button class="lightbox-close" onclick="closeLB()">×</button>
+</div>
+
+<script>
+  function openLB(src, cap) {
+    document.getElementById('lb-img').src = src;
+    document.getElementById('lb-cap').textContent = cap || '';
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLB() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLB(); });
+
+  const sections = document.querySelectorAll('.cs2-section[id]');
+  const tocLinks = document.querySelectorAll('.cs2-toc a');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        tocLinks.forEach(l => l.classList.remove('active'));
+        const a = document.querySelector(`.cs2-toc a[href="#${entry.target.id}"]`);
+        if (a) a.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-15% 0px -75% 0px' });
+  sections.forEach(s => observer.observe(s));
+
+  tocLinks.forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const t = document.querySelector(link.getAttribute('href'));
+      if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+</script>
+</body>
+</html>

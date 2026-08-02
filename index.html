@@ -2746,6 +2746,14 @@
     avire:      'page-avire'
   };
 
+  // V2 case study files — navigate() redirects to these instead of inline SPA pages
+  const v2Routes = {
+    adcenter:  'adcenter-v2.html',
+    dnum:      'dnum-v2.html',
+    ibermutua: 'ibermutua-v2.html',
+    avire:     'avire-v2.html'
+  };
+
   // Routes that require password authentication
   const LOCKED_ROUTES = new Set(['dnum', 'ibermutua']);
   // Tracks which locked routes have been unlocked in this session
@@ -2769,8 +2777,12 @@
   }
 
   // Bare navigate — always goes to the page. Only call this after auth is confirmed.
-  // Updates the URL to a clean path (no hash) via the History API.
+  // For case study routes, redirects to the standalone V2 HTML file.
   function navigate(route) {
+    if (v2Routes[route]) {
+      window.location.href = v2Routes[route];
+      return;
+    }
     const path = route === 'home' ? '/' : '/' + route;
     if (window.location.pathname !== path) {
       history.pushState({ route }, '', path);

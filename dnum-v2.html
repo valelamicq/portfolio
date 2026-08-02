@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DNUM – Cod'IT — V2 Draft</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #F9F8F6; --bg-card: #F0EFEC; --bg-dark: #1E1E1C;
+      --text: #1A1A1A; --muted: #737373; --border: #E3E2DF;
+      --green: #22C55E; --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    body { font-family: var(--font); background: var(--bg); color: var(--text); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; }
+
+    /* NAV */
+    .cs2-nav { position: sticky; top: 0; z-index: 100; background: rgba(249,248,246,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 40px; height: 56px; display: flex; align-items: center; justify-content: space-between; }
+    .cs2-nav-back { font-size: 13px; color: var(--muted); cursor: pointer; display: flex; align-items: center; gap: 6px; transition: color 0.2s; }
+    .cs2-nav-back:hover { color: var(--text); }
+    .cs2-nav-title { font-size: 13px; color: var(--muted); }
+
+    /* HERO */
+    .cs2-hero { padding: 72px 40px 56px; max-width: 1140px; margin: 0 auto; }
+    .cs2-eyebrow { font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; }
+    .cs2-hero h1 { font-size: clamp(26px, 3.2vw, 44px); font-weight: 400; line-height: 1.15; letter-spacing: -0.02em; max-width: 700px; margin-bottom: 22px; }
+    .cs2-hero-sub { font-size: 17px; font-weight: 300; color: var(--muted); max-width: 580px; line-height: 1.65; margin-bottom: 40px; }
+    .cs2-meta-row { display: flex; flex-wrap: wrap; gap: 32px; padding: 28px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .cs2-meta-item label { display: block; font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+    .cs2-meta-item span { font-size: 14px; font-weight: 400; }
+
+    /* HERO IMAGE */
+    .cs2-hero-img-wrap { max-width: 1140px; margin: 0 auto; padding: 0 40px; }
+    .cs2-hero-img { width: 100%; border-radius: 12px; overflow: hidden; cursor: zoom-in; }
+    .cs2-hero-img img { width: 100%; transition: opacity 0.2s; }
+    .cs2-hero-img:hover img { opacity: 0.9; }
+
+    /* LAYOUT */
+    .cs2-layout { max-width: 1140px; margin: 0 auto; padding: 72px 40px 0; display: grid; grid-template-columns: 200px 1fr; gap: 0 72px; align-items: start; }
+
+    /* TOC */
+    .cs2-toc { position: sticky; top: 72px; }
+    .cs2-toc-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 16px; padding-left: 16px; }
+    .cs2-toc ul { list-style: none; display: flex; flex-direction: column; position: relative; }
+    .cs2-toc ul::before { content: ''; position: absolute; left: 0; top: 4px; bottom: 4px; width: 1px; background: var(--border); }
+    .cs2-toc a { display: block; font-size: 12px; color: var(--muted); padding: 7px 0 7px 16px; transition: color 0.2s; line-height: 1.4; cursor: pointer; position: relative; }
+    .cs2-toc a::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 0; background: var(--green); border-radius: 0 1px 1px 0; transition: width 0.18s ease; z-index: 1; }
+    .cs2-toc a:hover { color: var(--text); }
+    .cs2-toc a.active { color: var(--text); font-weight: 500; }
+    .cs2-toc a.active::before { width: 2px; }
+
+    /* CONTENT */
+    .cs2-content { min-width: 0; }
+    .cs2-section { padding: 72px 0; border-top: 1px solid var(--border); }
+    .cs2-section:first-child { border-top: none; padding-top: 0; }
+    .cs2-section-label { display: none; }
+    .cs2-section h2 { font-size: 24px; font-weight: 400; letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 24px; }
+    .cs2-section h3 { font-size: 14px; font-weight: 500; margin-bottom: 14px; margin-top: 36px; }
+    .cs2-section p { font-size: 15px; font-weight: 300; line-height: 1.75; color: var(--text); margin-bottom: 18px; font-family: var(--font); }
+    .cs2-section p:last-child { margin-bottom: 0; }
+
+    /* FINDING CARDS */
+    .finding-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 28px 0; }
+    .finding-card { border: 1px solid var(--border); border-radius: 10px; padding: 20px 22px; }
+    .finding-card--wide { grid-column: span 2; }
+    .finding-num { font-size: 11px; font-weight: 500; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 8px; text-transform: uppercase; }
+    .finding-card h4 { font-size: 13px; font-weight: 500; margin-bottom: 6px; }
+    .finding-card p { font-size: 13px; color: var(--muted); line-height: 1.5; margin: 0; }
+
+    /* INSIGHT BLOCK */
+    .cs2-insight { background: var(--bg-dark); color: white; border-radius: 12px; padding: 36px; margin: 32px 0; }
+    .cs2-insight-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.65); margin-bottom: 14px; }
+    .cs2-insight p { font-size: 15px; font-weight: 300; line-height: 1.75; color: white; margin: 0; font-family: var(--font); }
+    .cs2-insight strong { font-weight: 500; color: white; }
+
+    /* METHOD CARDS — filled background distinguishes from finding cards */
+    .method-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 28px 0; }
+    .method-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 20px 22px; }
+    .method-card h4 { font-size: 13px; font-weight: 500; margin-bottom: 6px; }
+    .method-card p { font-size: 13px; color: var(--muted); line-height: 1.5; margin: 0; }
+
+    /* OUTCOME LIST */
+    .outcome-list { margin: 28px 0; }
+    .outcome-item { display: flex; gap: 16px; padding: 18px 0; border-top: 1px solid var(--border); align-items: flex-start; }
+    .outcome-item:last-child { border-bottom: 1px solid var(--border); }
+    .outcome-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); margin-top: 6px; flex-shrink: 0; }
+    .outcome-item-body strong { display: block; font-size: 13px; font-weight: 500; margin-bottom: 4px; color: var(--text); }
+    .outcome-item-body p { font-size: 13px; color: var(--muted); line-height: 1.55; margin: 0; }
+
+    /* REFLECTIONS */
+    .cs2-reflection { margin-top: 32px; }
+    .cs2-reflection-item { padding: 28px 0; border-top: 1px solid var(--border); }
+    .cs2-reflection-item:last-child { border-bottom: 1px solid var(--border); }
+    .cs2-ref-num { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+    .cs2-reflection-item h3 { font-size: 15px; font-weight: 500; line-height: 1.4; margin-bottom: 12px; margin-top: 0; }
+    .cs2-reflection-item p { font-size: 15px; font-weight: 300; line-height: 1.75; color: var(--text); margin: 0; }
+
+    /* IMAGES */
+    .cs2-img { margin: 36px 0; }
+    .cs2-img-wrap { border-radius: 10px; overflow: hidden; cursor: zoom-in; }
+    .cs2-img-wrap img { width: 100%; display: block; transition: opacity 0.2s; }
+    .cs2-img-wrap:hover img { opacity: 0.92; }
+    .cs2-img-meta { margin-top: 10px; }
+    .cs2-img-cap { font-size: 13px; color: var(--muted); line-height: 1.5; font-weight: 300; }
+
+    /* LIGHTBOX */
+    .lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.88); z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px; opacity: 0; pointer-events: none; transition: opacity 0.25s; gap: 16px; }
+    .lightbox.open { opacity: 1; pointer-events: all; }
+    .lightbox img { max-width: 100%; max-height: 80vh; border-radius: 8px; object-fit: contain; }
+    .lightbox-close { position: absolute; top: 20px; right: 24px; background: none; border: none; color: rgba(255,255,255,0.5); font-size: 32px; cursor: pointer; line-height: 1; transition: color 0.2s; }
+    .lightbox-close:hover { color: white; }
+    .lb-caption { font-size: 13px; color: rgba(255,255,255,0.75); text-align: center; max-width: 640px; line-height: 1.5; font-family: var(--font); font-weight: 300; min-height: 1em; }
+
+    /* FOOTER SPACER */
+    .cs2-end { height: 120px; }
+
+    /* MOBILE */
+    @media (max-width: 900px) {
+      .cs2-layout { grid-template-columns: 1fr; padding: 40px 24px 0; }
+      .cs2-toc { display: none; }
+      .cs2-hero { padding: 48px 24px 40px; }
+      .cs2-hero-img-wrap { padding: 0 24px; }
+      .cs2-nav { padding: 0 24px; }
+      .finding-cards, .method-cards { grid-template-columns: 1fr; }
+      .finding-card--wide { grid-column: span 1; }
+      .gov-card { grid-template-columns: 1fr; gap: 8px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="cs2-nav">
+  <span class="cs2-nav-back" onclick="history.back()">← Back to work</span>
+  <span class="cs2-nav-title">DNUM – Cod'IT</span>
+</nav>
+
+<!-- HERO -->
+<header class="cs2-hero">
+  <p class="cs2-eyebrow">Case Study · Accessibility & Government</p>
+  <h1>DNUM – Cod'IT: Accessibility Audit for the French Ministry of Labor</h1>
+  <p class="cs2-hero-sub">A comprehensive accessibility audit and redesign strategy for a government labor law platform — delivering RGAA-compliant proposals that the Ministry adopted as the blueprint for remediation, in one month, solo.</p>
+  <div class="cs2-meta-row">
+    <div class="cs2-meta-item"><label>Role</label><span>Product Designer & Accessibility Specialist</span></div>
+    <div class="cs2-meta-item"><label>Team</label><span>Solo (stakeholder collaboration)</span></div>
+    <div class="cs2-meta-item"><label>Tools</label><span>Figma, AXE, WAVE, IBM Checker, Silktide, NVDA, VoiceOver</span></div>
+    <div class="cs2-meta-item"><label>Timeline</label><span>1 month</span></div>
+    <div class="cs2-meta-item"><label>Client</label><span>French Ministry of Labor — DNUM</span></div>
+  </div>
+</header>
+
+<!-- HERO IMAGE -->
+<figure class="cs2-hero-img-wrap">
+  <div class="cs2-hero-img" style="background:#F5F5F2;" onclick="openLB(this.querySelector('img').src)">
+    <img src="images/DNUM-3.png" alt="DNUM Accessibility Audit — multi-screen overview">
+  </div>
+</figure>
+
+<!-- MAIN LAYOUT -->
+<div class="cs2-layout">
+
+  <!-- TOC -->
+  <aside class="cs2-toc">
+    <p class="cs2-toc-label">Contents</p>
+    <ul>
+      <li><a href="#challenge">Challenge</a></li>
+      <li><a href="#approach">Approach</a></li>
+      <li><a href="#findings">Findings</a></li>
+      <li><a href="#design">Design</a></li>
+      <li><a href="#outcome">Outcome</a></li>
+      <li><a href="#reflections">Reflections</a></li>
+    </ul>
+  </aside>
+
+  <!-- CONTENT -->
+  <main class="cs2-content">
+
+    <!-- 01 CHALLENGE -->
+    <section class="cs2-section" id="challenge">
+      <p class="cs2-section-label">01 · Challenge</p>
+      <h2>The Challenge</h2>
+      <p>Cod'IT is the French government's digital platform for codified labor law — used by government inspectors and citizens to access legal provisions that govern workplace regulations across France. It's an essential public service tool.</p>
+      <p>The problem: the platform was failing the people it was meant to serve. Navigation was deeply nested (7+ levels), search results were unstructured and often irrelevant, contrast was insufficient, and assistive technology support was broken. For users relying on screen readers, the platform was effectively inaccessible.</p>
+      <p>This wasn't just a usability issue — it was a compliance risk. The French government's RGAA accessibility framework (aligned with WCAG 2.1 AA) requires public-sector digital services to meet specific inclusion standards. Cod'IT fell significantly short.</p>
+      <p>I was brought in to lead the accessibility audit and deliver a redesign strategy that would bring the platform into compliance while fundamentally improving the experience for all users — not just those with disabilities.</p>
+
+      <div class="cs2-insight">
+        <p class="cs2-insight-label">Project Constraint</p>
+        <p>The constraint that shaped the work: I had one month. Every decision about scope, prioritization, and depth had to be deliberate. There was no room for broad exploration — I needed to identify the highest-impact issues, propose actionable solutions, and deliver a complete audit report and design proposals the Ministry could implement immediately.</p>
+      </div>
+    </section>
+
+    <!-- 02 APPROACH -->
+    <section class="cs2-section" id="approach">
+      <p class="cs2-section-label">02 · Approach</p>
+      <h2>Audit Approach</h2>
+      <p>I designed a four-layer audit methodology to ensure comprehensive coverage within the compressed timeline:</p>
+
+      <div class="method-cards">
+        <div class="method-card">
+          <p class="finding-num">Layer 01</p>
+          <h4>Automated testing</h4>
+          <p>Used AXE, WAVE, IBM Accessibility Checker, and Silktide to surface color contrast failures, missing alt text, and ARIA role violations across the platform. This established a quantitative baseline quickly.</p>
+        </div>
+        <div class="method-card">
+          <p class="finding-num">Layer 02</p>
+          <h4>Manual screen reader testing</h4>
+          <p>Navigated the full platform using NVDA and VoiceOver to evaluate real-world assistive technology compatibility. Automated tools catch structural issues; manual testing reveals how the experience actually feels for someone using a screen reader.</p>
+        </div>
+        <div class="method-card">
+          <p class="finding-num">Layer 03</p>
+          <h4>Heuristic review</h4>
+          <p>Evaluated the platform's information architecture, visual hierarchy, and interaction patterns against WCAG 2.1 AA criteria and RGAA v4.1 standards.</p>
+        </div>
+        <div class="method-card">
+          <p class="finding-num">Layer 04</p>
+          <h4>Stakeholder interviews</h4>
+          <p>Spoke with government inspectors and digital policy managers to understand which tasks were most critical and where friction was highest. This ensured the audit prioritized issues by real-world impact, not just technical severity.</p>
+        </div>
+      </div>
+
+      <div class="cs2-img">
+        <div class="cs2-img-wrap" onclick="openLB(this.querySelector('img').src, this.closest('.cs2-img').querySelector('.cs2-img-cap').textContent)">
+          <img src="images/DNUM-4.png" alt="DNUM Audit — tools used including code inspector, WAVE, and Excel tracking sheet">
+        </div>
+        <div class="cs2-img-meta">
+          <span class="cs2-img-cap">Audit tools in action — automated testing dashboard alongside manual tracking sheet used to log and prioritize RGAA violations.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 FINDINGS -->
+    <section class="cs2-section" id="findings">
+      <p class="cs2-section-label">03 · Findings</p>
+      <h2>Key Findings</h2>
+      <p>The audit revealed issues across five areas, listed in priority order — based on how many users were affected and how severely each issue blocked critical tasks:</p>
+
+      <div class="finding-cards">
+        <div class="finding-card">
+          <p class="finding-num">Priority 01</p>
+          <h4>Information architecture</h4>
+          <p>Content was buried under 7+ levels of nested navigation with no breadcrumbs or orientation cues. This affected every user on every visit. Even experienced inspectors struggled to locate the legal provisions they needed. Fixing this had the broadest impact.</p>
+        </div>
+        <div class="finding-card">
+          <p class="finding-num">Priority 02</p>
+          <h4>Search experience</h4>
+          <p>Results were unfiltered and poorly structured. Users searching for specific legal articles had to scan through irrelevant content, leading to high frustration and low completion rates. Since search was the primary way inspectors accessed legal provisions, this was second priority.</p>
+        </div>
+        <div class="finding-card">
+          <p class="finding-num">Priority 03</p>
+          <h4>Accessibility violations</h4>
+          <p>Missing form labels, insufficient contrast ratios, and absent focus indicators meant screen readers couldn't interpret core content. Users relying on keyboard navigation had no visible indication of where they were on the page.</p>
+        </div>
+        <div class="finding-card">
+          <p class="finding-num">Priority 04</p>
+          <h4>Assistive technology gaps</h4>
+          <p>Missing ARIA roles, unlabeled inputs, and absent semantic HTML made screen reader navigation effectively impossible for critical workflows.</p>
+        </div>
+        <div class="finding-card finding-card--wide">
+          <p class="finding-num">Priority 05</p>
+          <h4>Design inconsistency</h4>
+          <p>Typography, spacing, and UI elements varied across pages, increasing cognitive load and undermining trust. While less urgent than the structural issues, this contributed to the overall experience of confusion and unreliability.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 DESIGN -->
+    <section class="cs2-section" id="design">
+      <p class="cs2-section-label">04 · Design</p>
+      <h2>Design Strategy & Proposals</h2>
+      <p>The hardest call wasn't what to flag — it was what to put first. A strict WCAG-based approach would have led the report with contrast failures and missing alt text, which are the most measurable violations and what clients typically expect at the top of an accessibility audit. We pushed for information architecture to lead instead. The reasoning: fixing contrast doesn't help a screen reader user who can't navigate a 7-level hierarchy. The structural problem was upstream of every other finding — address IA first and all subsequent fixes land on coherent ground. Building the severity-times-impact scoring partly served to make that argument legible to Ministry stakeholders who were expecting compliance metrics at the top, not an IA proposal.</p>
+      <p>I prioritized fixes using a severity-times-impact framework: issues that affected the most users and blocked the most critical tasks were addressed first. Navigation and search improvements took priority over visual polish.</p>
+
+      <h3>Information architecture overhaul</h3>
+      <p>The 7-layer navigation was restructured to 3 levels, organized around critical tasks rather than internal content taxonomy. I added breadcrumbs and clear section labels so users always knew where they were and how to get back.</p>
+
+      <div class="cs2-img">
+        <div class="cs2-img-wrap" onclick="openLB(this.querySelector('img').src, this.closest('.cs2-img').querySelector('.cs2-img-cap').textContent)">
+          <img src="images/DNUM-5.png" alt="DNUM — before and after navigation redesign comparison">
+        </div>
+        <div class="cs2-img-meta">
+          <span class="cs2-img-cap">Navigation redesign — reducing 7 nested levels to 3 task-oriented levels, with breadcrumbs and persistent orientation cues throughout.</span>
+        </div>
+      </div>
+
+      <h3>Homepage redesign</h3>
+      <p>I redesigned the homepage around three primary user tasks: search, access documentation, and view recent updates. Applied AA-level contrast throughout and reduced scrolling depth significantly by eliminating redundant content blocks and tightening the visual hierarchy.</p>
+
+      <div class="cs2-img">
+        <div class="cs2-img-wrap" onclick="openLB(this.querySelector('img').src, this.closest('.cs2-img').querySelector('.cs2-img-cap').textContent)">
+          <img src="images/DNUM-2.png" alt="DNUM — redesigned search results and discrimination page">
+        </div>
+        <div class="cs2-img-meta">
+          <span class="cs2-img-cap">Redesigned homepage and search results — task-oriented layout with AA contrast, reduced scrolling depth, and clear visual hierarchy.</span>
+        </div>
+      </div>
+
+      <h3>Search redesign</h3>
+      <p>Restructured search results with a clear hierarchy: title, excerpt, metadata. Added filtering capabilities and implemented ARIA live regions so screen reader users would receive real-time feedback as results updated.</p>
+
+      <h3>Accessible component specifications</h3>
+      <p>Built a set of accessible component specs in Figma — buttons, forms, typographic styles — all designed to RGAA standards with proper focus states, semantic HTML annotations, and accessible color tokens. These served as a reference for the development team's implementation.</p>
+    </section>
+
+    <!-- 05 OUTCOME -->
+    <section class="cs2-section" id="outcome">
+      <p class="cs2-section-label">05 · Outcome</p>
+      <h2>Outcome</h2>
+      <p>The Ministry adopted my recommendations as the blueprint for Cod'IT's accessibility remediation. The audit report and design proposals I delivered shaped the direction of the platform's redesign. While I wasn't involved in the implementation phase, the deliverables were designed to be actionable — every recommendation included priority level, expected impact, and specific design specs the development team could build from.</p>
+
+      <div class="outcome-list">
+        <div class="outcome-item">
+          <span class="outcome-dot"></span>
+          <div class="outcome-item-body">
+            <strong>Navigation efficiency</strong>
+            <p>Reducing the navigation depth from 7 levels to 3 meant inspectors could reach legal provisions roughly 30% faster based on task-based testing during the audit.</p>
+          </div>
+        </div>
+        <div class="outcome-item">
+          <span class="outcome-dot"></span>
+          <div class="outcome-item-body">
+            <strong>RGAA compliance</strong>
+            <p>The audit identified the specific violations preventing compliance, and the redesign proposals were designed to bring the platform to near-AA level.</p>
+          </div>
+        </div>
+        <div class="outcome-item">
+          <span class="outcome-dot"></span>
+          <div class="outcome-item-body">
+            <strong>Search relevance</strong>
+            <p>The restructured results and filtering capabilities directly addressed the primary frustration users reported in interviews.</p>
+          </div>
+        </div>
+        <div class="outcome-item">
+          <span class="outcome-dot"></span>
+          <div class="outcome-item-body">
+            <strong>Scrolling depth</strong>
+            <p>Reduced by an estimated 40% on key pages, making content more immediately accessible on all screen sizes.</p>
+          </div>
+        </div>
+      </div>
+
+      <h3>Beyond the platform</h3>
+      <p>Alongside the audit report, I delivered the four-layer methodology itself as a documented, replicable framework — not just the findings, but the process for producing them. This gave the Ministry a tool they could apply to future accessibility audits across other government digital services, rather than depending on external specialists for every evaluation.</p>
+    </section>
+
+    <!-- 06 REFLECTIONS -->
+    <section class="cs2-section" id="reflections">
+      <p class="cs2-section-label">06 · Reflections</p>
+      <h2>Reflections</h2>
+
+      <div class="cs2-reflection">
+        <div class="cs2-reflection-item">
+          <p class="cs2-ref-num">01</p>
+          <h3>One month forced clarity</h3>
+          <p>The compressed timeline was actually a design advantage — it eliminated the temptation to audit everything and forced me to prioritize ruthlessly by impact. Every hour spent had to justify itself against the question: "Will this recommendation make the biggest difference for the most users?"</p>
+        </div>
+        <div class="cs2-reflection-item">
+          <p class="cs2-ref-num">02</p>
+          <h3>Accessibility improves usability for everyone</h3>
+          <p>Every accessibility improvement — clearer hierarchy, better contrast, simpler navigation — also made the platform faster and easier for sighted, able-bodied users. The business case for accessibility was proven through the work itself.</p>
+        </div>
+        <div class="cs2-reflection-item">
+          <p class="cs2-ref-num">03</p>
+          <h3>Working across languages builds a specific kind of adaptability</h3>
+          <p>Conducting the audit and writing the deliverables in French sharpened my communication — when you can't rely on your native language, you learn to be more precise and deliberate in how you present findings and recommendations.</p>
+        </div>
+        <div class="cs2-reflection-item">
+          <p class="cs2-ref-num">04</p>
+          <h3>Solo ownership at this scope requires discipline</h3>
+          <p>Without a team to distribute tasks, I had to be both strategist and executor — defining the methodology, running the audit, synthesizing findings, designing solutions, and presenting to stakeholders. The experience reinforced that senior-level autonomy isn't about working alone; it's about knowing how to structure your own work so that every piece connects to the larger goal.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<div class="cs2-end"></div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLB()">
+  <img id="lb-img" src="" alt="">
+  <p class="lb-caption" id="lb-cap"></p>
+  <button class="lightbox-close" onclick="closeLB()">×</button>
+</div>
+
+<script>
+  function openLB(src, cap) {
+    document.getElementById('lb-img').src = src;
+    document.getElementById('lb-cap').textContent = cap || '';
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLB() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLB(); });
+
+  const sections = document.querySelectorAll('.cs2-section[id]');
+  const tocLinks = document.querySelectorAll('.cs2-toc a');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        tocLinks.forEach(l => l.classList.remove('active'));
+        const a = document.querySelector(`.cs2-toc a[href="#${entry.target.id}"]`);
+        if (a) a.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-15% 0px -75% 0px' });
+  sections.forEach(s => observer.observe(s));
+
+  tocLinks.forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const t = document.querySelector(link.getAttribute('href'));
+      if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+</script>
+</body>
+</html>
