@@ -19,10 +19,17 @@
     img { display: block; }
 
     /* NAV */
-    .cs2-nav { position: sticky; top: 0; z-index: 100; background: rgba(249,248,246,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 40px; height: 56px; display: flex; align-items: center; justify-content: space-between; }
-    .cs2-nav-back { font-size: 13px; color: var(--muted); cursor: pointer; display: flex; align-items: center; gap: 6px; transition: color 0.2s; }
-    .cs2-nav-back:hover { color: var(--text); }
-    .cs2-nav-title { font-size: 13px; color: var(--muted); }
+    .cs2-nav { position: sticky; top: 0; z-index: 100; height: 68px; display: flex; align-items: center; }
+    .cs2-nav-inner { width: 100%; max-width: 1140px; margin: 0 auto; padding: 0 40px; height: 68px; display: flex; align-items: center; justify-content: space-between; transition: height 0.45s cubic-bezier(0.25,0.46,0.45,0.94), padding 0.45s cubic-bezier(0.25,0.46,0.45,0.94), background 0.45s ease, border-radius 0.45s ease, box-shadow 0.45s ease; }
+    .cs2-nav.scrolled .cs2-nav-inner { height: 52px; padding: 0 28px; background: rgba(249,248,246,0.88); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border-radius: 100px; box-shadow: 0 2px 20px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.05); }
+    .cs2-nav-logo { display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 400; letter-spacing: 0.01em; color: var(--text); text-decoration: none; }
+    .cs2-nav-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); flex-shrink: 0; animation: navblink 3s ease-in-out infinite; }
+    @keyframes navblink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+    .cs2-nav-links { display: flex; align-items: center; gap: 36px; }
+    .cs2-nav-links a { font-size: 13px; font-weight: 400; color: var(--muted); letter-spacing: 0.025em; text-decoration: none; position: relative; transition: color 0.2s; }
+    .cs2-nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px; background: var(--text); transition: width 0.25s ease; }
+    .cs2-nav-links a:hover { color: var(--text); }
+    .cs2-nav-links a:hover::after { width: 100%; }
 
     /* HERO */
     .cs2-hero { padding: 72px 40px 56px; max-width: 1140px; margin: 0 auto; }
@@ -124,7 +131,7 @@
       .cs2-toc { display: none; }
       .cs2-hero { padding: 48px 24px 40px; }
       .cs2-hero-img-wrap { padding: 0 24px; }
-      .cs2-nav { padding: 0 24px; }
+      .cs2-nav-inner { padding: 0 24px; }
       .finding-cards, .method-cards { grid-template-columns: 1fr; }
       .finding-card--wide { grid-column: span 1; }
       .gov-card { grid-template-columns: 1fr; gap: 8px; }
@@ -134,9 +141,18 @@
 <body>
 
 <!-- NAV -->
-<nav class="cs2-nav">
-  <span class="cs2-nav-back" onclick="history.back()">← Back to work</span>
-  <span class="cs2-nav-title">DNUM – Cod'IT</span>
+<nav class="cs2-nav" id="cs2-nav">
+  <div class="cs2-nav-inner">
+    <a href="/" class="cs2-nav-logo">
+      <span class="cs2-nav-dot"></span>
+      Valeria Lamicq
+    </a>
+    <div class="cs2-nav-links">
+      <a href="/">Work</a>
+      <a href="/about">About</a>
+      <a href="/contact">Contact</a>
+    </div>
+  </div>
 </nav>
 
 <!-- HERO -->
@@ -389,6 +405,12 @@
 </div>
 
 <script>
+  // Pill nav on scroll
+  const csNav = document.getElementById('cs2-nav');
+  window.addEventListener('scroll', () => {
+    csNav.classList.toggle('scrolled', window.scrollY > 20);
+  });
+
   function openLB(src, cap) {
     document.getElementById('lb-img').src = src;
     document.getElementById('lb-cap').textContent = cap || '';
