@@ -159,6 +159,8 @@
     .cs2-lock-contact { font-size: 13px; font-weight: 300; color: var(--muted); line-height: 1.65; }
     .cs2-lock-contact a { color: var(--text); text-decoration: underline; text-decoration-color: var(--border); text-underline-offset: 3px; font-weight: 400; transition: text-decoration-color 0.2s; }
     .cs2-lock-contact a:hover { text-decoration-color: var(--text); }
+    .cs2-lock-skip { display: block; font-size: 13px; font-weight: 400; color: var(--text); text-decoration: none; margin-bottom: 12px; transition: opacity 0.2s; }
+    .cs2-lock-skip:hover { opacity: 0.6; }
 
     /* NEXT CASE STUDY */
     .cs2-next { border-top: 1px solid var(--border); }
@@ -485,6 +487,7 @@
       <button class="cs2-lock-btn" onclick="checkLockPw()">Access →</button>
     </div>
     <p class="cs2-lock-error" id="lock-error">Incorrect password. Try again.</p>
+    <a href="adcenter-v2.html" class="cs2-lock-skip">Skip to next case study →</a>
     <div class="cs2-lock-sep"></div>
     <p class="cs2-lock-contact">If you want to know more about this project, please <a href="https://valelamicq.com/contact" target="_blank">contact me</a>, and I'll answer you as soon as possible.</p>
   </div>
