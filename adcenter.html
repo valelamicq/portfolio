@@ -173,32 +173,6 @@
     .cs2-next-lock-badge { display: flex; align-items: center; gap: 5px; font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
     .cs2-next-lock-badge svg { flex-shrink: 0; }
 
-    /* LOCK MODAL */
-    .cs2-lock-overlay { position: fixed; inset: 0; z-index: 400; background: rgba(26,26,26,0.55); display: flex; align-items: center; justify-content: center; padding: 40px; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
-    .cs2-lock-overlay.open { opacity: 1; pointer-events: all; }
-    .cs2-lock-panel { background: var(--bg); border-radius: 16px; padding: 40px; width: 100%; max-width: 400px; position: relative; }
-    .cs2-lock-eyebrow { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; }
-    .cs2-lock-title { font-size: 20px; font-weight: 400; letter-spacing: -0.02em; margin-bottom: 8px; }
-    .cs2-lock-sub { font-size: 13px; color: var(--muted); font-weight: 300; line-height: 1.6; margin-bottom: 28px; }
-    .cs2-lock-row { display: flex; gap: 10px; }
-    .cs2-lock-input { flex: 1; height: 44px; border: 1px solid var(--border); border-radius: 8px; background: white; padding: 0 14px; font-size: 14px; font-family: var(--font); color: var(--text); outline: none; transition: border-color 0.2s; }
-    .cs2-lock-input:focus { border-color: var(--text); }
-    .cs2-lock-input.shake { animation: lockshake 0.35s ease; }
-    .cs2-lock-input.error { border-color: #D04; }
-    .cs2-lock-input.error:focus { border-color: #D04; }
-    .cs2-lock-btn { height: 44px; padding: 0 20px; background: var(--text); color: white; border: none; border-radius: 8px; font-size: 13px; font-weight: 500; font-family: var(--font); cursor: pointer; white-space: nowrap; transition: opacity 0.2s; }
-    .cs2-lock-btn:hover { opacity: 0.8; }
-    .cs2-lock-error { font-size: 12px; color: #D04; margin-top: 10px; min-height: 18px; opacity: 0; transition: opacity 0.2s; }
-    .cs2-lock-error.visible { opacity: 1; }
-    .cs2-lock-close { position: absolute; top: 16px; right: 20px; background: none; border: none; font-size: 24px; color: var(--muted); cursor: pointer; line-height: 1; padding: 4px; transition: color 0.2s; }
-    .cs2-lock-close:hover { color: var(--text); }
-    @keyframes lockshake { 0%,100%{transform:translateX(0)} 20%,60%{transform:translateX(-6px)} 40%,80%{transform:translateX(6px)} }
-    .cs2-lock-sep { width: 100%; height: 1px; background: var(--border); margin: 22px 0 18px; }
-    .cs2-lock-contact { font-size: 13px; font-weight: 300; color: var(--muted); line-height: 1.65; }
-    .cs2-lock-contact a { color: var(--text); text-decoration: underline; text-decoration-color: var(--border); text-underline-offset: 3px; font-weight: 400; transition: text-decoration-color 0.2s; }
-    .cs2-lock-contact a:hover { text-decoration-color: var(--text); }
-    .cs2-lock-skip { display: block; font-size: 13px; font-weight: 400; color: var(--text); text-decoration: none; margin-bottom: 12px; transition: opacity 0.2s; }
-    .cs2-lock-skip:hover { opacity: 0.6; }
 
     /* NEXT CASE STUDY */
     .cs2-next { border-top: 1px solid var(--border); }
@@ -548,9 +522,9 @@
 <section class="cs2-next">
   <div class="cs2-next-inner">
     <p class="cs2-next-label">Next case study</p>
-    <div class="cs2-next-card cs2-next-card--locked" id="next-card" onclick="handleNext()" style="cursor:pointer;">
+    <a href="dnum.html" class="cs2-next-card cs2-next-card--locked">
       <div>
-        <p class="cs2-next-lock-badge" id="next-lock-badge">
+        <p class="cs2-next-lock-badge">
           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
           Password protected
         </p>
@@ -558,27 +532,9 @@
         <p class="cs2-next-desc">Leading an accessibility audit and redesign strategy for the French Ministry of Labor — in one month, solo.</p>
       </div>
       <span class="cs2-next-arrow">→</span>
-    </div>
+    </a>
   </div>
 </section>
-
-<!-- LOCK MODAL -->
-<div class="cs2-lock-overlay" id="lock-overlay" onclick="if(event.target===this)closeLockModal()">
-  <div class="cs2-lock-panel">
-    <button class="cs2-lock-close" onclick="closeLockModal()">×</button>
-    <p class="cs2-lock-eyebrow">Protected case study</p>
-    <h3 class="cs2-lock-title">This project is confidential</h3>
-    <p class="cs2-lock-sub">This case study contains confidential client information. Enter the password to access it.</p>
-    <div class="cs2-lock-row">
-      <input class="cs2-lock-input" id="lock-input" type="password" placeholder="Enter password" autocomplete="off" aria-describedby="lock-error" aria-invalid="false" onkeydown="if(event.key==='Enter') checkLockPw()">
-      <button class="cs2-lock-btn" onclick="checkLockPw()">Access →</button>
-    </div>
-    <p class="cs2-lock-error" id="lock-error" role="alert" aria-atomic="true"></p>
-    <a href="avire.html" class="cs2-lock-skip">Skip to next case study →</a>
-    <div class="cs2-lock-sep"></div>
-    <p class="cs2-lock-contact">If you want to know more about this project, please <a href="https://valelamicq.com/contact" target="_blank">contact me</a>, and I'll answer you as soon as possible.</p>
-  </div>
-</div>
 
 <!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox" onclick="closeLB()">
@@ -588,57 +544,6 @@
 </div>
 
 <script>
-  // Next case study — lock logic
-  const NEXT_URL = 'dnum.html';
-  const NEXT_KEY = 'pw_unlocked_dnum';
-  const NEXT_PW  = 'dnum';
-
-  (function initNext() {
-    if (sessionStorage.getItem(NEXT_KEY) === '1') {
-      const card  = document.getElementById('next-card');
-      const badge = document.getElementById('next-lock-badge');
-      if (card)  card.classList.remove('cs2-next-card--locked');
-      if (badge) badge.style.display = 'none';
-    }
-  })();
-
-  function handleNext() {
-    if (sessionStorage.getItem(NEXT_KEY) === '1') {
-      window.location.href = NEXT_URL;
-    } else {
-      document.getElementById('lock-overlay').classList.add('open');
-      document.body.style.overflow = 'hidden';
-      setTimeout(() => document.getElementById('lock-input').focus(), 50);
-    }
-  }
-  function closeLockModal() {
-    document.getElementById('lock-overlay').classList.remove('open');
-    document.body.style.overflow = '';
-    const input = document.getElementById('lock-input');
-    const error = document.getElementById('lock-error');
-    input.value = ''; input.classList.remove('shake', 'error'); input.setAttribute('aria-invalid', 'false');
-    error.classList.remove('visible'); error.textContent = '';
-  }
-  function checkLockPw() {
-    const input = document.getElementById('lock-input');
-    const error = document.getElementById('lock-error');
-    if (input.value.trim().toLowerCase() === NEXT_PW) {
-      input.setAttribute('aria-invalid', 'false');
-      sessionStorage.setItem(NEXT_KEY, '1');
-      window.location.href = NEXT_URL;
-    } else {
-      input.classList.remove('shake');
-      void input.offsetWidth;
-      input.classList.add('shake', 'error');
-      input.setAttribute('aria-invalid', 'true');
-      error.textContent = 'Incorrect password. Please try again.';
-      error.classList.add('visible');
-      input.value = '';
-      input.focus();
-    }
-  }
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLockModal(); });
-
   // Pill nav on scroll
   const csNav = document.getElementById('cs2-nav');
   window.addEventListener('scroll', () => {

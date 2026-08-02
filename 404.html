@@ -1703,7 +1703,7 @@
         </div>
 
         <!-- 02 — DNUM (LOCKED) -->
-        <div class="card card-locked" onclick="safeNavigate('dnum')">
+        <div class="card card-locked" onclick="navigate('dnum')">
           <div class="card-img dnum">
             <div class="card-img-fill"></div>
             <img src="images/DNUM-1.png" alt="DNUM Accessibility Audit" class="card-cover-img" onerror="this.style.display='none'">
@@ -1733,7 +1733,7 @@
         </div>
 
         <!-- 03 — Ibermutua (LOCKED) -->
-        <div class="card card-locked" onclick="safeNavigate('ibermutua')">
+        <div class="card card-locked" onclick="navigate('ibermutua')">
           <div class="card-img ibermutua">
             <div class="card-img-fill"></div>
             <img src="images/Ibermutua-1.png" alt="Ibermutua Digital Empresas" class="card-cover-img">
@@ -2148,7 +2148,7 @@
   <section class="next-cs">
     <div class="container">
       <p class="next-cs-label">Next case study</p>
-      <div class="next-cs-card next-cs-card--locked" onclick="safeNavigate('dnum')">
+      <div class="next-cs-card next-cs-card--locked" onclick="navigate('dnum')">
         <div>
           <p class="next-cs-lock-badge">
             <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
@@ -2686,7 +2686,7 @@
   <section class="next-cs">
     <div class="container">
       <p class="next-cs-label">One more project</p>
-      <div class="next-cs-card next-cs-card--locked" onclick="safeNavigate('ibermutua')">
+      <div class="next-cs-card next-cs-card--locked" onclick="navigate('ibermutua')">
         <div>
           <p class="next-cs-lock-badge">
             <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
@@ -2750,10 +2750,6 @@
   const LOCKED_ROUTES = new Set(['dnum', 'ibermutua']);
   // Tracks which locked routes have been unlocked in this session
   const unlockedRoutes = new Set();
-  // Restore unlock state from sessionStorage so returning users aren't re-prompted
-  LOCKED_ROUTES.forEach(function(r) {
-    if (sessionStorage.getItem('pw_unlocked_' + r) === '1') unlockedRoutes.add(r);
-  });
   // Holds the intended destination when the lock modal is triggered mid-navigation
   let pendingLockedRoute = null;
 

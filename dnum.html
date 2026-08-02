@@ -163,6 +163,11 @@
       .gov-card { grid-template-columns: 1fr; gap: 8px; }
       .cs2-next-inner { padding: 48px 24px 64px; }
     }
+    @media (max-width: 500px) {
+      .pw-gate { padding: 24px 20px; }
+      .pw-gate-row { flex-direction: column; gap: 8px; }
+      .pw-gate-btn { width: 100%; }
+    }
   </style>
 </head>
 <body>
@@ -457,24 +462,16 @@
 </div>
 
 <script>
-  // Password gate — skip if already unlocked
-  (function() {
-    if (sessionStorage.getItem('pw_unlocked_dnum') === '1') {
-      var gate = document.getElementById('pw-gate');
-      if (gate) gate.remove();
-    } else {
-      setTimeout(function() {
-        var input = document.getElementById('pw-input');
-        if (input) input.focus();
-      }, 50);
-    }
-  })();
+  // Auto-focus password input
+  setTimeout(function() {
+    var input = document.getElementById('pw-input');
+    if (input) input.focus();
+  }, 50);
 
   function checkPw() {
     const input = document.getElementById('pw-input');
     const error = document.getElementById('pw-error');
     if (input.value.trim().toLowerCase() === 'dnum') {
-      sessionStorage.setItem('pw_unlocked_dnum', '1');
       const gate = document.getElementById('pw-gate');
       gate.style.transition = 'opacity 0.3s';
       gate.style.opacity = '0';
