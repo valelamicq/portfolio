@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ADCenter — Content Parity Audit · V1 vs V2</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #F9F8F6; --bg-card: #F0EFEC; --text: #1A1A1A; --muted: #737373;
+      --border: #E3E2DF; --font: 'Inter', -apple-system, sans-serif;
+      --green: #22C55E; --amber: #D97706; --red: #DC2626; --blue: #2563EB;
+      --green-bg: rgba(34,197,94,0.08); --amber-bg: rgba(217,119,6,0.08);
+      --red-bg: rgba(220,38,38,0.08); --blue-bg: rgba(37,99,235,0.08);
+    }
+    body { font-family: var(--font); background: var(--bg); color: var(--text); font-size: 15px; line-height: 1.7; -webkit-font-smoothing: antialiased; padding: 64px 40px 120px; max-width: 900px; margin: 0 auto; }
+
+    h1 { font-size: 28px; font-weight: 400; letter-spacing: -0.02em; margin-bottom: 8px; }
+    .subtitle { font-size: 14px; color: var(--muted); margin-bottom: 48px; padding-bottom: 32px; border-bottom: 1px solid var(--border); }
+
+    h2 { font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin: 52px 0 20px; }
+
+    .legend { display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 48px; }
+    .legend-item { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+    .badge { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 500; padding: 3px 10px; border-radius: 20px; white-space: nowrap; }
+    .badge--ok   { background: var(--green-bg); color: #16A34A; }
+    .badge--warn { background: var(--amber-bg); color: #B45309; }
+    .badge--miss { background: var(--red-bg);   color: #B91C1C; }
+    .badge--tip  { background: var(--blue-bg);  color: #1D4ED8; }
+
+    .section-block { margin-bottom: 8px; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+    .section-header { padding: 18px 24px; background: var(--bg-card); display: flex; align-items: center; justify-content: space-between; cursor: pointer; user-select: none; }
+    .section-header h3 { font-size: 14px; font-weight: 500; }
+    .section-header .status-row { display: flex; gap: 6px; }
+    .section-body { padding: 0 24px 24px; display: none; }
+    .section-body.open { display: block; }
+
+    .finding { display: grid; grid-template-columns: 90px 1fr; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--border); }
+    .finding:last-child { border-bottom: none; }
+    .finding-label { padding-top: 1px; }
+    .finding-content p { font-size: 14px; line-height: 1.6; margin-bottom: 8px; }
+    .finding-content p:last-child { margin-bottom: 0; }
+    .finding-content code { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 12px; background: var(--bg-card); padding: 2px 6px; border-radius: 4px; color: var(--text); }
+
+    .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
+    .summary-card { border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
+    .summary-card h4 { font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+    .summary-card ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .summary-card li { font-size: 13px; line-height: 1.5; padding-left: 16px; position: relative; }
+    .summary-card li::before { content: ''; position: absolute; left: 0; top: 8px; width: 5px; height: 5px; border-radius: 50%; background: var(--border); }
+    .summary-card--miss li::before { background: #DC2626; }
+    .summary-card--ok li::before   { background: var(--green); }
+
+    .verdict { margin-top: 32px; padding: 24px; background: var(--bg-card); border-radius: 12px; border: 1px solid var(--border); }
+    .verdict p { font-size: 14px; line-height: 1.7; margin-bottom: 12px; }
+    .verdict p:last-child { margin-bottom: 0; }
+    .verdict strong { font-weight: 500; }
+  </style>
+</head>
+<body>
+
+<h1>ADCenter Design System — Content Parity Audit</h1>
+<p class="subtitle">Version 1 (index.html) vs Version 2 (adcenter-v2.html) · August 2026</p>
+
+<div class="legend">
+  <div class="legend-item"><span class="badge badge--ok">✅ Preserved</span> — content fully present</div>
+  <div class="legend-item"><span class="badge badge--warn">⚠️ Simplified</span> — present but condensed or rephrased</div>
+  <div class="legend-item"><span class="badge badge--miss">❌ Missing</span> — content not found in V2</div>
+  <div class="legend-item"><span class="badge badge--tip">💡 Opportunity</span> — could communicate more clearly</div>
+</div>
+
+<h2>Section-by-section breakdown</h2>
+
+<!-- HEADER -->
+<div class="section-block">
+  <div class="section-header" onclick="toggle(this)">
+    <h3>Header &amp; Meta</h3>
+    <div class="status-row">
+      <span class="badge badge--ok">✅ Preserved</span>
+      <span class="badge badge--warn">⚠️ 1 simplified</span>
+    </div>
+  </div>
+  <div class="section-body">
+    <div class="finding">
+      <div class="finding-label"><span class="badge badge--ok">✅</span></div>
+      <div class="finding-content"><p>Title, one-liner, Role, Tools, Timeline, and Scope are all preserved word-for-word.</p></div>
+    </div>
+    <div class="finding">
+      <div class="finding-label"><span class="badge badge--warn">⚠️</span></div>
+      <div class="finding-content"><p>Team label: V1 says <code>UX/UI Designers, Development Team</code>. V2 says <code>UX/UI Designers, Development</code>. "Team" was dropped. Trivial, but worth aligning for consistency.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- CHALLENGE -->
+<div class="section-block">
+  <div class="section-header" onclick="toggle(this)">
+    <h3>01 · Challenge</h3>
+    <div class="status-row">
+      <span class="badge badge--miss">❌ 2 missing</span>
+      <span class="badge badge--warn">⚠️ 1 simplified</span>
+      <span class="badge badge--tip">💡 1 opportunity</span>
+    </div>
+  </div>
+  <div class="section-body">
+    <div class="finding">
+      <div class="finding-label"><span class="badge badge--ok">✅</span></div>
+      <div class="finding-content"><p>Opening sentence, style guide description, disconnect visible to users, and the goal/purpose framing (preserved in pull quote) are all present.</p></div>
+    </div>
+    <div class="finding">
+      <div class="finding-label"><span class="badge badge--miss">❌</span></div>
+      <div class="finding-content">
+        <p><strong>The scalability bottleneck paragraph is entirely missing.</strong> V1 contains: <em>"This wasn't just a visual consistency problem — it was a scalability bottleneck. Every new product meant reinventing the UI from zero. Every update meant touching multiple codebases manually. And the lack of shared standards meant quality depended entirely on whoever happened to be building that particular feature."</em></p>
+        <p>This paragraph establishes the business case and strategic urgency. It elevates the project from a "visual cleanup" to a systemic efficiency problem. Its absence weakens the framing for a senior role.</p>
+      </div>
+    </div>
+    <div class="finding">
+      <div class="finding-label"><span class="badge badge--miss">❌</span></div>
+      <div class="finding-content">
+        <p><strong>"I recognized the opportunity early and made the case for building a design system."</strong> This sentence demonstrates initiative and leadership — exactly what senior hiring managers look for. It is not present in V2 in any form.</p>
+      </div>
+    </div>
+    <div class="finding">
+      <div class="finding-label"><span class="badge badge--warn">⚠️</span></div>
+      <div class="finding-content">
+        <p>"Designers worked from instinct" — this specific phrase that captures the human dimension of the problem is present in V1 but not surfaced in V2. The problem cards cover the structural issues but not the experience of working in that environment.</p>
+      </div>
+    </div>
+    <div class="finding">
+      <div class="finding-label"><span class="badge badge--tip">💡</span></div>
+      <div class="finding-content">
+        <p>The four problem cards are a strong visual format — but currently they describe the problem as-found rather than connecting it to business impact. The opening paragraph could absorb the scalability bottleneck idea in 1–2 sentences without cluttering the layout.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- RESEARCH -->
+<div class="section-block">
+  <div class="section-header" onclick="toggle(this)">
+    <h3>02 · Research</h3>
+    <div class="status-row">
+      <span class="badge badge--ok">✅ Fully preserved</span>
+      <span class="badge badge--warn">⚠️ 1 minor</span>
+    </div>
+  </div>
+  <div class="section-body">
+    <div class="finding">
+      <div class="finding-label"><span class="badge badge--ok">✅</span></div>
+      <div class="finding-content"><p>All four root causes are preserved in the finding cards with equivalent specificity. The Core Insight block preserves the callout text almost verbatim.</p></div>
+    </div>
+    <div class="finding">
+      <div class="finding-label"><span class="badge badge--warn">⚠️</span></div>
+      <div class="finding-content">
+        <p>V1 mentions the framework detail with a cause-effect explanation: <em>"which meant even when a component was built well in one codebase, it had to be rebuilt differently in the other."</em> V2 compresses this to <code>Angular and React codebases meant a well-built component had to be rebuilt entirely for the other stack.</code> The meaning is retained; minor.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SCOPING -->
+<div class="section-block">
+  <div class="section-header" onclick="toggle(this)">
+    <h3>03 · Scoping V1</h3>
+    <div class="status-row">
+      <span class="badge badge--ok">✅ Mostly preserved</span>
+      <span class="badge badge--miss">❌ 1 missing</span>
+      <span class="badge badge--warn">⚠️ 1 simplified</span>
+    </div>
+  </div>
+  <div class="section-body">
+    <div class="finding">
+      <div class="finding-label"><span class="badge badge--ok">✅</span></div>
+      <div class="finding-content"><p>All six scope decisions (three included, three deferred) are preserved with the same level of detail. The key pull quote is preserved. ADCenter-3.png is present.</p></div>
+    </div>
+    <div class="finding">
+      <div class="finding-label"><span class="badge badge--miss">❌</span></div>
+      <div class="finding-content">
+        <p><strong>The rationale sentence is missing.</strong> V1 closes the section with: <em>"The reasoning was simple: ship a focused, well-documented foundation that teams could start using immediately, then iterate based on real adoption feedback."</em></p>
+        <p>The pull quote captures the spirit but not the specific reasoning. "Iterate based on real adoption feedback" is a distinct point that shows product thinking — it is not said elsewhere in V2.</p>
+      </div>
+    </div>
+    <div class="finding">
+      <div class="finding-label"><span class="badge badge--warn">⚠️</span></div>
+      <div class="finding-content">
+        <p>V1's Foundations item specifies <em>"Built as design tokens so they could sync with both Angular and React codebases."</em> V2 says <em>"syncing to both Angular and React"</em> — slightly compressed but the substance is there.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ADOPTION -->
+<div class="section-block">
+  <div class="section-header" onclick="toggle(this)">
+    <h3>04 · Building Adoption</h3>
+    <div class="status-row">
+      <span class="badge badge--ok">✅ Well preserved</span>
+      <span class="badge badge--warn">⚠️ 1 minor</span>
+    </div>
+  </div>
+  <div class="section-body">
+    <div class="finding">
+      <div class="finding-label"><span class="badge badge--ok">✅</span></div>
+      <div class="finding-content"><p>The developer resistance story is fully preserved — same arc, same turning point, same resolution. All three rituals (weekly syncs, Notion backlog, design team reviews) are present with equivalent descriptions.</p></div>
+    </div>
+    <div class="finding">
+      <div class="finding-label"><span class="badge badge--warn">⚠️</span></div>
+      <div class="finding-content">
+        <p>V1 documents the documentation approach with a specific contrast: <em>"not design theory, but practical implementation guidance."</em> This contrast — what was deliberately excluded — is removed in V2. It signals intentionality in the approach. Low severity, but it's a good detail.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- GOVERNANCE -->
+<div class="section-block">
+  <div class="section-header" onclick="toggle(this)">
+    <h3>05 · Governance</h3>
+    <div class="status-row">
+      <span class="badge badge--ok">✅ Fully preserved</span>
+    </div>
+  </div>
+  <div class="section-body">
+    <div class="finding">
+      <div class="finding-label"><span class="badge badge--ok">✅</span></div>
+      <div class="finding-content"><p>All three governance pillars (Contribution Flow, Iteration Cadence, Ownership Model) are preserved with nearly identical text. The governance cards add the <code>Propose → Review → Merge</code> and <code>Weekly, not big-bang</code> subtitles as helpful summaries. No information lost.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- IMPACT -->
+<div class="section-block">
+  <div class="section-header" onclick="toggle(this)">
+    <h3>06 · Impact</h3>
+    <div class="status-row">
+      <span class="badge badge--ok">✅ Metrics preserved</span>
+      <span class="badge badge--miss">❌ 1 missing</span>
+      <span class="badge badge--warn">⚠️ 1 simplified</span>
+      <span class="badge badge--tip">💡 1 opportunity</span>
+    </div>
+  </div>
+  <div class="section-body">
+    <div class="finding">
+      <div class="finding-label"><span class="badge badge--ok">✅</span></div>
+      <div class="finding-content"><p>All five metrics are preserved with the same numbers and supporting descriptions. ADCenter-4.png is present. The developer integration time card explicitly captures the before state (from ~6 hrs to ~3 hrs), which V1 also showed in the table.</p></div>
+    </div>
+    <div class="finding">
+      <div class="finding-label"><span class="badge badge--miss">❌</span></div>
+      <div class="finding-content">
+        <p><strong>The closing paragraph about current project status is entirely missing.</strong> V1 ends the Impact section with: <em>"The DS is currently adopted across 3–5 internal products and continues to evolve. The web component library is under development to enable full cross-framework compatibility between Angular and React."</em></p>
+        <p>This sentence does two important things: (1) establishes that the project is ongoing — not a past effort — and (2) signals forward planning with the web component library initiative. Both matter for a senior role. This should be restored.</p>
+      </div>
+    </div>
+    <div class="finding">
+      <div class="finding-label"><span class="badge badge--warn">⚠️</span></div>
+      <div class="finding-content">
+        <p>V1's table format showed a <strong>Before</strong> state for each metric (e.g., "No standard" for accessibility, "Inconsistent" for reuse, "Frequent" for support questions). V2 only shows before states for two of the five metrics. The baselines for metrics 1, 2, and 4 are implicit but not stated.</p>
+      </div>
+    </div>
+    <div class="finding">
+      <div class="finding-label"><span class="badge badge--tip">💡</span></div>
+      <div class="finding-content">
+        <p>The "↓" symbol in the wide metric card for DS support questions is less immediately scannable than the number format used in the other four. Consider replacing it with a word like "Fewer" or keeping the downward arrow but pairing it with brief before/after phrasing in the label (<code>Frequent → Rare</code>), which would align with the table logic from V1.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- REFLECTIONS -->
+<div class="section-block">
+  <div class="section-header" onclick="toggle(this)">
+    <h3>07 · Reflections</h3>
+    <div class="status-row">
+      <span class="badge badge--ok">✅ Perfectly preserved</span>
+    </div>
+  </div>
+  <div class="section-body">
+    <div class="finding">
+      <div class="finding-label"><span class="badge badge--ok">✅</span></div>
+      <div class="finding-content"><p>All four reflections are present with identical titles and body text. No content lost, no simplification. This section is a 1:1 match.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- IMAGES -->
+<div class="section-block">
+  <div class="section-header" onclick="toggle(this)">
+    <h3>Images</h3>
+    <div class="status-row">
+      <span class="badge badge--ok">✅ All present</span>
+    </div>
+  </div>
+  <div class="section-body">
+    <div class="finding">
+      <div class="finding-label"><span class="badge badge--ok">✅</span></div>
+      <div class="finding-content"><p>ADCenter-2.png (hero), ADCenter-3.png (typography/tokens, Scoping), and ADCenter-4.png (products built with DS, Impact) are all present in V2 in the same narrative positions.</p></div>
+    </div>
+  </div>
+</div>
+
+
+<h2>Summary</h2>
+
+<div class="summary-grid">
+  <div class="summary-card summary-card--miss">
+    <h4>❌ Missing — restore these</h4>
+    <ul>
+      <li><strong>Challenge:</strong> "scalability bottleneck" paragraph (strategic framing)</li>
+      <li><strong>Challenge:</strong> "I recognized the opportunity early and made the case" (leadership signal)</li>
+      <li><strong>Scoping:</strong> Closing rationale sentence about iterating on adoption feedback</li>
+      <li><strong>Impact:</strong> Current project status + web component library initiative paragraph</li>
+    </ul>
+  </div>
+  <div class="summary-card">
+    <h4>⚠️ Simplified — low priority</h4>
+    <ul>
+      <li>Meta: "Development" vs "Development Team"</li>
+      <li>Challenge: "Designers worked from instinct" detail</li>
+      <li>Research: Framework nuance slightly compressed</li>
+      <li>Adoption: "not design theory" contrast removed</li>
+      <li>Impact: Before-state baselines for 3 of 5 metrics not shown</li>
+    </ul>
+  </div>
+  <div class="summary-card summary-card--ok">
+    <h4>✅ Perfectly preserved</h4>
+    <ul>
+      <li>All five metrics and numbers</li>
+      <li>All three governance pillars (near-verbatim)</li>
+      <li>All four reflections (word-for-word)</li>
+      <li>All three images in correct narrative positions</li>
+      <li>Core Insight (verbatim)</li>
+      <li>Both pull quotes</li>
+      <li>All rituals and resistance story arc</li>
+    </ul>
+  </div>
+  <div class="summary-card">
+    <h4>💡 Opportunities</h4>
+    <ul>
+      <li>Add 1–2 sentences to Challenge opening about business stakes</li>
+      <li>Replace "↓" in DS support metric with before/after phrasing</li>
+      <li>Restore before-state context in metric descriptions for completeness</li>
+    </ul>
+  </div>
+</div>
+
+<div class="verdict">
+  <p><strong>Overall verdict:</strong> V2 preserves approximately 85–90% of V1's content. The visual upgrade is significant and the core narrative holds. However, four pieces of content are genuinely absent and should be restored before this becomes the foundation for remaining case studies.</p>
+  <p>The most important items to restore are: (1) the scalability bottleneck paragraph in Challenge — it makes the business case and elevates the project; (2) "I recognized the opportunity early and made the case" — it demonstrates initiative; and (3) the current project status in Impact — it signals ongoing ownership and forward planning. These three are the difference between a project retrospective and a senior-level case study.</p>
+  <p>Once those are restored, V2 will be both more beautiful <em>and</em> more complete than V1.</p>
+</div>
+
+<script>
+  function toggle(header) {
+    const body = header.nextElementSibling;
+    body.classList.toggle('open');
+  }
+  // Open all on load
+  document.querySelectorAll('.section-body').forEach(b => b.classList.add('open'));
+</script>
+</body>
+</html>

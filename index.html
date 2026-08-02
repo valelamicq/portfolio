@@ -2920,6 +2920,7 @@
     if (val === (LOCK_PASSWORDS[dest] || 'ibermutua')) {
       // Success — mark route as unlocked for this session, then navigate
       unlockedRoutes.add(dest);
+      sessionStorage.setItem('pw_unlocked_' + dest, '1');
       closeLockModal();
       navigate(dest);
     } else {

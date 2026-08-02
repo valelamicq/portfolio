@@ -461,6 +461,7 @@
     const input = document.getElementById('pw-input');
     const error = document.getElementById('pw-error');
     if (input.value.trim().toLowerCase() === 'ibermutua') {
+      sessionStorage.setItem('pw_unlocked_ibermutua', '1');
       const gate = document.getElementById('pw-gate');
       gate.style.transition = 'opacity 0.3s';
       gate.style.opacity = '0';
