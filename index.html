@@ -1703,7 +1703,7 @@
         </div>
 
         <!-- 02 — DNUM (LOCKED) -->
-        <div class="card card-locked" onclick="openLockModal('dnum')">
+        <div class="card card-locked" onclick="safeNavigate('dnum')">
           <div class="card-img dnum">
             <div class="card-img-fill"></div>
             <img src="images/DNUM-1.png" alt="DNUM Accessibility Audit" class="card-cover-img" onerror="this.style.display='none'">
@@ -1733,7 +1733,7 @@
         </div>
 
         <!-- 03 — Ibermutua (LOCKED) -->
-        <div class="card card-locked" onclick="openLockModal()">
+        <div class="card card-locked" onclick="safeNavigate('ibermutua')">
           <div class="card-img ibermutua">
             <div class="card-img-fill"></div>
             <img src="images/Ibermutua-1.png" alt="Ibermutua Digital Empresas" class="card-cover-img">
@@ -2758,6 +2758,10 @@
   const LOCKED_ROUTES = new Set(['dnum', 'ibermutua']);
   // Tracks which locked routes have been unlocked in this session
   const unlockedRoutes = new Set();
+  // Restore unlock state from sessionStorage so returning users aren't re-prompted
+  LOCKED_ROUTES.forEach(function(r) {
+    if (sessionStorage.getItem('pw_unlocked_' + r) === '1') unlockedRoutes.add(r);
+  });
   // Holds the intended destination when the lock modal is triggered mid-navigation
   let pendingLockedRoute = null;
 
@@ -2791,10 +2795,15 @@
   }
 
   // Safe navigate — intercepts locked routes and shows the password gate.
+  // Checks both in-memory state and sessionStorage so returning users are never re-prompted.
   function safeNavigate(route) {
-    if (LOCKED_ROUTES.has(route) && !unlockedRoutes.has(route)) {
-      openLockModal(route);
-      return;
+    if (LOCKED_ROUTES.has(route)) {
+      const alreadyUnlocked = unlockedRoutes.has(route) || sessionStorage.getItem('pw_unlocked_' + route) === '1';
+      if (!alreadyUnlocked) {
+        openLockModal(route);
+        return;
+      }
+      unlockedRoutes.add(route); // keep in-memory in sync
     }
     navigate(route);
   }
