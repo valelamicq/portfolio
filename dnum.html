@@ -462,11 +462,19 @@
 </div>
 
 <script>
-  // Auto-focus password input
-  setTimeout(function() {
-    var input = document.getElementById('pw-input');
-    if (input) input.focus();
-  }, 50);
+  // Password gate — remove if arriving via auth modal, otherwise auto-focus
+  (function() {
+    if (location.hash === '#auth') {
+      history.replaceState(null, '', location.pathname + location.search);
+      var gate = document.getElementById('pw-gate');
+      if (gate) gate.remove();
+    } else {
+      setTimeout(function() {
+        var input = document.getElementById('pw-input');
+        if (input) input.focus();
+      }, 50);
+    }
+  })();
 
   function checkPw() {
     const input = document.getElementById('pw-input');
