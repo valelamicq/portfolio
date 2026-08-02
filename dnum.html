@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ibermutua Digital Empresas — V2 Draft</title>
+  <title>DNUM – Cod'IT — V2 Draft</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
@@ -70,13 +70,6 @@
     .cs2-section p { font-size: 15px; font-weight: 300; line-height: 1.75; color: var(--text); margin-bottom: 18px; font-family: var(--font); }
     .cs2-section p:last-child { margin-bottom: 0; }
 
-    /* PERSONA CARDS */
-    .persona-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 24px 0; }
-    .persona-card { border: 1px solid var(--border); border-radius: 10px; padding: 20px 22px; }
-    .persona-role { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
-    .persona-card h4 { font-size: 13px; font-weight: 500; margin-bottom: 8px; line-height: 1.3; }
-    .persona-card p { font-size: 13px; color: var(--muted); line-height: 1.5; margin: 0; }
-
     /* FINDING CARDS */
     .finding-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 28px 0; }
     .finding-card { border: 1px solid var(--border); border-radius: 10px; padding: 20px 22px; }
@@ -91,19 +84,19 @@
     .cs2-insight p { font-size: 15px; font-weight: 300; line-height: 1.75; color: white; margin: 0; font-family: var(--font); }
     .cs2-insight strong { font-weight: 500; color: white; }
 
-    /* TABLE */
-    .cs2-table { width: 100%; border-collapse: collapse; margin: 24px 0; }
-    .cs2-table th { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); text-align: left; padding: 10px 14px; border-bottom: 2px solid var(--border); }
-    .cs2-table td { font-size: 13px; line-height: 1.55; padding: 14px; border-bottom: 1px solid var(--border); vertical-align: top; color: var(--muted); }
-    .cs2-table tr:last-child td { border-bottom: none; }
-    .cs2-table td:first-child { font-weight: 500; color: var(--text); }
+    /* METHOD CARDS — filled background distinguishes from finding cards */
+    .method-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 28px 0; }
+    .method-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 20px 22px; }
+    .method-card h4 { font-size: 13px; font-weight: 500; margin-bottom: 6px; }
+    .method-card p { font-size: 13px; color: var(--muted); line-height: 1.5; margin: 0; }
 
-    /* STORY CARD */
-    .story-card { border-left: 3px solid var(--text); padding: 24px 28px; margin: 32px 0; background: var(--bg-card); border-radius: 0 10px 10px 0; }
-    .story-label { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
-    .story-card h4 { font-size: 15px; font-weight: 500; margin-bottom: 12px; letter-spacing: -0.01em; line-height: 1.35; }
-    .story-card p { font-size: 15px; font-weight: 300; color: var(--text); line-height: 1.75; margin-bottom: 10px; font-family: var(--font); }
-    .story-card p:last-child { margin-bottom: 0; }
+    /* OUTCOME LIST */
+    .outcome-list { margin: 28px 0; }
+    .outcome-item { display: flex; gap: 16px; padding: 18px 0; border-top: 1px solid var(--border); align-items: flex-start; }
+    .outcome-item:last-child { border-bottom: 1px solid var(--border); }
+    .outcome-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); margin-top: 6px; flex-shrink: 0; }
+    .outcome-item-body strong { display: block; font-size: 13px; font-weight: 500; margin-bottom: 4px; color: var(--text); }
+    .outcome-item-body p { font-size: 13px; color: var(--muted); line-height: 1.55; margin: 0; }
 
     /* REFLECTIONS */
     .cs2-reflection { margin-top: 32px; }
@@ -163,9 +156,9 @@
       .cs2-hero { padding: 48px 24px 40px; }
       .cs2-hero-img-wrap { padding: 0 24px; }
       .cs2-nav-inner { padding: 0 24px; }
-      .persona-cards, .finding-cards { grid-template-columns: 1fr; }
+      .finding-cards, .method-cards { grid-template-columns: 1fr; }
       .finding-card--wide { grid-column: span 1; }
-      .cs2-table { display: block; overflow-x: auto; }
+      .gov-card { grid-template-columns: 1fr; gap: 8px; }
       .cs2-next-inner { padding: 48px 24px 64px; }
     }
   </style>
@@ -203,22 +196,22 @@
 
 <!-- HERO -->
 <header class="cs2-hero">
-  <p class="cs2-eyebrow">Case Study · Enterprise UX</p>
-  <h1>Ibermutua Digital Empresas: Redesigning Data into Decisions</h1>
-  <p class="cs2-hero-sub">Redesigning a dense enterprise data platform so HR professionals and business administrators could retrieve insights and make decisions with confidence — not fight the interface to get there.</p>
+  <p class="cs2-eyebrow">Case Study · Accessibility & Government</p>
+  <h1>DNUM – Cod'IT: Accessibility Audit for the French Ministry of Labor</h1>
+  <p class="cs2-hero-sub">A comprehensive accessibility audit and redesign strategy for a government labor law platform — delivering RGAA-compliant proposals that the Ministry adopted as the blueprint for remediation, in one month, solo.</p>
   <div class="cs2-meta-row">
-    <div class="cs2-meta-item"><label>Role</label><span>Product Designer (UX/UI)</span></div>
-    <div class="cs2-meta-item"><label>Team</label><span>Product Manager, Development Team</span></div>
-    <div class="cs2-meta-item"><label>Tools</label><span>Figma</span></div>
-    <div class="cs2-meta-item"><label>Timeline</label><span>6 months</span></div>
-    <div class="cs2-meta-item"><label>Sector</label><span>Workplace Health & Safety / Enterprise SaaS</span></div>
+    <div class="cs2-meta-item"><label>Role</label><span>Product Designer & Accessibility Specialist</span></div>
+    <div class="cs2-meta-item"><label>Team</label><span>Solo (stakeholder collaboration)</span></div>
+    <div class="cs2-meta-item"><label>Tools</label><span>Figma, AXE, WAVE, IBM Checker, Silktide, NVDA, VoiceOver</span></div>
+    <div class="cs2-meta-item"><label>Timeline</label><span>1 month</span></div>
+    <div class="cs2-meta-item"><label>Client</label><span>French Ministry of Labor — DNUM</span></div>
   </div>
 </header>
 
 <!-- HERO IMAGE -->
 <figure class="cs2-hero-img-wrap">
-  <div class="cs2-hero-img" style="background:#1A3A6B;" onclick="openLB(this.querySelector('img').src)">
-    <img src="images/Ibermutua-3.png" alt="Ibermutua Digital Empresas — overview of redesigned screens">
+  <div class="cs2-hero-img" style="background:#F5F5F2;" onclick="openLB(this.querySelector('img').src)">
+    <img src="images/DNUM-3.png" alt="DNUM Accessibility Audit — multi-screen overview">
   </div>
 </figure>
 
@@ -230,8 +223,8 @@
     <p class="cs2-toc-label">Contents</p>
     <ul>
       <li><a href="#challenge">Challenge</a></li>
-      <li><a href="#research">Research</a></li>
-      <li><a href="#problem">Problem</a></li>
+      <li><a href="#approach">Approach</a></li>
+      <li><a href="#findings">Findings</a></li>
       <li><a href="#design">Design</a></li>
       <li><a href="#outcome">Outcome</a></li>
       <li><a href="#reflections">Reflections</a></li>
@@ -245,167 +238,168 @@
     <section class="cs2-section" id="challenge">
       <p class="cs2-section-label">01 · Challenge</p>
       <h2>The Challenge</h2>
-      <p>Ibermutua is a leading Workplace Health and Safety organization in Spain, operating in collaboration with the national Social Security system. Their platform <strong>Digital Empresas</strong> served thousands of HR professionals, business administrators, and third-party advisors — all tracking workplace incidents, absenteeism, and risk prevention data daily.</p>
-      <p>Despite being critical to daily operations, the platform was failing its users. Cluttered filters buried under flat menus, no way to save frequent searches, constant disorientation when switching between company datasets, and information presented without hierarchy. Users had all the data they needed — they just couldn't get to it efficiently.</p>
-      <p>The business goal was clear: transform a rigid, data-heavy portal into a tool that let professionals retrieve insights and make decisions with confidence — while aligning the experience with Ibermutua's evolving design system.</p>
+      <p>Cod'IT is the French government's digital platform for codified labor law — used by government inspectors and citizens to access legal provisions that govern workplace regulations across France. It's an essential public service tool.</p>
+      <p>The problem: the platform was failing the people it was meant to serve. Navigation was deeply nested (7+ levels), search results were unstructured and often irrelevant, contrast was insufficient, and assistive technology support was broken. For users relying on screen readers, the platform was effectively inaccessible.</p>
+      <p>This wasn't just a usability issue — it was a compliance risk. The French government's RGAA accessibility framework (aligned with WCAG 2.1 AA) requires public-sector digital services to meet specific inclusion standards. Cod'IT fell significantly short.</p>
+      <p>I was brought in to lead the accessibility audit and deliver a redesign strategy that would bring the platform into compliance while fundamentally improving the experience for all users — not just those with disabilities.</p>
+
+      <div class="cs2-insight">
+        <p class="cs2-insight-label">Project Constraint</p>
+        <p>The constraint that shaped the work: I had one month. Every decision about scope, prioritization, and depth had to be deliberate. There was no room for broad exploration — I needed to identify the highest-impact issues, propose actionable solutions, and deliver a complete audit report and design proposals the Ministry could implement immediately.</p>
+      </div>
     </section>
 
-    <!-- 02 RESEARCH -->
-    <section class="cs2-section" id="research">
-      <p class="cs2-section-label">02 · Research</p>
-      <h2>Research & Discovery</h2>
-      <p>The discovery phase involved interviews with the platform's three core user groups:</p>
+    <!-- 02 APPROACH -->
+    <section class="cs2-section" id="approach">
+      <p class="cs2-section-label">02 · Approach</p>
+      <h2>Audit Approach</h2>
+      <p>I designed a four-layer audit methodology to ensure comprehensive coverage within the compressed timeline:</p>
 
-      <div class="persona-cards">
-        <div class="persona-card">
-          <p class="persona-role">User Group 01</p>
-          <h4>HR Departments</h4>
-          <p>Tracked absenteeism, workplace incidents, and compliance data daily. They needed speed and repeatability — the same searches, run the same way, every week.</p>
+      <div class="method-cards">
+        <div class="method-card">
+          <p class="finding-num">Layer 01</p>
+          <h4>Automated testing</h4>
+          <p>Used AXE, WAVE, IBM Accessibility Checker, and Silktide to surface color contrast failures, missing alt text, and ARIA role violations across the platform. This established a quantitative baseline quickly.</p>
         </div>
-        <div class="persona-card">
-          <p class="persona-role">User Group 02</p>
-          <h4>Business Administrators</h4>
-          <p>Focused on financial impact and reporting. They needed clear data hierarchy and the ability to drill into specifics without losing context.</p>
+        <div class="method-card">
+          <p class="finding-num">Layer 02</p>
+          <h4>Manual screen reader testing</h4>
+          <p>Navigated the full platform using NVDA and VoiceOver to evaluate real-world assistive technology compatibility. Automated tools catch structural issues; manual testing reveals how the experience actually feels for someone using a screen reader.</p>
         </div>
-        <div class="persona-card">
-          <p class="persona-role">User Group 03</p>
-          <h4>Third-Party Advisors</h4>
-          <p>Consulting firms managing multiple client companies simultaneously. The most disoriented users — constantly switching datasets and losing track of which company's data they were viewing.</p>
+        <div class="method-card">
+          <p class="finding-num">Layer 03</p>
+          <h4>Heuristic review</h4>
+          <p>Evaluated the platform's information architecture, visual hierarchy, and interaction patterns against WCAG 2.1 AA criteria and RGAA v4.1 standards.</p>
+        </div>
+        <div class="method-card">
+          <p class="finding-num">Layer 04</p>
+          <h4>Stakeholder interviews</h4>
+          <p>Spoke with government inspectors and digital policy managers to understand which tasks were most critical and where friction was highest. This ensured the audit prioritized issues by real-world impact, not just technical severity.</p>
         </div>
       </div>
 
-      <h3>What the research revealed</h3>
-      <p>Despite their different roles, all three user groups hit the same friction points. Five patterns emerged consistently:</p>
+      <div class="cs2-img">
+        <div class="cs2-img-wrap" onclick="openLB(this.querySelector('img').src, this.closest('.cs2-img').querySelector('.cs2-img-cap').textContent)">
+          <img src="images/DNUM-4.png" alt="DNUM Audit — tools used including code inspector, WAVE, and Excel tracking sheet">
+        </div>
+        <div class="cs2-img-meta">
+          <span class="cs2-img-cap">Audit tools in action — automated testing dashboard alongside manual tracking sheet used to log and prioritize RGAA violations.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 FINDINGS -->
+    <section class="cs2-section" id="findings">
+      <p class="cs2-section-label">03 · Findings</p>
+      <h2>Key Findings</h2>
+      <p>The audit revealed issues across five areas, listed in priority order — based on how many users were affected and how severely each issue blocked critical tasks:</p>
 
       <div class="finding-cards">
         <div class="finding-card">
-          <p class="finding-num">Finding 01</p>
-          <h4>Repetitive workflows</h4>
-          <p>Users rebuilt the same searches from scratch daily. There was no way to save or reuse filter configurations — every session started from zero.</p>
+          <p class="finding-num">Priority 01</p>
+          <h4>Information architecture</h4>
+          <p>Content was buried under 7+ levels of nested navigation with no breadcrumbs or orientation cues. This affected every user on every visit. Even experienced inspectors struggled to locate the legal provisions they needed. Fixing this had the broadest impact.</p>
         </div>
         <div class="finding-card">
-          <p class="finding-num">Finding 02</p>
-          <h4>Filter overload</h4>
-          <p>All filters were presented with equal weight — no distinction between commonly used fields and advanced options. Finding the right filter required scanning through everything.</p>
+          <p class="finding-num">Priority 02</p>
+          <h4>Search experience</h4>
+          <p>Results were unfiltered and poorly structured. Users searching for specific legal articles had to scan through irrelevant content, leading to high frustration and low completion rates. Since search was the primary way inspectors accessed legal provisions, this was second priority.</p>
         </div>
         <div class="finding-card">
-          <p class="finding-num">Finding 03</p>
-          <h4>Context loss</h4>
-          <p>When managing multiple companies, users frequently lost track of whose data they were analyzing. There was no persistent orientation cue to anchor their view.</p>
+          <p class="finding-num">Priority 03</p>
+          <h4>Accessibility violations</h4>
+          <p>Missing form labels, insufficient contrast ratios, and absent focus indicators meant screen readers couldn't interpret core content. Users relying on keyboard navigation had no visible indication of where they were on the page.</p>
         </div>
         <div class="finding-card">
-          <p class="finding-num">Finding 04</p>
-          <h4>Information density without hierarchy</h4>
-          <p>Tables displayed everything at once with no visual prioritization. Important figures had the same visual weight as secondary metadata.</p>
+          <p class="finding-num">Priority 04</p>
+          <h4>Assistive technology gaps</h4>
+          <p>Missing ARIA roles, unlabeled inputs, and absent semantic HTML made screen reader navigation effectively impossible for critical workflows.</p>
         </div>
         <div class="finding-card finding-card--wide">
-          <p class="finding-num">Finding 05</p>
-          <h4>No alert capability</h4>
-          <p>Users wanted to be notified when specific conditions were met — absenteeism thresholds, incident spikes — but the system offered no notification features. Users compensated with manual workarounds.</p>
+          <p class="finding-num">Priority 05</p>
+          <h4>Design inconsistency</h4>
+          <p>Typography, spacing, and UI elements varied across pages, increasing cognitive load and undermining trust. While less urgent than the structural issues, this contributed to the overall experience of confusion and unreliability.</p>
         </div>
       </div>
-    </section>
-
-    <!-- 03 PROBLEM -->
-    <section class="cs2-section" id="problem">
-      <p class="cs2-section-label">03 · Problem</p>
-      <h2>Defining the Problem</h2>
-
-      <div class="cs2-insight">
-        <p class="cs2-insight-label">Problem Statement</p>
-        <p>How might we simplify data retrieval and maintain user orientation so businesses can act on their data faster and with more confidence?</p>
-      </div>
-
-      <p>I translated research findings into four strategic design objectives:</p>
-
-      <table class="cs2-table">
-        <thead>
-          <tr>
-            <th>Objective</th>
-            <th>Design Approach</th>
-            <th>Expected Outcome</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Reduce search friction</td>
-            <td>Separate common vs. advanced filters using progressive disclosure</td>
-            <td>Faster, less overwhelming search experience</td>
-          </tr>
-          <tr>
-            <td>Enable workflow reusability</td>
-            <td>Introduce saved and favorite searches</td>
-            <td>Eliminate daily repetition</td>
-          </tr>
-          <tr>
-            <td>Maintain user orientation</td>
-            <td>Persistent company identifier in header + breadcrumbs</td>
-            <td>Prevent context loss across views</td>
-          </tr>
-          <tr>
-            <td>Support varied expertise levels</td>
-            <td>Collapsible panels + compact/detailed view toggle</td>
-            <td>Reduce cognitive load without sacrificing depth</td>
-          </tr>
-        </tbody>
-      </table>
     </section>
 
     <!-- 04 DESIGN -->
     <section class="cs2-section" id="design">
       <p class="cs2-section-label">04 · Design</p>
-      <h2>Design Process</h2>
+      <h2>Design Strategy & Proposals</h2>
+      <p>The hardest call wasn't what to flag — it was what to put first. A strict WCAG-based approach would have led the report with contrast failures and missing alt text, which are the most measurable violations and what clients typically expect at the top of an accessibility audit. We pushed for information architecture to lead instead. The reasoning: fixing contrast doesn't help a screen reader user who can't navigate a 7-level hierarchy. The structural problem was upstream of every other finding — address IA first and all subsequent fixes land on coherent ground. Building the severity-times-impact scoring partly served to make that argument legible to Ministry stakeholders who were expecting compliance metrics at the top, not an IA proposal.</p>
+      <p>I prioritized fixes using a severity-times-impact framework: issues that affected the most users and blocked the most critical tasks were addressed first. Navigation and search improvements took priority over visual polish.</p>
 
-      <div class="story-card">
-        <p class="story-label">Process reality</p>
-        <h4>This wasn't a linear path</h4>
-        <p>We explored 16 distinct iterations of the filtering and data retrieval system, each tested and refined based on usability feedback and stakeholder input.</p>
-        <p>A key challenge throughout was managing scope. Stakeholders frequently introduced new requirements mid-process, and some team members joined late without full context, which created misalignment. To address this, I established a structured argumentation framework for design decisions — every proposed change had to be tied to a specific research insight or usability finding. This gave the team a shared reference point and helped me push back constructively when new requests risked undermining the core UX strategy.</p>
-      </div>
-
-      <p>The most consequential call in the filter redesign was deciding whose workflow to optimize for. Third-party advisors needed to see everything — their work required non-standard filter combinations across multiple clients. HR departments needed the opposite: the fastest possible path to the same searches they ran every week. Progressive disclosure was a deliberate bet that surfacing the 80% case quickly mattered more than giving power users frictionless access to advanced options. We worked through 16 iterations precisely because that trade-off is hard to get right — each round tested a slightly different balance between default visibility and expandable depth. The version we landed on was the one where both groups could reach what they needed without the interface working against them.</p>
-
-      <h3>1. Hierarchical filter system</h3>
-      <p>The original interface presented all filters equally. I restructured them into two tiers: common filters (used in 80%+ of sessions) visible by default, and advanced filters accessible through a clearly labeled expandable section. Active filters remained visible as tags, so users always knew what was applied.</p>
+      <h3>Information architecture overhaul</h3>
+      <p>The 7-layer navigation was restructured to 3 levels, organized around critical tasks rather than internal content taxonomy. I added breadcrumbs and clear section labels so users always knew where they were and how to get back.</p>
 
       <div class="cs2-img">
         <div class="cs2-img-wrap" onclick="openLB(this.querySelector('img').src, this.closest('.cs2-img').querySelector('.cs2-img-cap').textContent)">
-          <img src="images/Ibermutua-4.png" alt="Before and after: the redesigned process query and filter interface">
+          <img src="images/DNUM-5.png" alt="DNUM — before and after navigation redesign comparison">
         </div>
         <div class="cs2-img-meta">
-          <span class="cs2-img-cap">Redesigned filter system — common filters surfaced by default, advanced options progressively disclosed, active filters persisted as visible tags.</span>
+          <span class="cs2-img-cap">Navigation redesign — reducing 7 nested levels to 3 task-oriented levels, with breadcrumbs and persistent orientation cues throughout.</span>
         </div>
       </div>
 
-      <h3>2. Saved searches</h3>
-      <p>This was the most requested feature across all user groups. I designed a dedicated saved searches panel with the ability to name, favorite, and quickly reapply filter configurations. The design had to balance visibility (users needed to find their saves quickly) with screen real estate (the panel couldn't compete with the data table for space).</p>
-
-      <h3>3. Persistent company context</h3>
-      <p>For third-party advisors managing multiple clients, losing track of the active company was a constant frustration. I anchored the company name in a persistent header element with subtle color-coding, so the active dataset was always visible regardless of where the user navigated.</p>
-
-      <h3>4. Flexible information density</h3>
-      <p>Different users needed different levels of detail. Rather than designing one layout that compromised for everyone, I introduced a collapsible side panel and a compact/detailed view toggle — letting users control their own workspace density based on their workflow needs.</p>
+      <h3>Homepage redesign</h3>
+      <p>I redesigned the homepage around three primary user tasks: search, access documentation, and view recent updates. Applied AA-level contrast throughout and reduced scrolling depth significantly by eliminating redundant content blocks and tightening the visual hierarchy.</p>
 
       <div class="cs2-img">
         <div class="cs2-img-wrap" onclick="openLB(this.querySelector('img').src, this.closest('.cs2-img').querySelector('.cs2-img-cap').textContent)">
-          <img src="images/Ibermutua-2.png" alt="The redesigned Ibermutua Digital Empresas — Process Query interface">
+          <img src="images/DNUM-2.png" alt="DNUM — redesigned search results and discrimination page">
         </div>
         <div class="cs2-img-meta">
-          <span class="cs2-img-cap">The redesigned Process Query interface — persistent company context, flexible information density, and saved searches accessible from a dedicated panel.</span>
+          <span class="cs2-img-cap">Redesigned homepage and search results — task-oriented layout with AA contrast, reduced scrolling depth, and clear visual hierarchy.</span>
         </div>
       </div>
+
+      <h3>Search redesign</h3>
+      <p>Restructured search results with a clear hierarchy: title, excerpt, metadata. Added filtering capabilities and implemented ARIA live regions so screen reader users would receive real-time feedback as results updated.</p>
+
+      <h3>Accessible component specifications</h3>
+      <p>Built a set of accessible component specs in Figma — buttons, forms, typographic styles — all designed to RGAA standards with proper focus states, semantic HTML annotations, and accessible color tokens. These served as a reference for the development team's implementation.</p>
     </section>
 
     <!-- 05 OUTCOME -->
     <section class="cs2-section" id="outcome">
       <p class="cs2-section-label">05 · Outcome</p>
-      <h2>Outcome & Current Status</h2>
-      <p>At the time I transitioned off the project, the design strategy and core UX patterns were established — including the filtering system, saved searches, persistent context, and flexible layout. The project continues in development, building on the design foundation I created.</p>
+      <h2>Outcome</h2>
+      <p>The Ministry adopted my recommendations as the blueprint for Cod'IT's accessibility remediation. The audit report and design proposals I delivered shaped the direction of the platform's redesign. While I wasn't involved in the implementation phase, the deliverables were designed to be actionable — every recommendation included priority level, expected impact, and specific design specs the development team could build from.</p>
 
-      <h3>What the work achieved</h3>
-      <p>Stakeholder reception was strongly positive. The structured approach to design decisions — always grounding proposals in research findings — built trust with both the Product Manager and business stakeholders. Stakeholders who were also early adopters of the platform noted that the redesigned filtering experience changed how they interacted with the tool — tasks that previously required multiple attempts and manual workarounds became straightforward.</p>
-      <p>The UI patterns and components created for Empresas were designed to be reusable, contributing to consistency across Ibermutua's broader platform ecosystem. The argumentation framework I introduced for design decisions became the team's standard approach for evaluating UX proposals — a practice that continued after my involvement ended.</p>
-      <p>If I were to continue this project, the immediate next steps would be post-launch analytics to quantitatively validate the usability improvements, and extending the notification features that users consistently requested during research.</p>
+      <div class="outcome-list">
+        <div class="outcome-item">
+          <span class="outcome-dot"></span>
+          <div class="outcome-item-body">
+            <strong>Navigation efficiency</strong>
+            <p>Reducing the navigation depth from 7 levels to 3 meant inspectors could reach legal provisions roughly 30% faster based on task-based testing during the audit.</p>
+          </div>
+        </div>
+        <div class="outcome-item">
+          <span class="outcome-dot"></span>
+          <div class="outcome-item-body">
+            <strong>RGAA compliance</strong>
+            <p>The audit identified the specific violations preventing compliance, and the redesign proposals were designed to bring the platform to near-AA level.</p>
+          </div>
+        </div>
+        <div class="outcome-item">
+          <span class="outcome-dot"></span>
+          <div class="outcome-item-body">
+            <strong>Search relevance</strong>
+            <p>The restructured results and filtering capabilities directly addressed the primary frustration users reported in interviews.</p>
+          </div>
+        </div>
+        <div class="outcome-item">
+          <span class="outcome-dot"></span>
+          <div class="outcome-item-body">
+            <strong>Scrolling depth</strong>
+            <p>Reduced by an estimated 40% on key pages, making content more immediately accessible on all screen sizes.</p>
+          </div>
+        </div>
+      </div>
+
+      <h3>Beyond the platform</h3>
+      <p>Alongside the audit report, I delivered the four-layer methodology itself as a documented, replicable framework — not just the findings, but the process for producing them. This gave the Ministry a tool they could apply to future accessibility audits across other government digital services, rather than depending on external specialists for every evaluation.</p>
     </section>
 
     <!-- 06 REFLECTIONS -->
@@ -416,18 +410,23 @@
       <div class="cs2-reflection">
         <div class="cs2-reflection-item">
           <p class="cs2-ref-num">01</p>
-          <h3>Building on another team's research is its own skill</h3>
-          <p>I inherited discovery work from another designer and had to translate their findings into actionable design strategy. Rather than re-running the research, I focused on synthesis and prioritization — identifying which insights had the highest design leverage.</p>
+          <h3>One month forced clarity</h3>
+          <p>The compressed timeline was actually a design advantage — it eliminated the temptation to audit everything and forced me to prioritize ruthlessly by impact. Every hour spent had to justify itself against the question: "Will this recommendation make the biggest difference for the most users?"</p>
         </div>
         <div class="cs2-reflection-item">
           <p class="cs2-ref-num">02</p>
-          <h3>Scope management is a design responsibility</h3>
-          <p>When stakeholders introduced new requirements mid-process, the instinct was to accommodate everything. I learned that part of the designer's job is protecting the user experience from well-intentioned scope expansion — and that doing this constructively, with evidence, earns more trust than simply saying "no."</p>
+          <h3>Accessibility improves usability for everyone</h3>
+          <p>Every accessibility improvement — clearer hierarchy, better contrast, simpler navigation — also made the platform faster and easier for sighted, able-bodied users. The business case for accessibility was proven through the work itself.</p>
         </div>
         <div class="cs2-reflection-item">
           <p class="cs2-ref-num">03</p>
-          <h3>Designing for complexity doesn't mean showing complexity</h3>
-          <p>The platform's data was inherently dense. The redesign wasn't about removing information — it was about giving users control over when and how that information appeared.</p>
+          <h3>Working across languages builds a specific kind of adaptability</h3>
+          <p>Conducting the audit and writing the deliverables in French sharpened my communication — when you can't rely on your native language, you learn to be more precise and deliberate in how you present findings and recommendations.</p>
+        </div>
+        <div class="cs2-reflection-item">
+          <p class="cs2-ref-num">04</p>
+          <h3>Solo ownership at this scope requires discipline</h3>
+          <p>Without a team to distribute tasks, I had to be both strategist and executor — defining the methodology, running the audit, synthesizing findings, designing solutions, and presenting to stakeholders. The experience reinforced that senior-level autonomy isn't about working alone; it's about knowing how to structure your own work so that every piece connects to the larger goal.</p>
         </div>
       </div>
     </section>
@@ -437,11 +436,11 @@
 
 <section class="cs2-next">
   <div class="cs2-next-inner">
-    <p class="cs2-next-label">Back to the beginning</p>
-    <a href="adcenter-v2.html" class="cs2-next-card">
+    <p class="cs2-next-label">Next case study</p>
+    <a href="avire.html" class="cs2-next-card">
       <div>
-        <p class="cs2-next-title">ADCenter Design System</p>
-        <p class="cs2-next-desc">Building a shared language between design and development — from fragmented UI to a unified system adopted across 5 products.</p>
+        <p class="cs2-next-title">Avire – Global Digital Presence</p>
+        <p class="cs2-next-desc">Unifying a fragmented global website into one scalable platform that serves engineers, consultants, and building managers across markets.</p>
       </div>
       <span class="cs2-next-arrow">→</span>
     </a>
@@ -456,12 +455,24 @@
 </div>
 
 <script>
-  // Password gate
+  // Password gate — skip if already unlocked
+  (function() {
+    if (sessionStorage.getItem('pw_unlocked_dnum') === '1') {
+      var gate = document.getElementById('pw-gate');
+      if (gate) gate.remove();
+    } else {
+      setTimeout(function() {
+        var input = document.getElementById('pw-input');
+        if (input) input.focus();
+      }, 50);
+    }
+  })();
+
   function checkPw() {
     const input = document.getElementById('pw-input');
     const error = document.getElementById('pw-error');
-    if (input.value.trim().toLowerCase() === 'ibermutua') {
-      sessionStorage.setItem('pw_unlocked_ibermutua', '1');
+    if (input.value.trim().toLowerCase() === 'dnum') {
+      sessionStorage.setItem('pw_unlocked_dnum', '1');
       const gate = document.getElementById('pw-gate');
       gate.style.transition = 'opacity 0.3s';
       gate.style.opacity = '0';
