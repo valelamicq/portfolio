@@ -123,9 +123,11 @@
     .pw-gate-input { flex: 1; height: 44px; border: 1px solid var(--border); border-radius: 8px; background: white; padding: 0 14px; font-size: 14px; font-family: var(--font); color: var(--text); outline: none; transition: border-color 0.2s; }
     .pw-gate-input:focus { border-color: var(--text); }
     .pw-gate-input.shake { animation: pwshake 0.35s ease; }
+    .pw-gate-input.error { border-color: #D04; }
+    .pw-gate-input.error:focus { border-color: #D04; }
     .pw-gate-btn { height: 44px; padding: 0 20px; background: var(--text); color: white; border: none; border-radius: 8px; font-size: 13px; font-weight: 500; font-family: var(--font); cursor: pointer; white-space: nowrap; transition: opacity 0.2s; }
     .pw-gate-btn:hover { opacity: 0.8; }
-    .pw-gate-error { font-size: 12px; color: #D04; margin-top: 10px; opacity: 0; transition: opacity 0.2s; }
+    .pw-gate-error { font-size: 12px; color: #D04; margin-top: 10px; min-height: 18px; opacity: 0; transition: opacity 0.2s; }
     .pw-gate-error.visible { opacity: 1; }
     @keyframes pwshake { 0%,100%{transform:translateX(0)} 20%,60%{transform:translateX(-6px)} 40%,80%{transform:translateX(6px)} }
 
@@ -179,10 +181,10 @@
     <h2>This project is confidential</h2>
     <p class="pw-gate-sub">This case study contains confidential client information. Enter the password to access it.</p>
     <div class="pw-gate-row">
-      <input class="pw-gate-input" id="pw-input" type="password" placeholder="Enter password" autocomplete="off" onkeydown="if(event.key==='Enter') checkPw()">
+      <input class="pw-gate-input" id="pw-input" type="password" placeholder="Enter password" autocomplete="off" aria-describedby="pw-error" aria-invalid="false" onkeydown="if(event.key==='Enter') checkPw()">
       <button class="pw-gate-btn" onclick="checkPw()">Access →</button>
     </div>
-    <p class="pw-gate-error" id="pw-error">Incorrect password. Try again.</p>
+    <p class="pw-gate-error" id="pw-error" role="alert" aria-atomic="true"></p>
   </div>
 </div>
 
@@ -481,7 +483,9 @@
     } else {
       input.classList.remove('shake');
       void input.offsetWidth;
-      input.classList.add('shake');
+      input.classList.add('shake', 'error');
+      input.setAttribute('aria-invalid', 'true');
+      error.textContent = 'Incorrect password. Please try again.';
       error.classList.add('visible');
       input.value = '';
       input.focus();

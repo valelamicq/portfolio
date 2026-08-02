@@ -628,6 +628,9 @@
     animation: shake 0.32s ease;
   }
 
+  .lock-input.error { border-color: #D04545; }
+  .lock-input.error:focus { border-color: #D04545; }
+
   @keyframes shake {
     0%, 100% { transform: translateX(0); }
     25%       { transform: translateX(-7px); }
@@ -1643,11 +1646,13 @@
         type="password"
         placeholder="Enter password"
         autocomplete="off"
+        aria-describedby="lock-error-msg"
+        aria-invalid="false"
         onkeydown="if(event.key==='Enter') checkPassword()"
       />
       <button class="lock-submit" onclick="checkPassword()">Unlock →</button>
     </div>
-    <p class="lock-error" id="lock-error-msg">Incorrect password. Please try again.</p>
+    <p class="lock-error" id="lock-error-msg" role="alert" aria-atomic="true"></p>
 
     <div class="lock-modal-sep"></div>
     <p class="lock-modal-contact">If you want to know more about this project, please <a href="/contact" onclick="closeLockModal(); navigate('contact'); return false;">contact me</a>, and I'll answer you as soon as possible.</p>
@@ -2915,8 +2920,8 @@
     // Reset state
     const input = document.getElementById('lock-pw-input');
     const err   = document.getElementById('lock-error-msg');
-    if (input) { input.value = ''; input.classList.remove('shake'); }
-    if (err)   err.classList.remove('visible');
+    if (input) { input.value = ''; input.classList.remove('shake', 'error'); input.setAttribute('aria-invalid', 'false'); }
+    if (err)   { err.classList.remove('visible'); err.textContent = ''; }
     pendingLockedRoute = null;
   }
 
@@ -2928,6 +2933,7 @@
     const dest = pendingLockedRoute || 'ibermutua';
     if (val === (LOCK_PASSWORDS[dest] || 'ibermutua')) {
       // Success — mark route as unlocked for this session, then navigate
+      input.setAttribute('aria-invalid', 'false');
       unlockedRoutes.add(dest);
       sessionStorage.setItem('pw_unlocked_' + dest, '1');
       closeLockModal();
@@ -2936,7 +2942,9 @@
       // Error — shake + show message
       input.classList.remove('shake');
       void input.offsetWidth; // reflow to restart animation
-      input.classList.add('shake');
+      input.classList.add('shake', 'error');
+      input.setAttribute('aria-invalid', 'true');
+      err.textContent = 'Incorrect password. Please try again.';
       err.classList.add('visible');
       input.value = '';
       input.focus();

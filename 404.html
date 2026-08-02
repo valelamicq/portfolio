@@ -2903,8 +2903,8 @@
     // Reset state
     const input = document.getElementById('lock-pw-input');
     const err   = document.getElementById('lock-error-msg');
-    if (input) { input.value = ''; input.classList.remove('shake'); }
-    if (err)   err.classList.remove('visible');
+    if (input) { input.value = ''; input.classList.remove('shake', 'error'); input.setAttribute('aria-invalid', 'false'); }
+    if (err)   { err.classList.remove('visible'); err.textContent = ''; }
     pendingLockedRoute = null;
   }
 
@@ -2916,14 +2916,18 @@
     const dest = pendingLockedRoute || 'ibermutua';
     if (val === (LOCK_PASSWORDS[dest] || 'ibermutua')) {
       // Success — mark route as unlocked for this session, then navigate
+      input.setAttribute('aria-invalid', 'false');
       unlockedRoutes.add(dest);
+      sessionStorage.setItem('pw_unlocked_' + dest, '1');
       closeLockModal();
       navigate(dest);
     } else {
       // Error — shake + show message
       input.classList.remove('shake');
       void input.offsetWidth; // reflow to restart animation
-      input.classList.add('shake');
+      input.classList.add('shake', 'error');
+      input.setAttribute('aria-invalid', 'true');
+      err.textContent = 'Incorrect password. Please try again.';
       err.classList.add('visible');
       input.value = '';
       input.focus();
