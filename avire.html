@@ -137,43 +137,41 @@
     .cs2-next-lock-badge { display: flex; align-items: center; gap: 5px; font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
     .cs2-next-lock-badge svg { flex-shrink: 0; }
 
-    /* LOCK MODAL */
-    .cs2-lock-overlay { position: fixed; inset: 0; z-index: 400; background: rgba(26,26,26,0.55); display: flex; align-items: center; justify-content: center; padding: 40px; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
+    /* LOCK MODAL — matches home page design */
+    .cs2-lock-overlay { position: fixed; inset: 0; z-index: 400; background: rgba(0,0,0,0.6); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: center; padding: 24px; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
     .cs2-lock-overlay.open { opacity: 1; pointer-events: all; }
-    .cs2-lock-panel { background: var(--bg); border-radius: 16px; padding: 40px; width: 100%; max-width: 400px; position: relative; }
-    .cs2-lock-eyebrow { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; }
-    .cs2-lock-title { font-size: 20px; font-weight: 400; letter-spacing: -0.02em; margin-bottom: 8px; }
-    .cs2-lock-sub { font-size: 13px; color: var(--muted); font-weight: 300; line-height: 1.6; margin-bottom: 28px; }
-    .cs2-lock-row { display: flex; gap: 10px; }
-    .cs2-lock-input { flex: 1; height: 44px; border: 1px solid var(--border); border-radius: 8px; background: white; padding: 0 14px; font-size: 14px; font-family: var(--font); color: var(--text); outline: none; transition: border-color 0.2s; }
+    .cs2-lock-panel { background: var(--bg); border-radius: 6px; padding: 56px 48px 48px; width: 100%; max-width: 420px; position: relative; text-align: center; }
+    .cs2-lock-icon { width: 44px; height: 44px; stroke: var(--text); fill: none; stroke-width: 1.25; stroke-linecap: round; stroke-linejoin: round; margin: 0 auto 28px; display: block; }
+    .cs2-lock-title { font-size: 19px; font-weight: 500; letter-spacing: -0.025em; margin-bottom: 10px; }
+    .cs2-lock-sub { font-size: 14px; color: var(--muted); font-weight: 300; line-height: 1.65; margin-bottom: 32px; }
+    .cs2-lock-skip { color: var(--text); text-decoration: underline; text-decoration-color: var(--border); text-underline-offset: 3px; font-weight: 400; transition: text-decoration-color 0.2s; }
+    .cs2-lock-skip:hover { text-decoration-color: var(--text); }
+    .cs2-lock-row { display: flex; gap: 10px; margin-bottom: 10px; }
+    .cs2-lock-input { flex: 1; height: 44px; padding: 0 18px; background: var(--bg-card); border: 1.5px solid var(--border); border-radius: 100px; font-size: 14px; font-family: var(--font); color: var(--text); outline: none; transition: border-color 0.2s; letter-spacing: 0.04em; }
     .cs2-lock-input:focus { border-color: var(--text); }
     .cs2-lock-input.shake { animation: lockshake 0.35s ease; }
-    .cs2-lock-input.error { border-color: #D04; }
-    .cs2-lock-input.error:focus { border-color: #D04; }
-    .cs2-lock-btn { height: 44px; padding: 0 20px; background: var(--text); color: white; border: none; border-radius: 8px; font-size: 13px; font-weight: 500; font-family: var(--font); cursor: pointer; white-space: nowrap; transition: opacity 0.2s; }
-    .cs2-lock-btn:hover { opacity: 0.8; }
-    .cs2-lock-error { font-size: 12px; color: #D04; margin-top: 10px; min-height: 18px; opacity: 0; transition: opacity 0.2s; }
+    .cs2-lock-input.error { border-color: #D04545; }
+    .cs2-lock-input.error:focus { border-color: #D04545; }
+    .cs2-lock-btn { height: 44px; padding: 0 20px; background: var(--text); color: white; border: none; border-radius: 100px; font-size: 13px; font-weight: 400; font-family: var(--font); cursor: pointer; white-space: nowrap; transition: background 0.2s; }
+    .cs2-lock-btn:hover { background: #333; }
+    .cs2-lock-error { font-size: 12px; color: #D04545; min-height: 18px; opacity: 0; transition: opacity 0.2s; }
     .cs2-lock-error.visible { opacity: 1; }
-    .cs2-lock-close { position: absolute; top: 16px; right: 20px; background: none; border: none; font-size: 24px; color: var(--muted); cursor: pointer; line-height: 1; padding: 4px; transition: color 0.2s; }
-    .cs2-lock-close:hover { color: var(--text); }
+    .cs2-lock-close { position: absolute; top: 18px; right: 18px; width: 30px; height: 30px; background: none; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; border-radius: 50%; color: var(--muted); font-size: 18px; transition: background 0.2s, color 0.2s; line-height: 1; }
+    .cs2-lock-close:hover { background: var(--bg-card); color: var(--text); }
     @keyframes lockshake { 0%,100%{transform:translateX(0)} 20%,60%{transform:translateX(-6px)} 40%,80%{transform:translateX(6px)} }
     .cs2-lock-sep { width: 100%; height: 1px; background: var(--border); margin: 22px 0 18px; }
     .cs2-lock-contact { font-size: 13px; font-weight: 300; color: var(--muted); line-height: 1.65; }
     .cs2-lock-contact a { color: var(--text); text-decoration: underline; text-decoration-color: var(--border); text-underline-offset: 3px; font-weight: 400; transition: text-decoration-color 0.2s; }
     .cs2-lock-contact a:hover { text-decoration-color: var(--text); }
-    .cs2-lock-skip { display: block; font-size: 13px; font-weight: 400; color: var(--text); text-decoration: none; margin-bottom: 12px; transition: opacity 0.2s; }
-    .cs2-lock-skip:hover { opacity: 0.6; }
     @media (max-width: 640px) {
       .cs2-lock-overlay { align-items: flex-end; padding: 0; }
-      .cs2-lock-panel { border-radius: 24px 24px 0 0; max-width: 100%; padding: 36px 24px max(28px, env(safe-area-inset-bottom)); max-height: 90vh; overflow-y: auto; text-align: center; transform: translateY(100%); transition: transform 0.35s cubic-bezier(0.32,0.72,0,1); }
+      .cs2-lock-panel { border-radius: 24px 24px 0 0; max-width: 100%; padding: 36px 24px max(28px, env(safe-area-inset-bottom)); max-height: 90vh; overflow-y: auto; transform: translateY(100%); transition: transform 0.35s cubic-bezier(0.32,0.72,0,1); }
       .cs2-lock-overlay.open .cs2-lock-panel { transform: translateY(0); }
       .cs2-lock-overlay.open.is-closing { opacity: 0; pointer-events: none; transition: opacity 0.3s; }
       .cs2-lock-overlay.open.is-closing .cs2-lock-panel { transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.32,0.72,0,1); }
-      .cs2-lock-icon-mobile { display: block !important; width: 40px; height: 40px; margin: 0 auto 20px; stroke: var(--text); fill: none; stroke-width: 1.25; stroke-linecap: round; stroke-linejoin: round; }
-      .cs2-lock-eyebrow { display: none; }
-      .cs2-lock-input { width: 100%; box-sizing: border-box; border-radius: 100px; background: var(--bg-card); border: 1.5px solid var(--border); padding: 0 18px; }
+      .cs2-lock-input { width: 100%; box-sizing: border-box; height: 44px; }
       .cs2-lock-row { flex-direction: column; gap: 10px; }
-      .cs2-lock-btn { width: 100%; border-radius: 100px; }
+      .cs2-lock-btn { width: 100%; }
     }
     @media (max-width: 640px) and (prefers-reduced-motion: reduce) {
       .cs2-lock-panel { transition: none; }
@@ -495,15 +493,16 @@
 <!-- LOCK MODAL -->
 <div class="cs2-lock-overlay" id="lock-overlay" onclick="if(event.target===this)closeLockModal()">
   <div class="cs2-lock-panel">
-    <button class="cs2-lock-close" onclick="closeLockModal()">×</button>
-    <svg class="cs2-lock-icon-mobile" viewBox="0 0 24 24" style="display:none"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-    <p class="cs2-lock-eyebrow">Protected case study</p>
-    <h3 class="cs2-lock-title">This project is confidential</h3>
-    <p class="cs2-lock-sub">This case study contains confidential client information. Enter the password to access it.</p>
-    <a href="adcenter.html" class="cs2-lock-skip">Jump to next case study →</a>
+    <button class="cs2-lock-close" onclick="closeLockModal()" aria-label="Close">✕</button>
+    <svg class="cs2-lock-icon" viewBox="0 0 24 24">
+      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+      <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+    </svg>
+    <h3 class="cs2-lock-title">This case study is protected</h3>
+    <p class="cs2-lock-sub">This project contains confidential client information. Enter the password to access it. <a href="adcenter.html" class="cs2-lock-skip">Jump to the next case study.</a></p>
     <div class="cs2-lock-row">
       <input class="cs2-lock-input" id="lock-input" type="password" placeholder="Enter password" autocomplete="off" aria-describedby="lock-error" aria-invalid="false" onkeydown="if(event.key==='Enter') checkLockPw()">
-      <button class="cs2-lock-btn" onclick="checkLockPw()">Access →</button>
+      <button class="cs2-lock-btn" onclick="checkLockPw()">Unlock →</button>
     </div>
     <p class="cs2-lock-error" id="lock-error" role="alert" aria-atomic="true"></p>
     <div class="cs2-lock-sep"></div>
