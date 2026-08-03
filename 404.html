@@ -1581,8 +1581,6 @@
     .lock-modal.open.is-closing .lock-modal-backdrop { opacity: 0; transition: opacity 0.3s; }
     .lock-input-row { flex-direction: column; gap: 10px; }
     .lock-submit { width: 100%; }
-    @keyframes sheet-rise { from { transform: translateY(100%); } to { transform: translateY(0); } }
-    @keyframes sheet-fall { from { transform: translateY(0); } to { transform: translateY(100%); } }
     .mobile-overlay { padding: 32px; }
     .mobile-overlay-links a { font-size: 32px; }
     .mobile-overlay-foot { left: 32px; right: 32px; bottom: 32px; }
@@ -1591,6 +1589,8 @@
     .lock-modal.open .lock-modal-panel,
     .lock-modal.open.is-closing .lock-modal-panel { animation: none; }
   }
+  @keyframes sheet-rise { from { transform: translateY(100%); } to { transform: translateY(0); } }
+  @keyframes sheet-fall { from { transform: translateY(0); } to { transform: translateY(100%); } }
 
   </style>
 </head>
