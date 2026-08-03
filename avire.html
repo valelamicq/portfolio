@@ -163,11 +163,23 @@
     .cs2-lock-contact a:hover { text-decoration-color: var(--text); }
     .cs2-lock-skip { display: block; font-size: 13px; font-weight: 400; color: var(--text); text-decoration: none; margin-bottom: 12px; transition: opacity 0.2s; }
     .cs2-lock-skip:hover { opacity: 0.6; }
-    @media (max-width: 500px) {
-      .cs2-lock-overlay { padding: 20px; }
-      .cs2-lock-panel { padding: 28px 24px; }
-      .cs2-lock-row { flex-direction: column; gap: 8px; }
-      .cs2-lock-btn { width: 100%; }
+    @media (max-width: 640px) {
+      .cs2-lock-overlay { align-items: flex-end; padding: 0; }
+      .cs2-lock-overlay.open.is-closing { opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+      .cs2-lock-panel { border-radius: 24px 24px 0 0; max-width: 100%; padding: 36px 24px max(28px, env(safe-area-inset-bottom)); max-height: 90vh; overflow-y: auto; text-align: center; }
+      .cs2-lock-icon-mobile { display: block !important; width: 40px; height: 40px; margin: 0 auto 20px; stroke: var(--text); fill: none; stroke-width: 1.25; stroke-linecap: round; stroke-linejoin: round; }
+      .cs2-lock-eyebrow { display: none; }
+      .cs2-lock-input { border-radius: 100px; background: var(--bg-card); }
+      .cs2-lock-row { flex-direction: column; gap: 10px; }
+      .cs2-lock-btn { width: 100%; border-radius: 100px; }
+      .cs2-lock-overlay.open .cs2-lock-panel { animation: cs2-sheet-rise 0.35s cubic-bezier(0.32,0.72,0,1) both; }
+      .cs2-lock-overlay.open.is-closing .cs2-lock-panel { animation: cs2-sheet-fall 0.3s cubic-bezier(0.32,0.72,0,1) both; }
+      @keyframes cs2-sheet-rise { from { transform: translateY(100%); } to { transform: translateY(0); } }
+      @keyframes cs2-sheet-fall { from { transform: translateY(0); } to { transform: translateY(100%); } }
+    }
+    @media (max-width: 640px) and (prefers-reduced-motion: reduce) {
+      .cs2-lock-overlay.open .cs2-lock-panel,
+      .cs2-lock-overlay.open.is-closing .cs2-lock-panel { animation: none; }
     }
 
     /* NEXT CASE STUDY */
@@ -487,15 +499,16 @@
 <div class="cs2-lock-overlay" id="lock-overlay" onclick="if(event.target===this)closeLockModal()">
   <div class="cs2-lock-panel">
     <button class="cs2-lock-close" onclick="closeLockModal()">×</button>
+    <svg class="cs2-lock-icon-mobile" viewBox="0 0 24 24" style="display:none"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
     <p class="cs2-lock-eyebrow">Protected case study</p>
     <h3 class="cs2-lock-title">This project is confidential</h3>
     <p class="cs2-lock-sub">This case study contains confidential client information. Enter the password to access it.</p>
+    <a href="adcenter.html" class="cs2-lock-skip">Jump to next case study →</a>
     <div class="cs2-lock-row">
       <input class="cs2-lock-input" id="lock-input" type="password" placeholder="Enter password" autocomplete="off" aria-describedby="lock-error" aria-invalid="false" onkeydown="if(event.key==='Enter') checkLockPw()">
       <button class="cs2-lock-btn" onclick="checkLockPw()">Access →</button>
     </div>
     <p class="cs2-lock-error" id="lock-error" role="alert" aria-atomic="true"></p>
-    <a href="adcenter.html" class="cs2-lock-skip">Skip to next case study →</a>
     <div class="cs2-lock-sep"></div>
     <p class="cs2-lock-contact">If you want to know more about this project, please <a href="https://valelamicq.com/contact" target="_blank">contact me</a>, and I'll answer you as soon as possible.</p>
   </div>
@@ -558,12 +571,22 @@
     setTimeout(() => document.getElementById('lock-input').focus(), 50);
   }
   function closeLockModal() {
-    document.getElementById('lock-overlay').classList.remove('open');
-    document.body.style.overflow = '';
-    const input = document.getElementById('lock-input');
-    const error = document.getElementById('lock-error');
-    input.value = ''; input.classList.remove('shake', 'error'); input.setAttribute('aria-invalid', 'false');
-    error.classList.remove('visible'); error.textContent = '';
+    const overlay = document.getElementById('lock-overlay');
+    const isMobile = window.matchMedia('(max-width: 640px)').matches;
+    const reset = () => {
+      const input = document.getElementById('lock-input');
+      const error = document.getElementById('lock-error');
+      input.value = ''; input.classList.remove('shake', 'error'); input.setAttribute('aria-invalid', 'false');
+      error.classList.remove('visible'); error.textContent = '';
+      document.body.style.overflow = '';
+    };
+    if (isMobile) {
+      overlay.classList.add('is-closing');
+      setTimeout(() => { overlay.classList.remove('open', 'is-closing'); reset(); }, 320);
+    } else {
+      overlay.classList.remove('open');
+      reset();
+    }
   }
   function checkLockPw() {
     const input = document.getElementById('lock-input');
