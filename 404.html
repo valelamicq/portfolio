@@ -606,11 +606,13 @@
     margin-bottom: 10px;
   }
 
+  .lock-input-wrap { position: relative; flex: 1; }
+
   .lock-input {
-    flex: 1;
+    width: 100%;
     height: 44px;
     min-height: 44px;
-    padding: 0 18px;
+    padding: 0 44px 0 18px;
     font-family: var(--font);
     font-size: 14px;
     background: var(--bg-card);
@@ -622,6 +624,7 @@
     transition: border-color 0.2s;
     -webkit-appearance: none;
     appearance: none;
+    box-sizing: border-box;
   }
 
   .lock-input:focus { border-color: var(--text); }
@@ -630,6 +633,31 @@
     border-color: #D04545;
     animation: shake 0.32s ease;
   }
+
+  .lock-pw-toggle {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    border-radius: 50%;
+    padding: 0;
+    transition: color 0.2s, background 0.2s;
+  }
+  .lock-pw-toggle:hover { color: var(--text); background: rgba(0,0,0,0.05); }
+  .lock-pw-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .lock-pw-toggle svg { width: 18px; height: 18px; pointer-events: none; }
+  .lock-pw-toggle .icon-eye-off { display: none; }
+  .lock-pw-toggle.showing .icon-eye { display: none; }
+  .lock-pw-toggle.showing .icon-eye-off { display: block; }
 
   @keyframes shake {
     0%, 100% { transform: translateX(0); }
@@ -1653,14 +1681,20 @@
     <p class="lock-modal-sub">This project contains confidential client information. Enter the password to access it.</p>
 
     <div class="lock-input-row">
-      <input
-        class="lock-input"
-        id="lock-pw-input"
-        type="password"
-        placeholder="Enter password"
-        autocomplete="off"
-        onkeydown="if(event.key==='Enter') checkPassword()"
-      />
+      <div class="lock-input-wrap">
+        <input
+          class="lock-input"
+          id="lock-pw-input"
+          type="password"
+          placeholder="Enter password"
+          autocomplete="off"
+          onkeydown="if(event.key==='Enter') checkPassword()"
+        />
+        <button type="button" class="lock-pw-toggle" id="lock-pw-toggle-btn" aria-label="Show password" aria-pressed="false" onclick="toggleLockPwVisibility()">
+          <svg class="icon-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+          <svg class="icon-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 19c-7 0-11-7-11-7a18.5 18.5 0 0 1 5.06-5.94M9.9 4.24A10.94 10.94 0 0 1 12 4c7 0 11 7 11 7a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+        </button>
+      </div>
       <button class="lock-submit" onclick="checkPassword()">Unlock →</button>
     </div>
     <p class="lock-error" id="lock-error-msg">Incorrect password. Please try again.</p>
@@ -2909,13 +2943,26 @@
     }, 350);
   }
 
+  function toggleLockPwVisibility() {
+    const input = document.getElementById('lock-pw-input');
+    const btn = document.getElementById('lock-pw-toggle-btn');
+    const showing = input.type === 'password';
+    input.type = showing ? 'text' : 'password';
+    btn.classList.toggle('showing', showing);
+    btn.setAttribute('aria-label', showing ? 'Hide password' : 'Show password');
+    btn.setAttribute('aria-pressed', showing ? 'true' : 'false');
+    input.focus();
+  }
+
   function closeLockModal() {
     const modal = document.getElementById('lock-modal');
     const isMobile = window.matchMedia('(max-width: 640px)').matches;
     const reset = () => {
       const input = document.getElementById('lock-pw-input');
       const err   = document.getElementById('lock-error-msg');
-      if (input) { input.value = ''; input.classList.remove('shake', 'error'); input.setAttribute('aria-invalid', 'false'); }
+      const toggleBtn = document.getElementById('lock-pw-toggle-btn');
+      if (input) { input.value = ''; input.type = 'password'; input.classList.remove('shake', 'error'); input.setAttribute('aria-invalid', 'false'); }
+      if (toggleBtn) { toggleBtn.classList.remove('showing'); toggleBtn.setAttribute('aria-label', 'Show password'); toggleBtn.setAttribute('aria-pressed', 'false'); }
       if (err)   { err.classList.remove('visible'); err.textContent = ''; }
       pendingLockedRoute = null;
       document.body.style.overflow = '';

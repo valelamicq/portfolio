@@ -113,11 +113,19 @@
     .pw-gate h2 { font-size: 22px; font-weight: 400; letter-spacing: -0.02em; margin-bottom: 10px; }
     .pw-gate-sub { font-size: 14px; color: var(--muted); font-weight: 300; line-height: 1.6; margin-bottom: 32px; }
     .pw-gate-row { display: flex; gap: 10px; }
-    .pw-gate-input { flex: 1; height: 44px; border: 1px solid var(--border); border-radius: 8px; background: white; padding: 0 14px; font-size: 14px; font-family: var(--font); color: var(--text); outline: none; transition: border-color 0.2s; }
+    .pw-gate-input-wrap { position: relative; flex: 1; }
+    .pw-gate-input { width: 100%; box-sizing: border-box; height: 44px; border: 1px solid var(--border); border-radius: 8px; background: white; padding: 0 40px 0 14px; font-size: 14px; font-family: var(--font); color: var(--text); outline: none; transition: border-color 0.2s; }
     .pw-gate-input:focus { border-color: var(--text); }
     .pw-gate-input.shake { animation: pwshake 0.35s ease; }
     .pw-gate-input.error { border-color: #D04; }
     .pw-gate-input.error:focus { border-color: #D04; }
+    .pw-toggle-btn { position: absolute; right: 4px; top: 50%; transform: translateY(-50%); width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; background: none; border: none; color: var(--muted); cursor: pointer; border-radius: 6px; padding: 0; transition: color 0.2s, background 0.2s; }
+    .pw-toggle-btn:hover { color: var(--text); background: rgba(0,0,0,0.05); }
+    .pw-toggle-btn:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+    .pw-toggle-btn svg { width: 17px; height: 17px; pointer-events: none; }
+    .pw-toggle-btn .icon-eye-off { display: none; }
+    .pw-toggle-btn.showing .icon-eye { display: none; }
+    .pw-toggle-btn.showing .icon-eye-off { display: block; }
     .pw-gate-btn { height: 44px; padding: 0 20px; background: var(--text); color: white; border: none; border-radius: 8px; font-size: 13px; font-weight: 500; font-family: var(--font); cursor: pointer; white-space: nowrap; transition: opacity 0.2s; }
     .pw-gate-btn:hover { opacity: 0.8; }
     .pw-gate-error { font-size: 12px; color: #D04; margin-top: 10px; min-height: 18px; opacity: 0; transition: opacity 0.2s; }
@@ -179,7 +187,13 @@
     <h2>This project is confidential</h2>
     <p class="pw-gate-sub">This case study contains confidential client information. Enter the password to access it.</p>
     <div class="pw-gate-row">
-      <input class="pw-gate-input" id="pw-input" type="password" placeholder="Enter password" autocomplete="off" aria-describedby="pw-error" aria-invalid="false" onkeydown="if(event.key==='Enter') checkPw()">
+      <div class="pw-gate-input-wrap">
+        <input class="pw-gate-input" id="pw-input" type="password" placeholder="Enter password" autocomplete="off" aria-describedby="pw-error" aria-invalid="false" onkeydown="if(event.key==='Enter') checkPw()">
+        <button type="button" class="pw-toggle-btn" id="pw-toggle-btn" aria-label="Show password" aria-pressed="false" onclick="togglePwVisibility()">
+          <svg class="icon-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+          <svg class="icon-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 19c-7 0-11-7-11-7a18.5 18.5 0 0 1 5.06-5.94M9.9 4.24A10.94 10.94 0 0 1 12 4c7 0 11 7 11 7a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+        </button>
+      </div>
       <button class="pw-gate-btn" onclick="checkPw()">Access →</button>
     </div>
     <p class="pw-gate-error" id="pw-error" role="alert" aria-atomic="true"></p>
@@ -475,6 +489,17 @@
       }, 50);
     }
   })();
+
+  function togglePwVisibility() {
+    const input = document.getElementById('pw-input');
+    const btn = document.getElementById('pw-toggle-btn');
+    const showing = input.type === 'password';
+    input.type = showing ? 'text' : 'password';
+    btn.classList.toggle('showing', showing);
+    btn.setAttribute('aria-label', showing ? 'Hide password' : 'Show password');
+    btn.setAttribute('aria-pressed', showing ? 'true' : 'false');
+    input.focus();
+  }
 
   function checkPw() {
     const input = document.getElementById('pw-input');

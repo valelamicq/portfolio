@@ -184,11 +184,19 @@
     .cs2-lock-skip { color: var(--text); text-decoration: underline; text-decoration-color: var(--border); text-underline-offset: 3px; font-weight: 400; transition: text-decoration-color 0.2s; }
     .cs2-lock-skip:hover { text-decoration-color: var(--text); }
     .cs2-lock-row { display: flex; gap: 10px; margin-bottom: 10px; }
-    .cs2-lock-input { flex: 1; height: 44px; min-height: 44px; padding: 0 18px; background: var(--bg-card); border: 1.5px solid var(--border); border-radius: 100px; font-size: 14px; font-family: var(--font); color: var(--text); outline: none; transition: border-color 0.2s; letter-spacing: 0.04em; -webkit-appearance: none; appearance: none; }
+    .cs2-lock-input-wrap { position: relative; flex: 1; }
+    .cs2-lock-input { width: 100%; box-sizing: border-box; height: 44px; min-height: 44px; padding: 0 44px 0 18px; background: var(--bg-card); border: 1.5px solid var(--border); border-radius: 100px; font-size: 14px; font-family: var(--font); color: var(--text); outline: none; transition: border-color 0.2s; letter-spacing: 0.04em; -webkit-appearance: none; appearance: none; }
     .cs2-lock-input:focus { border-color: var(--text); }
     .cs2-lock-input.shake { animation: lockshake 0.35s ease; }
     .cs2-lock-input.error { border-color: #D04545; }
     .cs2-lock-input.error:focus { border-color: #D04545; }
+    .cs2-lock-pw-toggle { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; background: none; border: none; color: var(--muted); cursor: pointer; border-radius: 50%; padding: 0; transition: color 0.2s, background 0.2s; }
+    .cs2-lock-pw-toggle:hover { color: var(--text); background: rgba(0,0,0,0.05); }
+    .cs2-lock-pw-toggle:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+    .cs2-lock-pw-toggle svg { width: 18px; height: 18px; pointer-events: none; }
+    .cs2-lock-pw-toggle .icon-eye-off { display: none; }
+    .cs2-lock-pw-toggle.showing .icon-eye { display: none; }
+    .cs2-lock-pw-toggle.showing .icon-eye-off { display: block; }
     .cs2-lock-btn { height: 44px; padding: 0 20px; background: var(--text); color: white; border: none; border-radius: 100px; font-size: 13px; font-weight: 400; font-family: var(--font); cursor: pointer; white-space: nowrap; transition: background 0.2s; }
     .cs2-lock-btn:hover { background: #333; }
     .cs2-lock-error { font-size: 12px; color: #D04545; min-height: 18px; opacity: 0; transition: opacity 0.2s; }
@@ -587,7 +595,13 @@
     <h3 class="cs2-lock-title">This case study is protected</h3>
     <p class="cs2-lock-sub">This project contains confidential client information. Enter the password to access it, or <a href="avire.html" class="cs2-lock-skip">Jump to the next case study.</a></p>
     <div class="cs2-lock-row">
-      <input class="cs2-lock-input" id="lock-input" type="password" placeholder="Enter password" autocomplete="off" aria-describedby="lock-error" aria-invalid="false" onkeydown="if(event.key==='Enter') checkLockPw()">
+      <div class="cs2-lock-input-wrap">
+        <input class="cs2-lock-input" id="lock-input" type="password" placeholder="Enter password" autocomplete="off" aria-describedby="lock-error" aria-invalid="false" onkeydown="if(event.key==='Enter') checkLockPw()">
+        <button type="button" class="cs2-lock-pw-toggle" id="lock-pw-toggle-btn" aria-label="Show password" aria-pressed="false" onclick="toggleLockPwVisibility()">
+          <svg class="icon-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+          <svg class="icon-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 19c-7 0-11-7-11-7a18.5 18.5 0 0 1 5.06-5.94M9.9 4.24A10.94 10.94 0 0 1 12 4c7 0 11 7 11 7a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+        </button>
+      </div>
       <button class="cs2-lock-btn" onclick="checkLockPw()">Unlock →</button>
     </div>
     <p class="cs2-lock-error" id="lock-error" role="alert" aria-atomic="true"></p>
@@ -655,13 +669,25 @@
     document.body.style.overflow = 'hidden';
     setTimeout(() => document.getElementById('lock-input').focus(), 50);
   }
+  function toggleLockPwVisibility() {
+    const input = document.getElementById('lock-input');
+    const btn = document.getElementById('lock-pw-toggle-btn');
+    const showing = input.type === 'password';
+    input.type = showing ? 'text' : 'password';
+    btn.classList.toggle('showing', showing);
+    btn.setAttribute('aria-label', showing ? 'Hide password' : 'Show password');
+    btn.setAttribute('aria-pressed', showing ? 'true' : 'false');
+    input.focus();
+  }
   function closeLockModal() {
     const overlay = document.getElementById('lock-overlay');
     const isMobile = window.matchMedia('(max-width: 640px)').matches;
     const reset = () => {
       const input = document.getElementById('lock-input');
       const error = document.getElementById('lock-error');
-      input.value = ''; input.classList.remove('shake', 'error'); input.setAttribute('aria-invalid', 'false');
+      const toggleBtn = document.getElementById('lock-pw-toggle-btn');
+      input.value = ''; input.type = 'password'; input.classList.remove('shake', 'error'); input.setAttribute('aria-invalid', 'false');
+      if (toggleBtn) { toggleBtn.classList.remove('showing'); toggleBtn.setAttribute('aria-label', 'Show password'); toggleBtn.setAttribute('aria-pressed', 'false'); }
       error.classList.remove('visible'); error.textContent = '';
       document.body.style.overflow = '';
     };
