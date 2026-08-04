@@ -158,6 +158,25 @@
     .cs2-next-arrow { font-size: 20px; color: var(--muted); flex-shrink: 0; transition: transform 0.2s, color 0.2s; }
     .cs2-next-card:hover .cs2-next-arrow { transform: translateX(4px); color: var(--text); }
 
+    /* BEHIND THE SCENES — hero indicator (continues the intro paragraph) */
+    .bts-indicator { display: inline-flex; align-items: center; gap: 7px; margin: 0 0 32px; padding: 8px 16px 8px 14px; border: 1px solid var(--border); border-radius: 100px; font-size: 12px; font-weight: 400; letter-spacing: 0.02em; color: var(--muted); text-decoration: none; cursor: pointer; transition: border-color 0.2s, color 0.2s, background 0.2s; background: transparent; }
+    .bts-indicator:hover { color: var(--text); border-color: rgba(201,162,39,0.45); background: rgba(201,162,39,0.06); }
+    .bts-indicator-icn { font-size: 12px; color: #B8901F; line-height: 1; }
+
+    /* BEHIND THE SCENES — final chapter, embedded in the content column */
+    .cs2-final-row { max-width: 1140px; margin: 0 auto; padding: 0 40px; display: grid; grid-template-columns: 200px 1fr; gap: 0 72px; }
+    .cs2-final-spacer { display: block; }
+    .cs2-final-col { min-width: 0; }
+    .bts-final-section { padding: 72px 0; border-top: 1px solid var(--border); }
+    .bts-final-card { display: block; position: relative; overflow: hidden; background: #16161B; border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 44px 48px; cursor: pointer; text-decoration: none; transition: transform 0.3s cubic-bezier(0.25,0.46,0.45,0.94), border-color 0.3s, box-shadow 0.3s, background 0.3s; }
+    .bts-final-card::before { content: ''; position: absolute; top: -70%; right: -8%; width: 55%; height: 180%; background: radial-gradient(circle, rgba(217,169,78,0.12) 0%, rgba(217,169,78,0) 70%); pointer-events: none; }
+    .bts-final-card:hover { transform: translateY(-3px); border-color: rgba(217,169,78,0.35); background: #1A1A20; box-shadow: 0 16px 40px rgba(0,0,0,0.35), 0 0 0 1px rgba(217,169,78,0.1); }
+    .bts-final-eyebrow { position: relative; z-index: 1; display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: #D9A94E; margin-bottom: 16px; }
+    .bts-final-title { position: relative; z-index: 1; font-size: 22px; font-weight: 400; letter-spacing: -0.02em; margin-bottom: 12px; color: #EDEDEB; max-width: 520px; }
+    .bts-final-desc { position: relative; z-index: 1; font-size: 14px; font-weight: 300; color: #92929B; line-height: 1.65; max-width: 480px; margin-bottom: 26px; }
+    .bts-final-action { position: relative; z-index: 1; display: inline-flex; align-items: center; font-size: 14px; font-weight: 500; color: #EDEDEB; transition: transform 0.25s ease, color 0.25s ease; }
+    .bts-final-card:hover .bts-final-action { transform: translateX(4px); color: #D9A94E; }
+
     /* MOBILE */
     @media (max-width: 900px) {
       .cs2-layout { grid-template-columns: 1fr; padding: 40px 24px 0; }
@@ -169,6 +188,9 @@
       .finding-card--wide { grid-column: span 1; }
       .cs2-table { display: block; overflow-x: auto; }
       .cs2-next-inner { padding: 48px 24px 64px; }
+      .cs2-final-row { grid-template-columns: 1fr; padding: 0 24px; }
+      .cs2-final-spacer { display: none; }
+      .bts-final-card { padding: 32px; }
     }
     @media (max-width: 500px) {
       .pw-gate { padding: 24px 20px; }
@@ -196,14 +218,14 @@
 <!-- NAV -->
 <nav class="cs2-nav" id="cs2-nav">
   <div class="cs2-nav-inner">
-    <a href="/" class="cs2-nav-logo">
+    <a href="index.html" class="cs2-nav-logo">
       <span class="cs2-nav-dot"></span>
       Valeria Lamicq
     </a>
     <div class="cs2-nav-links">
-      <a href="/">Work</a>
-      <a href="/about">About</a>
-      <a href="/contact">Contact</a>
+      <a href="index.html">Work</a>
+      <a href="index.html#about">About</a>
+      <a href="index.html#contact">Contact</a>
     </div>
   </div>
 </nav>
@@ -213,6 +235,9 @@
   <p class="cs2-eyebrow">Case Study · Enterprise UX</p>
   <h1>Ibermutua Digital Empresas: Redesigning Data into Decisions</h1>
   <p class="cs2-hero-sub">Redesigning a dense enterprise data platform so HR professionals and business administrators could retrieve insights and make decisions with confidence — not fight the interface to get there.</p>
+  <a class="bts-indicator" href="behind-the-scenes-ibermutua.html">
+    <span class="bts-indicator-icn">✦</span> Behind the Scenes available
+  </a>
   <div class="cs2-meta-row">
     <div class="cs2-meta-item"><label>Role</label><span>Product Designer (UX/UI)</span></div>
     <div class="cs2-meta-item"><label>Team</label><span>Product Manager, Development Team</span></div>
@@ -440,6 +465,21 @@
     </section>
 
   </main>
+</div>
+
+<!-- BEHIND THE SCENES — final chapter, aligned to the content column -->
+<div class="cs2-final-row">
+  <div class="cs2-final-spacer" aria-hidden="true"></div>
+  <div class="cs2-final-col">
+    <section class="bts-final-section">
+      <a class="bts-final-card" href="behind-the-scenes-ibermutua.html">
+        <p class="bts-final-eyebrow"><span class="bts-indicator-icn">✦</span> The Process</p>
+        <h3 class="bts-final-title">Curious how this project evolved?</h3>
+        <p class="bts-final-desc">See the sketches, prototypes, discarded ideas, iterations, and design decisions that shaped the final outcome.</p>
+        <span class="bts-final-action">→ Enter Behind the Scenes</span>
+      </a>
+    </section>
+  </div>
 </div>
 
 <section class="cs2-next">

@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Behind the Scenes — Design Notebook</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0C0C0F; --bg-card: #18181D; --bg-elevated: #1E1E24;
+      --text: #EDEDEB; --muted: #92929B; --border: rgba(255,255,255,0.09);
+      --amber: #D9A94E; --amber-soft: rgba(217,169,78,0.5);
+      --green: #3ED598; --red: #F0555B;
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    html { background: var(--bg); }
+    body { position: relative; font-family: var(--font); background: var(--bg); color: var(--text); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; overflow-x: hidden;
+      background-image:
+        radial-gradient(680px circle at 8% -5%, rgba(217,169,78,0.10), transparent 60%),
+        radial-gradient(720px circle at 96% 10%, rgba(94,150,201,0.10), transparent 55%),
+        radial-gradient(900px circle at 50% 110%, rgba(217,169,78,0.06), transparent 60%);
+      background-attachment: fixed;
+      animation: atmos 22s ease-in-out infinite alternate;
+    }
+    @keyframes atmos { 0% { background-position: 0 0, 0 0, 0 0; } 100% { background-position: 0 30px, 0 -20px, 0 10px; } }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; }
+
+    /* GRAIN */
+    .grain { position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: 0.05; mix-blend-mode: overlay;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+
+    /* NAV */
+    .cs2-nav { position: sticky; top: 0; z-index: 50; height: 68px; display: flex; align-items: center; }
+    .cs2-nav-inner { width: 100%; max-width: 1140px; margin: 0 auto; padding: 0 40px; height: 68px; display: flex; align-items: center; justify-content: space-between; transition: height 0.45s cubic-bezier(0.25,0.46,0.45,0.94), padding 0.45s cubic-bezier(0.25,0.46,0.45,0.94), background 0.45s ease, border-radius 0.45s ease, box-shadow 0.45s ease; }
+    .cs2-nav.scrolled .cs2-nav-inner { height: 52px; padding: 0 28px; background: rgba(24,24,29,0.82); backdrop-filter: blur(40px) saturate(160%); -webkit-backdrop-filter: blur(40px) saturate(160%); border-radius: 100px; box-shadow: 0 2px 24px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.06); }
+    .cs2-nav-logo { display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 400; letter-spacing: 0.01em; color: var(--text); text-decoration: none; }
+    .cs2-nav-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--amber); flex-shrink: 0; box-shadow: 0 0 8px var(--amber-soft); animation: navblink 3s ease-in-out infinite; }
+    @keyframes navblink { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+    .cs2-nav-links { display: flex; align-items: center; gap: 36px; }
+    .cs2-nav-links a { font-size: 13px; font-weight: 400; color: var(--muted); letter-spacing: 0.025em; text-decoration: none; position: relative; transition: color 0.2s; }
+    .cs2-nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px; background: var(--text); transition: width 0.25s ease; }
+    .cs2-nav-links a:hover { color: var(--text); }
+    .cs2-nav-links a:hover::after { width: 100%; }
+
+    /* SITE SHELL (reveal wrapper) */
+    .site-shell { opacity: 0; filter: blur(10px); transform: scale(0.98); transition: opacity 1s cubic-bezier(.16,1,.3,1), filter 1s cubic-bezier(.16,1,.3,1), transform 1s cubic-bezier(.16,1,.3,1); }
+    .site-shell.revealed { opacity: 1; filter: blur(0); transform: scale(1); }
+
+    /* STAMP */
+    .stamp { display: inline-flex; align-items: center; gap: 8px; font-size: 10px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--amber); border: 1px dashed rgba(217,169,78,0.45); border-radius: 6px; padding: 6px 12px; transform: rotate(-1.2deg); margin-bottom: 26px; }
+    .stamp::before { content: '✦'; font-size: 10px; }
+
+    /* HERO */
+    .cs2-hero { padding: 88px 40px 32px; max-width: 1140px; margin: 0 auto; position: relative; }
+    .cs2-hero-sketch { position: absolute; top: 30px; right: 40px; width: 220px; height: 160px; opacity: 0.25; pointer-events: none; color: var(--amber); }
+    .cs2-eyebrow { font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; }
+    .cs2-hero h1 { font-size: clamp(26px, 3.2vw, 44px); font-weight: 400; line-height: 1.15; letter-spacing: -0.02em; max-width: 760px; margin-bottom: 22px; color: var(--text); }
+    .cs2-hero-sub { font-size: 17px; font-weight: 300; color: var(--muted); max-width: 620px; line-height: 1.65; margin-bottom: 40px; }
+    .cs2-meta-row { display: flex; flex-wrap: wrap; gap: 32px; padding: 28px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .cs2-meta-item label { display: block; font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+    .cs2-meta-item span { font-size: 14px; font-weight: 400; color: var(--text); }
+
+    /* WORK GRID (project cards) */
+    .work-section { max-width: 1140px; margin: 0 auto; padding: 56px 40px 120px; }
+    .work-header { display: flex; align-items: center; justify-content: space-between; padding-bottom: 24px; border-bottom: 1px solid var(--border); margin-bottom: 48px; }
+    .work-header-label { font-size: 11px; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+    .work-header-count { font-size: 11px; font-weight: 400; letter-spacing: 0.06em; color: var(--muted); }
+
+    .cards-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 64px 40px; }
+    .card { cursor: pointer; position: relative; }
+    .card-img { width: 100%; aspect-ratio: 3/2; overflow: hidden; position: relative; border-radius: 8px; margin-bottom: 22px; border: 1px solid var(--border); }
+    .card-img-fill { width: 100%; height: 100%; transition: transform 0.75s cubic-bezier(0.25, 0.46, 0.45, 0.94); position: relative; display: flex; align-items: center; justify-content: center; }
+    .card:hover .card-img-fill { transform: scale(1.06); }
+    .card-img.ibermutua .card-img-fill { background: radial-gradient(120% 140% at 20% 10%, rgba(217,169,78,0.35), #241d12 55%, #17140d 100%); }
+    .card-img.avire .card-img-fill { background: radial-gradient(120% 140% at 80% 10%, rgba(94,150,201,0.32), #10202b 55%, #0c161c 100%); }
+    .card-cover-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; }
+    .card-img-overlay { position: absolute; inset: 0; pointer-events: none; }
+    .card-img.ibermutua .card-img-overlay { background: linear-gradient(180deg, rgba(217,169,78,0.12) 0%, rgba(12,12,15,0.62) 100%); }
+    .card-img.avire .card-img-overlay { background: linear-gradient(180deg, rgba(94,150,201,0.12) 0%, rgba(12,12,15,0.62) 100%); }
+    .card-num { position: absolute; top: 14px; right: 18px; font-size: 10px; font-weight: 400; letter-spacing: 0.08em; color: rgba(237,237,235,0.45); z-index: 2; font-variant-numeric: tabular-nums; }
+    .card-title-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 8px; }
+    .card-title-row h3 { font-size: 17px; font-weight: 500; letter-spacing: -0.02em; line-height: 1.35; color: var(--text); }
+    .card-arrow { font-size: 16px; color: var(--amber); opacity: 0; transform: translate(-5px, 5px); transition: opacity 0.22s ease, transform 0.22s ease; flex-shrink: 0; margin-top: 1px; }
+    .card:hover .card-arrow { opacity: 1; transform: translate(0, 0); }
+    .card-tags { font-size: 12px; color: var(--amber); letter-spacing: 0.01em; margin-bottom: 8px; }
+    .card-tags span + span::before { content: ' · '; color: var(--muted); }
+    .card-excerpt { font-size: 13.5px; color: var(--muted); line-height: 1.65; font-weight: 300; }
+
+    /* PASSWORD GATE */
+    .pw-gate { position: fixed; inset: 0; z-index: 500; background: var(--bg); display: flex; align-items: center; justify-content: center; padding: 40px; overflow: hidden;
+      background-image:
+        radial-gradient(600px circle at 50% 40%, rgba(217,169,78,0.14), transparent 60%),
+        radial-gradient(900px circle at 20% 100%, rgba(94,150,201,0.10), transparent 55%); }
+    .pw-gate.unlocking { animation: gateUnlock 0.7s cubic-bezier(.16,1,.3,1) forwards; pointer-events: none; }
+    @keyframes gateUnlock { to { opacity: 0; transform: scale(1.06); filter: blur(14px); } }
+    .pw-gate-panel { width: 100%; max-width: 400px; text-align: center; }
+    .pw-gate-icon { width: 46px; height: 46px; margin: 0 auto 26px; color: var(--amber); animation: iconGlow 3.4s ease-in-out infinite; }
+    @keyframes iconGlow { 0%, 100% { filter: drop-shadow(0 0 6px rgba(217,169,78,0.25)); } 50% { filter: drop-shadow(0 0 16px rgba(217,169,78,0.5)); } }
+    .pw-gate-eyebrow { font-size: 10px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--amber); margin-bottom: 20px; }
+    .pw-gate h2 { font-size: 23px; font-weight: 400; letter-spacing: -0.02em; margin-bottom: 12px; color: var(--text); }
+    .pw-gate-sub { font-size: 14px; color: var(--muted); font-weight: 300; line-height: 1.65; margin-bottom: 32px; }
+    .pw-gate-row { display: flex; gap: 10px; }
+    .pw-gate-input-wrap { position: relative; flex: 1; }
+    .pw-gate-input { width: 100%; height: 46px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg-card); padding: 0 44px 0 16px; font-size: 14px; font-family: var(--font); color: var(--text); outline: none; transition: border-color 0.2s, box-shadow 0.2s; text-align: center; letter-spacing: 0.02em; }
+    .pw-gate-input::placeholder { color: #5C5C64; }
+    .pw-gate-input:focus { border-color: var(--amber); box-shadow: 0 0 0 3px rgba(217,169,78,0.14); }
+    .pw-gate-input.shake { animation: pwshake 0.35s ease; }
+    .pw-gate-input.error { border-color: var(--red); }
+    .pw-gate-input.error:focus { border-color: var(--red); box-shadow: 0 0 0 3px rgba(240,85,91,0.14); }
+    .pw-toggle-btn { position: absolute; right: 5px; top: 50%; transform: translateY(-50%); width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; background: none; border: none; color: var(--muted); cursor: pointer; border-radius: 6px; padding: 0; transition: color 0.2s, background 0.2s; }
+    .pw-toggle-btn:hover { color: var(--text); background: rgba(255,255,255,0.07); }
+    .pw-toggle-btn:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+    .pw-toggle-btn svg { width: 18px; height: 18px; pointer-events: none; }
+    .pw-toggle-btn .icon-eye-off { display: none; }
+    .pw-toggle-btn.showing .icon-eye { display: none; }
+    .pw-toggle-btn.showing .icon-eye-off { display: block; }
+    .pw-gate-btn { height: 46px; padding: 0 22px; background: var(--amber); color: #1A1305; border: none; border-radius: 8px; font-size: 13px; font-weight: 500; font-family: var(--font); cursor: pointer; white-space: nowrap; transition: opacity 0.2s, transform 0.2s; }
+    .pw-gate-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+    .pw-gate-error { font-size: 12px; color: var(--red); margin-top: 12px; min-height: 18px; opacity: 0; transition: opacity 0.2s; }
+    .pw-gate-back { display: inline-flex; align-items: center; gap: 6px; margin-top: 28px; font-size: 12px; color: var(--muted); text-decoration: none; letter-spacing: 0.02em; transition: color 0.2s; }
+    .pw-gate-back:hover { color: var(--text); }
+    .pw-gate-error.visible { opacity: 1; }
+    @keyframes pwshake { 0%,100%{transform:translateX(0)} 20%,60%{transform:translateX(-6px)} 40%,80%{transform:translateX(6px)} }
+
+    /* CLOSING */
+    .cs2-closing { border-top: 1px solid var(--border); }
+    .cs2-closing-inner { max-width: 1140px; margin: 0 auto; padding: 0px 40px 96px; }
+    .cs2-closing-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--amber); margin-bottom: 18px; }
+    .cs2-closing p { font-size: 15px; font-weight: 300; line-height: 1.75; color: var(--muted); max-width: 620px; margin-bottom: 10px; }
+    .cs2-closing a { color: var(--text); text-decoration: underline; text-decoration-color: var(--border); text-underline-offset: 3px; }
+    .cs2-closing a:hover { text-decoration-color: var(--amber); }
+
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.9s cubic-bezier(.16,1,.3,1), transform 0.9s cubic-bezier(.16,1,.3,1); }
+    .reveal.in-view { opacity: 1; transform: translateY(0); }
+
+    /* MOBILE */
+    @media (max-width: 900px) {
+      .cs2-hero { padding: 48px 24px 24px; }
+      .cs2-hero-sketch { display: none; }
+      .cs2-nav-inner { padding: 0 24px; }
+      .work-section { padding: 40px 24px 80px; }
+      .cards-grid { grid-template-columns: 1fr; gap: 48px; }
+      .cs2-closing-inner { padding: 0 24px 64px; }
+    }
+    @media (max-width: 500px) {
+      .pw-gate { padding: 24px 20px; }
+      .pw-gate-row { flex-direction: column; gap: 8px; }
+      .pw-gate-btn { width: 100%; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      body, .reveal, .site-shell, .pw-gate.unlocking, .pw-gate-icon { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="grain"></div>
+
+<!-- PASSWORD GATE -->
+<div class="pw-gate" id="pw-gate">
+  <div class="pw-gate-panel">
+    <svg class="pw-gate-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+      <path d="M12 2c-3 3-6 4-9 4v6c0 6 4 9 9 10 5-1 9-4 9-10V6c-3 0-6-1-9-4z"/>
+      <path d="M9.5 12.5l1.8 1.8 3.2-3.6" stroke-width="1.3"/>
+    </svg>
+    <p class="pw-gate-eyebrow">Restricted Access</p>
+    <h2>You've found something hidden.</h2>
+    <p class="pw-gate-sub">Behind this door: sketches, discarded directions, and the thinking that didn't make the final cut. Enter the password to step inside.</p>
+    <div class="pw-gate-row">
+      <div class="pw-gate-input-wrap">
+        <input class="pw-gate-input" id="pw-input" type="password" placeholder="Password" autocomplete="off" aria-describedby="pw-error" aria-invalid="false" onkeydown="if(event.key==='Enter') checkPw()">
+        <button type="button" class="pw-toggle-btn" id="pw-toggle-btn" aria-label="Show password" aria-pressed="false" onclick="togglePwVisibility()">
+          <svg class="icon-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+          <svg class="icon-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 19c-7 0-11-7-11-7a18.5 18.5 0 0 1 5.06-5.94M9.9 4.24A10.94 10.94 0 0 1 12 4c7 0 11 7 11 7a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+        </button>
+      </div>
+      <button class="pw-gate-btn" onclick="checkPw()">Unlock →</button>
+    </div>
+    <p class="pw-gate-error" id="pw-error" role="alert" aria-atomic="true"></p>
+    <a class="pw-gate-back" href="index.html">← Back to portfolio</a>
+  </div>
+</div>
+
+<div class="site-shell" id="site-shell">
+
+<!-- NAV -->
+<nav class="cs2-nav" id="cs2-nav">
+  <div class="cs2-nav-inner">
+    <a href="index.html" class="cs2-nav-logo">
+      <span class="cs2-nav-dot"></span>
+      Valeria Lamicq
+    </a>
+    <div class="cs2-nav-links">
+      <a href="index.html">Work</a>
+      <a href="index.html#about">About</a>
+      <a href="index.html#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="cs2-hero">
+  <svg class="cs2-hero-sketch" viewBox="0 0 220 160" fill="none" stroke="currentColor" stroke-width="1">
+    <path d="M10 120 Q 40 40 80 90 T 150 60" stroke-dasharray="3 5"/>
+    <circle cx="150" cy="60" r="4"/>
+    <path d="M100 130 h60" stroke-dasharray="2 4"/>
+    <path d="M30 30 l14 14 m0-14 l-14 14"/>
+  </svg>
+  <div class="stamp reveal in-view">Confidential — Design Notebook</div>
+  <p class="cs2-eyebrow reveal in-view">Behind the Scenes Archive</p>
+  <h1 class="reveal in-view">Behind the Scenes: Decisions, Not Just Deliverables</h1>
+  <p class="cs2-hero-sub reveal in-view">The case studies on this site show where two projects landed. This is the notebook — the options explored, the ones rejected, and the reasoning behind each call, pulled directly from the working Figma and FigJam files. Pick a project to step inside.</p>
+  <div class="cs2-meta-row reveal in-view">
+    <div class="cs2-meta-item"><label>Contains</label><span>Wireframes, flow options, rejected variants</span></div>
+    <div class="cs2-meta-item"><label>Projects</label><span>Ibermutua Digital Empresas, Avire</span></div>
+    <div class="cs2-meta-item"><label>Status</label><span>Unpublished — offstage until now</span></div>
+  </div>
+</header>
+
+<!-- PROJECT CARDS -->
+<section class="work-section">
+  <div class="work-header">
+    <span class="work-header-label">Choose a Notebook</span>
+    <span class="work-header-count">2 projects</span>
+  </div>
+
+  <div class="cards-grid">
+
+    <!-- 01 — Ibermutua -->
+    <div class="card reveal" onclick="openProject('behind-the-scenes-ibermutua.html')">
+      <div class="card-img ibermutua">
+        <div class="card-img-fill">
+          <img class="card-cover-img" src="images/Ibermutua-1.png" alt="" onerror="this.style.display='none'">
+          <div class="card-img-overlay"></div>
+        </div>
+        <span class="card-num">01</span>
+      </div>
+      <div class="card-info">
+        <div class="card-title-row">
+          <h3>Ibermutua Digital Empresas</h3>
+          <span class="card-arrow">↗</span>
+        </div>
+        <div class="card-tags">
+          <span>16 iterations</span><span>Filters</span><span>Company selector</span>
+        </div>
+        <p class="card-excerpt">Five filter layouts, six company-selector variants, explicit approve/reject calls — the decision log behind the redesign.</p>
+      </div>
+    </div>
+
+    <!-- 02 — Avire -->
+    <div class="card reveal" onclick="openProject('behind-the-scenes-avire.html')">
+      <div class="card-img avire">
+        <div class="card-img-fill">
+          <img class="card-cover-img" src="images/Avire-1.png" alt="" onerror="this.style.display='none'">
+          <div class="card-img-overlay"></div>
+        </div>
+        <span class="card-num">02</span>
+      </div>
+      <div class="card-info">
+        <div class="card-title-row">
+          <h3>Avire — Global Digital Presence</h3>
+          <span class="card-arrow">↗</span>
+        </div>
+        <div class="card-tags">
+          <span>Personas</span><span>Wireframes</span><span>Prototype</span>
+        </div>
+        <p class="card-excerpt">From three persona flows to a tested scenario walkthrough — the path from sketch to shipped system.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+</div><!-- /site-shell -->
+
+<script>
+  (function() {
+    if (sessionStorage.getItem('bts-unlocked') === '1') {
+      var gate = document.getElementById('pw-gate');
+      var shell = document.getElementById('site-shell');
+      if (gate) gate.remove();
+      if (shell) shell.classList.add('revealed');
+    } else {
+      setTimeout(function() {
+        var input = document.getElementById('pw-input');
+        if (input) input.focus();
+      }, 50);
+    }
+  })();
+
+  function togglePwVisibility() {
+    const input = document.getElementById('pw-input');
+    const btn = document.getElementById('pw-toggle-btn');
+    const showing = input.type === 'password';
+    input.type = showing ? 'text' : 'password';
+    btn.classList.toggle('showing', showing);
+    btn.setAttribute('aria-label', showing ? 'Hide password' : 'Show password');
+    btn.setAttribute('aria-pressed', showing ? 'true' : 'false');
+    input.focus();
+  }
+
+  function checkPw() {
+    const input = document.getElementById('pw-input');
+    const error = document.getElementById('pw-error');
+    if (input.value.trim().toLowerCase() === 'superspy') {
+      sessionStorage.setItem('bts-unlocked', '1');
+      const gate = document.getElementById('pw-gate');
+      const shell = document.getElementById('site-shell');
+      shell.classList.add('revealed');
+      gate.classList.add('unlocking');
+      setTimeout(() => gate.remove(), 720);
+    } else {
+      input.classList.remove('shake');
+      void input.offsetWidth;
+      input.classList.add('shake', 'error');
+      input.setAttribute('aria-invalid', 'true');
+      error.textContent = "That's not it. Try again.";
+      error.classList.add('visible');
+      input.value = '';
+      input.focus();
+    }
+  }
+
+  // Once unlocked on the landing page, carry authentication into project pages via #auth
+  function openProject(url) {
+    window.location.href = url + '#auth';
+  }
+
+  const csNav = document.getElementById('cs2-nav');
+  if (csNav) {
+    window.addEventListener('scroll', () => {
+      csNav.classList.toggle('scrolled', window.scrollY > 20);
+    });
+  }
+
+  const revealEls = document.querySelectorAll('.reveal');
+  const revealObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -8% 0px' });
+  revealEls.forEach(el => revealObserver.observe(el));
+</script>
+</body>
+</html>

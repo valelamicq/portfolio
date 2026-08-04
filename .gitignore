@@ -5,6 +5,11 @@
 
 # Working notes & drafts (not part of the deployed site)
 *.md
-carpeta sin título/
+carpeta sin t*/
 portfolio-eval-review-iteration-1.html
 use-case-guru.skill
+
+# Raw/original process-asset images — only the optimized copies in */web/*.jpg
+# are actually referenced by the site; these are just working source files.
+process-assets/**/*.png
+process-assets/*/requirement workshop/
